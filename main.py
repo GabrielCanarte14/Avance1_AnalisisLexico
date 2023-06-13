@@ -112,6 +112,7 @@ t_AT = r'@'
 t_GLOBAL = r'\$'
 t_RBRACKET = r'\]'
 t_LBRACKET = r'\['
+t_DOT = r'\.'
 t_COMMA = r','
 t_LPARENTHESIS = r'\('
 t_RPARENTHESIS = r'\)'
@@ -215,6 +216,29 @@ end
 number = 5
 result = factorial(number)
 puts "El factorial de #{number} es: #{result}"
+
+#Codigo Danilo Torres
+def binary_search(arr, target)
+  low = 0
+  high = arr.length - 1
+
+  while low <= high do
+    mid = (low + high) / 2
+    if arr[mid] == target
+      return mid
+    elsif arr[mid] < target
+      low = mid + 1
+    else
+      high = mid - 1
+    end
+  end
+
+  return -1
+end
+array = [1, 3, 5, 7, 9]
+target = 7
+index = binary_search(array, target)
+puts "El elemento #{target} se encuentra en el índice #{index}."
     '''
 
 # Datos de entrada
