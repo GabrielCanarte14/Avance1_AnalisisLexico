@@ -215,6 +215,18 @@ end
 number = 5
 result = factorial(number)
 puts "El factorial de #{number} es: #{result}"
+
+#Algoritmo Gabriel Cañarte 
+def obtener_divisores(numero)
+  divisores = []
+  (1..numero).each do |i|
+    if numero % i == 0
+      divisores << i
+    end
+  end
+  return divisores
+end
+
     '''
 
 # Datos de entrada
