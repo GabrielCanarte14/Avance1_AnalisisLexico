@@ -42,7 +42,8 @@ reserved = {'alias': 'ALIAS',
             'while': 'WHILE',
             'yield': 'YIELD',
             '_FILE_':'FILE',
-            '_LINE_': 'LINE'
+            '_LINE_': 'LINE',
+            'each': 'EACH'
             }
 
 # Sequencia de tokens, puede ser lista o tupla
@@ -153,7 +154,7 @@ def t_newline(t):
 
 
 def t_ID(t):
-    r'[a-za-zA-Z_]\w+'
+    r'[a-zA-Z_]\w*'
     t.type = reserved.get(t.value.lower(), 'ID')
     return t
 
@@ -217,7 +218,20 @@ number = 5
 result = factorial(number)
 puts "El factorial de #{number} es: #{result}"
 
-#Codigo Danilo Torres
+
+
+#Algoritmo Gabriel Cañarte 
+def obtener_divisores(numero)
+  divisores = []
+  (1..numero).each do |i|
+    if numero % i == 0
+      divisores << i
+    end
+  end
+  return divisores
+end
+
+#Algoritmo Danilo Torres
 def binary_search(arr, target)
   low = 0
   high = arr.length - 1
@@ -239,6 +253,7 @@ array = [1, 3, 5, 7, 9]
 target = 7
 index = binary_search(array, target)
 puts "El elemento #{target} se encuentra en el índice #{index}."
+
     '''
 
 # Datos de entrada
