@@ -231,6 +231,10 @@ def obtener_divisores(numero)
   return divisores
 end
 
+numero = 12
+resultado = encontrar_divisores(numero)
+puts "Los divisores de #{numero} son: #{resultado.join(", ")}"
+
 #Algoritmo Danilo Torres
 def binary_search(arr, target)
   low = 0
