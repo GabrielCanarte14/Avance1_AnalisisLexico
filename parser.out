@@ -1,0 +1,352 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ALIAS
+    AND
+    ARRAY
+    AT
+    BEGIN
+    BITWISE_AND
+    BITWISE_NOT
+    BITWISE_OR
+    BITWISE_XOR
+    BREAK
+    CASE
+    CLASS
+    COLON
+    COMPLEX
+    CONSTANT
+    DEF
+    DEFINED
+    DIVIDE
+    DO
+    DOT
+    ELSE
+    ELSEIF
+    END_LOWER
+    END_UPPER
+    ENSURE
+    EQUAL
+    EXPONENT
+    FALSE
+    FILE
+    FOR
+    GLOBAL
+    GREATER_THAN
+    GREATER_THAN_EQUAL
+    HASH
+    HASHAS
+    IF
+    IN
+    LCURLYBRACKET
+    LESS_THAN
+    LESS_THAN_EQUAL
+    LINE
+    LPARENTHESIS
+    MINUS
+    MODULE
+    MODULO
+    MULTIPLY
+    NEXT
+    NIL
+    NOT
+    NOT_EQUAL
+    OP_AND
+    OP_NOT
+    OP_OR
+    OR
+    PLUS
+    PUTS
+    RATIONAL
+    RCURLYBRACKET
+    REDO
+    RESCUE
+    RETRY
+    RETURN
+    RPARENTHESIS
+    SELF
+    SEMICOLON
+    SHIFT_LEFT
+    SHIFT_RIGHT
+    SUPER
+    SYMBOL
+    THEN
+    TRUE
+    UNDEF
+    UNLESS
+    UNTIL
+    WHEN
+    WHILE
+    YIELD
+
+Grammar
+
+Rule 0     S' -> array
+Rule 1     array -> ID EQUALS LBRACKET RBRACKET
+Rule 2     array -> ID EQUALS LBRACKET varios_numeros RBRACKET
+Rule 3     array -> ID EQUALS LBRACKET varios_str RBRACKET
+Rule 4     numero -> INT
+Rule 5     numero -> FLOAT
+Rule 6     varios_numeros -> numero
+Rule 7     varios_numeros -> numero COMMA varios_numeros
+Rule 8     varios_str -> STR
+Rule 9     varios_str -> STR COMMA STR
+
+Terminals, with rules where they appear
+
+ALIAS                : 
+AND                  : 
+ARRAY                : 
+AT                   : 
+BEGIN                : 
+BITWISE_AND          : 
+BITWISE_NOT          : 
+BITWISE_OR           : 
+BITWISE_XOR          : 
+BREAK                : 
+CASE                 : 
+CLASS                : 
+COLON                : 
+COMMA                : 7 9
+COMPLEX              : 
+CONSTANT             : 
+DEF                  : 
+DEFINED              : 
+DIVIDE               : 
+DO                   : 
+DOT                  : 
+ELSE                 : 
+ELSEIF               : 
+END_LOWER            : 
+END_UPPER            : 
+ENSURE               : 
+EQUAL                : 
+EQUALS               : 1 2 3
+EXPONENT             : 
+FALSE                : 
+FILE                 : 
+FLOAT                : 5
+FOR                  : 
+GLOBAL               : 
+GREATER_THAN         : 
+GREATER_THAN_EQUAL   : 
+HASH                 : 
+HASHAS               : 
+ID                   : 1 2 3
+IF                   : 
+IN                   : 
+INT                  : 4
+LBRACKET             : 1 2 3
+LCURLYBRACKET        : 
+LESS_THAN            : 
+LESS_THAN_EQUAL      : 
+LINE                 : 
+LPARENTHESIS         : 
+MINUS                : 
+MODULE               : 
+MODULO               : 
+MULTIPLY             : 
+NEXT                 : 
+NIL                  : 
+NOT                  : 
+NOT_EQUAL            : 
+OP_AND               : 
+OP_NOT               : 
+OP_OR                : 
+OR                   : 
+PLUS                 : 
+PUTS                 : 
+RATIONAL             : 
+RBRACKET             : 1 2 3
+RCURLYBRACKET        : 
+REDO                 : 
+RESCUE               : 
+RETRY                : 
+RETURN               : 
+RPARENTHESIS         : 
+SELF                 : 
+SEMICOLON            : 
+SHIFT_LEFT           : 
+SHIFT_RIGHT          : 
+STR                  : 8 9 9
+SUPER                : 
+SYMBOL               : 
+THEN                 : 
+TRUE                 : 
+UNDEF                : 
+UNLESS               : 
+UNTIL                : 
+WHEN                 : 
+WHILE                : 
+YIELD                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+array                : 0
+numero               : 6 7
+varios_numeros       : 2 7
+varios_str           : 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . array
+    (1) array -> . ID EQUALS LBRACKET RBRACKET
+    (2) array -> . ID EQUALS LBRACKET varios_numeros RBRACKET
+    (3) array -> . ID EQUALS LBRACKET varios_str RBRACKET
+
+    ID              shift and go to state 2
+
+    array                          shift and go to state 1
+
+state 1
+
+    (0) S' -> array .
+
+
+
+state 2
+
+    (1) array -> ID . EQUALS LBRACKET RBRACKET
+    (2) array -> ID . EQUALS LBRACKET varios_numeros RBRACKET
+    (3) array -> ID . EQUALS LBRACKET varios_str RBRACKET
+
+    EQUALS          shift and go to state 3
+
+
+state 3
+
+    (1) array -> ID EQUALS . LBRACKET RBRACKET
+    (2) array -> ID EQUALS . LBRACKET varios_numeros RBRACKET
+    (3) array -> ID EQUALS . LBRACKET varios_str RBRACKET
+
+    LBRACKET        shift and go to state 4
+
+
+state 4
+
+    (1) array -> ID EQUALS LBRACKET . RBRACKET
+    (2) array -> ID EQUALS LBRACKET . varios_numeros RBRACKET
+    (3) array -> ID EQUALS LBRACKET . varios_str RBRACKET
+    (6) varios_numeros -> . numero
+    (7) varios_numeros -> . numero COMMA varios_numeros
+    (8) varios_str -> . STR
+    (9) varios_str -> . STR COMMA STR
+    (4) numero -> . INT
+    (5) numero -> . FLOAT
+
+    RBRACKET        shift and go to state 5
+    STR             shift and go to state 9
+    INT             shift and go to state 10
+    FLOAT           shift and go to state 11
+
+    varios_numeros                 shift and go to state 6
+    varios_str                     shift and go to state 7
+    numero                         shift and go to state 8
+
+state 5
+
+    (1) array -> ID EQUALS LBRACKET RBRACKET .
+
+    $end            reduce using rule 1 (array -> ID EQUALS LBRACKET RBRACKET .)
+
+
+state 6
+
+    (2) array -> ID EQUALS LBRACKET varios_numeros . RBRACKET
+
+    RBRACKET        shift and go to state 12
+
+
+state 7
+
+    (3) array -> ID EQUALS LBRACKET varios_str . RBRACKET
+
+    RBRACKET        shift and go to state 13
+
+
+state 8
+
+    (6) varios_numeros -> numero .
+    (7) varios_numeros -> numero . COMMA varios_numeros
+
+    RBRACKET        reduce using rule 6 (varios_numeros -> numero .)
+    COMMA           shift and go to state 14
+
+
+state 9
+
+    (8) varios_str -> STR .
+    (9) varios_str -> STR . COMMA STR
+
+    RBRACKET        reduce using rule 8 (varios_str -> STR .)
+    COMMA           shift and go to state 15
+
+
+state 10
+
+    (4) numero -> INT .
+
+    COMMA           reduce using rule 4 (numero -> INT .)
+    RBRACKET        reduce using rule 4 (numero -> INT .)
+
+
+state 11
+
+    (5) numero -> FLOAT .
+
+    COMMA           reduce using rule 5 (numero -> FLOAT .)
+    RBRACKET        reduce using rule 5 (numero -> FLOAT .)
+
+
+state 12
+
+    (2) array -> ID EQUALS LBRACKET varios_numeros RBRACKET .
+
+    $end            reduce using rule 2 (array -> ID EQUALS LBRACKET varios_numeros RBRACKET .)
+
+
+state 13
+
+    (3) array -> ID EQUALS LBRACKET varios_str RBRACKET .
+
+    $end            reduce using rule 3 (array -> ID EQUALS LBRACKET varios_str RBRACKET .)
+
+
+state 14
+
+    (7) varios_numeros -> numero COMMA . varios_numeros
+    (6) varios_numeros -> . numero
+    (7) varios_numeros -> . numero COMMA varios_numeros
+    (4) numero -> . INT
+    (5) numero -> . FLOAT
+
+    INT             shift and go to state 10
+    FLOAT           shift and go to state 11
+
+    numero                         shift and go to state 8
+    varios_numeros                 shift and go to state 16
+
+state 15
+
+    (9) varios_str -> STR COMMA . STR
+
+    STR             shift and go to state 17
+
+
+state 16
+
+    (7) varios_numeros -> numero COMMA varios_numeros .
+
+    RBRACKET        reduce using rule 7 (varios_numeros -> numero COMMA varios_numeros .)
+
+
+state 17
+
+    (9) varios_str -> STR COMMA STR .
+
+    RBRACKET        reduce using rule 9 (varios_str -> STR COMMA STR .)
+
