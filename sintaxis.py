@@ -7,48 +7,16 @@ def p_sets(p):
     | set_numero
     | set_str
     '''
+#Estructuras de Datos
 
-def p_declaracion_basica(p):
-    '''
-    statement : DEF ID LPARENTHESIS RPARENTHESIS statement END_UPPER
-    '''
+#Array
 
-def p_sentencia_loop(p):
-    '''
-    statement : LOOP DO statement BREAK IF comparacion 
-    '''
-
-#Gabriel Cañarte
-
-def p_varios_str(p):
-    '''
-    varios_str : STR
-    | STR COMMA STR
-    '''
-    
-def p_set_vacio(p):
-    '''
-    set_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET
-    '''
-def p_set_numeros(p):
-    '''
-    set_numero : ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET
-    '''
-
-def p_set_str(p):
-    '''
-    set_str : ID EQUALS LCURLYBRACKET varios_str RCURLYBRACKET
-    '''
-
-
-#Freddy Gomez
 def p_array(p):
     '''
     statement : array_vacio
     | array_numero
     | array_str
     '''
-
 
 def p_array_vacio(p):
     '''
@@ -65,6 +33,119 @@ def p_array_str(p):
     array_str : ID EQUALS LBRACKET varios_str RBRACKET
     '''
 
+#Set
+
+def p_set_vacio(p):
+    '''
+    set_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET
+    '''
+def p_set_numeros(p):
+    '''
+    set_numero : ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET
+    '''
+
+def p_set_str(p):
+    '''
+    set_str : ID EQUALS LCURLYBRACKET varios_str RCURLYBRACKET
+    '''
+
+
+#Hash
+
+def p_hash(p):
+    '''
+    statement : hash_vacio
+    | hash_elementos
+    '''
+
+def p_hash_vacio(p):
+    '''
+    hash_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET
+    '''
+
+def p_hash_elementos(p):
+    '''
+    hash_elementos : ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
+    '''
+
+def p_varios_pares_hash(p):
+    '''
+    varios_pares_hash : ID COLON valor
+    | STR HASHAS valor
+    | ID COLON valor COMMA varios_pares_hash
+    | STR HASHAS valor COMMA varios_pares_hash
+    '''
+
+
+#Estrcuturas de Control
+
+#IF
+def p_sentencia_if(p):
+    '''
+    statement : IF comparaciones statement END_LOWER
+    '''
+
+
+#Loop
+def p_sentencia_loop(p):
+    '''
+    statement : LOOP DO statement BREAK IF comparacion
+    '''
+
+#Case-when
+def p_case_when(p):
+    '''
+    statement : CASE valor when_clauses ELSE statement_list END_LOWER
+    | CASE valor when_clauses ELSE PUTS valor END_LOWER
+    '''
+
+def p_when_clauses(p):
+    '''
+    when_clauses : when_clause
+    | when_clauses when_clause
+    '''
+
+def p_when_clause(p):
+    '''
+   when_clause : WHEN valor THEN statement_list
+   | WHEN valor PUTS valor
+    '''
+
+
+
+#Declaraciones
+
+def p_declaracion_basica(p):
+    '''
+    statement : DEF ID LPARENTHESIS RPARENTHESIS statement END_LOWER
+    '''
+
+def p_declaracion_parametros(p):
+   '''
+    statement : DEF ID LPARENTHESIS argumentos RPARENTHESIS statement END_LOWER
+    '''
+
+def p_declaracion_parametros_return(p):
+    '''
+    statement : DEF ID LPARENTHESIS argumentos RPARENTHESIS statement RETURN valor END_LOWER
+    '''
+
+
+
+
+#Gabriel Cañarte
+
+def p_varios_str(p):
+    '''
+    varios_str : STR
+    | STR COMMA STR
+    '''
+    
+
+
+
+
+
 def p_sentencia_asignacion(p):
     '''
     statement : ID EQUALS valor
@@ -77,15 +158,8 @@ def p_valor(p):
     | ID
     '''
 
-def p_sentencia_if(p):
-    '''
-    statement : IF comparaciones statement END_LOWER
-    '''
 
-def p_declaracion_parametros(p):
-   '''
-    statement : DEF ID LPARENTHESIS argumentos RPARENTHESIS statement END_LOWER
-    '''
+
 
 def p_argumentos(p):
     '''
@@ -150,29 +224,6 @@ def p_varios_numeros(p):
     | numero COMMA varios_numeros
     '''
 
-def p_hash(p):
-    '''
-    statement : hash_vacio
-    | hash_elementos
-    '''
-
-def p_hash_vacio(p):
-    '''
-    hash_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET
-    '''
-
-def p_hash_elementos(p):
-    '''
-    hash_elementos : ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
-    '''
-
-def p_varios_pares_hash(p):
-    '''
-    varios_pares_hash : ID COLON valor
-    | STR HASHAS valor
-    | ID COLON valor COMMA varios_pares_hash
-    | STR HASHAS valor COMMA varios_pares_hash
-    '''
 
 def p_error(p):
     if p:
