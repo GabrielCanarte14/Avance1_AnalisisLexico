@@ -1,14 +1,23 @@
 from main import tokens
 import ply.yacc as yacc
 
-def p_inicio(p):
+def p_sets(p):
     '''
-    inicio : set
-    | array
-    | statement_loop
-    | declaration
-    | hash
+    statement : set_vacio
+    | set_numero
+    | set_str
     '''
+
+def p_declaracion_basica(p):
+    '''
+    statement : DEF ID LPARENTHESIS RPARENTHESIS statement END_UPPER
+    '''
+
+def p_sentencia_loop(p):
+    '''
+    statement : LOOP DO statement BREAK IF comparacion 
+    '''
+
 #Gabriel Cañarte
 
 def p_varios_str(p):
@@ -17,13 +26,6 @@ def p_varios_str(p):
     | STR COMMA STR
     '''
     
-def p_sets(p):
-    '''
-    set : set_vacio
-    | set_numero
-    | set_str
-    '''
-
 def p_set_vacio(p):
     '''
     set_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET
@@ -38,20 +40,11 @@ def p_set_str(p):
     set_str : ID EQUALS LCURLYBRACKET varios_str RCURLYBRACKET
     '''
 
-def p_declaracion_basica(p):
-    '''
-    declaration : DEF ID LPARENTHESIS RPARENTHESIS bloque END_UPPER
-    '''
-
-def p_sentencia_loop(p):
-    '''
-    statement_loop : LOOP DO bloque BREAK IF comparacion 
-    '''
 
 #Freddy Gomez
 def p_array(p):
     '''
-    array : array_vacio
+    statement : array_vacio
     | array_numero
     | array_str
     '''
@@ -86,12 +79,18 @@ def p_valor(p):
 
 def p_sentencia_if(p):
     '''
-    statement : IF comparaciones bloque END_LOWER
+    statement : IF comparaciones statement END_LOWER
     '''
 
-def p_bloque(p):
+def p_declaracion_parametros(p):
+   '''
+    statement : DEF ID LPARENTHESIS argumentos RPARENTHESIS statement END_LOWER
     '''
-    bloque : INDENT statement DEDENT
+
+def p_argumentos(p):
+    '''
+    argumentos : ID
+    | ID COMMA argumentos
     '''
 
 def p_statement_list(p):
@@ -153,7 +152,7 @@ def p_varios_numeros(p):
 
 def p_hash(p):
     '''
-    hash : hash_vacio
+    statement : hash_vacio
     | hash_elementos
     '''
 
