@@ -209,6 +209,7 @@ lexer = lex.lex()
 
 # Testeando
 data = '''
+:
 hola => [hola,gola]
 /
 x = 123.5 + (5 * 22)

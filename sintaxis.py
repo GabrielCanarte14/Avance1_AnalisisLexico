@@ -7,6 +7,7 @@ def p_inicio(p):
     | array
     | statement_loop
     | declaration
+    | hash
     '''
 #Gabriel Cañarte
 
@@ -150,9 +151,29 @@ def p_varios_numeros(p):
     | numero COMMA varios_numeros
     '''
 
+def p_hash(p):
+    '''
+    hash : hash_vacio
+    | hash_elementos
+    '''
 
+def p_hash_vacio(p):
+    '''
+    hash_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET
+    '''
 
+def p_hash_elementos(p):
+    '''
+    hash_elementos : ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
+    '''
 
+def p_varios_pares_hash(p):
+    '''
+    varios_pares_hash : ID COLON valor
+    | STR HASHAS valor
+    | ID COLON valor COMMA varios_pares_hash
+    | STR HASHAS valor COMMA varios_pares_hash
+    '''
 
 def p_error(p):
     if p:

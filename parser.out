@@ -13,7 +13,6 @@ Unused terminals:
     BITWISE_XOR
     CASE
     CLASS
-    COLON
     COMPLEX
     CONSTANT
     DEFINED
@@ -29,7 +28,6 @@ Unused terminals:
     FOR
     GLOBAL
     HASH
-    HASHAS
     IN
     LINE
     MINUS
@@ -70,49 +68,58 @@ Rule 1     inicio -> set
 Rule 2     inicio -> array
 Rule 3     inicio -> statement_loop
 Rule 4     inicio -> declaration
-Rule 5     varios_str -> STR
-Rule 6     varios_str -> STR COMMA STR
-Rule 7     set -> set_vacio
-Rule 8     set -> set_numero
-Rule 9     set -> set_str
-Rule 10    set_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET
-Rule 11    set_numero -> ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET
-Rule 12    set_str -> ID EQUALS LCURLYBRACKET STR RCURLYBRACKET
-Rule 13    declaration -> DEF ID LPARENTHESIS RPARENTHESIS bloque END_UPPER
-Rule 14    statement_loop -> LOOP DO bloque BREAK IF comparacion
-Rule 15    array -> array_vacio
-Rule 16    array -> array_numero
-Rule 17    array -> array_str
-Rule 18    array_vacio -> ID EQUALS LBRACKET RBRACKET
-Rule 19    array_numero -> ID EQUALS LBRACKET varios_numeros RBRACKET
-Rule 20    array_str -> ID EQUALS LBRACKET varios_str RBRACKET
-Rule 21    statement -> ID EQUALS valor
-Rule 22    valor -> numero
-Rule 23    valor -> STR
-Rule 24    valor -> ID
-Rule 25    statement -> IF comparaciones bloque END_LOWER
-Rule 26    bloque -> INDENT statement DEDENT
-Rule 27    statement_list -> statement_list statement
-Rule 28    statement_list -> statement
-Rule 29    comparador -> EQUAL
-Rule 30    comparador -> NOT_EQUAL
-Rule 31    comparador -> GREATER_THAN
-Rule 32    comparador -> LESS_THAN
-Rule 33    comparador -> GREATER_THAN_EQUAL
-Rule 34    comparador -> LESS_THAN_EQUAL
-Rule 35    comparacion_num -> numero comparador numero
-Rule 36    comparacion_variables -> ID EQUAL ID
-Rule 37    comparacion_variables -> ID NOT_EQUAL ID
-Rule 38    comparacion -> comparacion_num
-Rule 39    comparacion -> comparacion_variables
-Rule 40    comparaciones -> comparacion
-Rule 41    comparaciones -> comparacion conector comparacion
-Rule 42    conector -> OP_AND
-Rule 43    conector -> OP_OR
-Rule 44    numero -> INT
-Rule 45    numero -> FLOAT
-Rule 46    varios_numeros -> numero
-Rule 47    varios_numeros -> numero COMMA varios_numeros
+Rule 5     inicio -> hash
+Rule 6     varios_str -> STR
+Rule 7     varios_str -> STR COMMA STR
+Rule 8     set -> set_vacio
+Rule 9     set -> set_numero
+Rule 10    set -> set_str
+Rule 11    set_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET
+Rule 12    set_numero -> ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET
+Rule 13    set_str -> ID EQUALS LCURLYBRACKET varios_str RCURLYBRACKET
+Rule 14    declaration -> DEF ID LPARENTHESIS RPARENTHESIS bloque END_UPPER
+Rule 15    statement_loop -> LOOP DO bloque BREAK IF comparacion
+Rule 16    array -> array_vacio
+Rule 17    array -> array_numero
+Rule 18    array -> array_str
+Rule 19    array_vacio -> ID EQUALS LBRACKET RBRACKET
+Rule 20    array_numero -> ID EQUALS LBRACKET varios_numeros RBRACKET
+Rule 21    array_str -> ID EQUALS LBRACKET varios_str RBRACKET
+Rule 22    statement -> ID EQUALS valor
+Rule 23    valor -> numero
+Rule 24    valor -> STR
+Rule 25    valor -> ID
+Rule 26    statement -> IF comparaciones bloque END_LOWER
+Rule 27    bloque -> INDENT statement DEDENT
+Rule 28    statement_list -> statement_list statement
+Rule 29    statement_list -> statement
+Rule 30    comparador -> EQUAL
+Rule 31    comparador -> NOT_EQUAL
+Rule 32    comparador -> GREATER_THAN
+Rule 33    comparador -> LESS_THAN
+Rule 34    comparador -> GREATER_THAN_EQUAL
+Rule 35    comparador -> LESS_THAN_EQUAL
+Rule 36    comparacion_num -> numero comparador numero
+Rule 37    comparacion_variables -> ID EQUAL ID
+Rule 38    comparacion_variables -> ID NOT_EQUAL ID
+Rule 39    comparacion -> comparacion_num
+Rule 40    comparacion -> comparacion_variables
+Rule 41    comparaciones -> comparacion
+Rule 42    comparaciones -> comparacion conector comparacion
+Rule 43    conector -> OP_AND
+Rule 44    conector -> OP_OR
+Rule 45    numero -> INT
+Rule 46    numero -> FLOAT
+Rule 47    varios_numeros -> numero
+Rule 48    varios_numeros -> numero COMMA varios_numeros
+Rule 49    hash -> hash_vacio
+Rule 50    hash -> hash_elementos
+Rule 51    hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET
+Rule 52    hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
+Rule 53    varios_pares_hash -> ID COLON valor
+Rule 54    varios_pares_hash -> STR HASHAS valor
+Rule 55    varios_pares_hash -> ID COLON valor COMMA varios_pares_hash
+Rule 56    varios_pares_hash -> STR HASHAS valor COMMA varios_pares_hash
 
 Terminals, with rules where they appear
 
@@ -125,49 +132,49 @@ BITWISE_AND          :
 BITWISE_NOT          : 
 BITWISE_OR           : 
 BITWISE_XOR          : 
-BREAK                : 14
+BREAK                : 15
 CASE                 : 
 CLASS                : 
-COLON                : 
-COMMA                : 6 47
+COLON                : 53 55
+COMMA                : 7 48 55 56
 COMPLEX              : 
 CONSTANT             : 
-DEDENT               : 26
-DEF                  : 13
+DEDENT               : 27
+DEF                  : 14
 DEFINED              : 
 DIVIDE               : 
-DO                   : 14
+DO                   : 15
 DOT                  : 
 EACH                 : 
 ELSE                 : 
 ELSEIF               : 
-END_LOWER            : 25
-END_UPPER            : 13
+END_LOWER            : 26
+END_UPPER            : 14
 ENSURE               : 
-EQUAL                : 29 36
-EQUALS               : 10 11 12 18 19 20 21
+EQUAL                : 30 37
+EQUALS               : 11 12 13 19 20 21 22 51 52
 EXPONENT             : 
 FALSE                : 
 FILE                 : 
-FLOAT                : 45
+FLOAT                : 46
 FOR                  : 
 GLOBAL               : 
-GREATER_THAN         : 31
-GREATER_THAN_EQUAL   : 33
+GREATER_THAN         : 32
+GREATER_THAN_EQUAL   : 34
 HASH                 : 
-HASHAS               : 
-ID                   : 10 11 12 13 18 19 20 21 24 36 36 37 37
-IF                   : 14 25
+HASHAS               : 54 56
+ID                   : 11 12 13 14 19 20 21 22 25 37 37 38 38 51 52 53 55
+IF                   : 15 26
 IN                   : 
-INDENT               : 26
-INT                  : 44
-LBRACKET             : 18 19 20
-LCURLYBRACKET        : 10 11 12
-LESS_THAN            : 32
-LESS_THAN_EQUAL      : 34
+INDENT               : 27
+INT                  : 45
+LBRACKET             : 19 20 21
+LCURLYBRACKET        : 11 12 13 51 52
+LESS_THAN            : 33
+LESS_THAN_EQUAL      : 35
 LINE                 : 
-LOOP                 : 14
-LPARENTHESIS         : 13
+LOOP                 : 15
+LPARENTHESIS         : 14
 MINUS                : 
 MODULE               : 
 MODULO               : 
@@ -175,26 +182,26 @@ MULTIPLY             :
 NEXT                 : 
 NIL                  : 
 NOT                  : 
-NOT_EQUAL            : 30 37
-OP_AND               : 42
+NOT_EQUAL            : 31 38
+OP_AND               : 43
 OP_NOT               : 
-OP_OR                : 43
+OP_OR                : 44
 OR                   : 
 PLUS                 : 
 PUTS                 : 
 RATIONAL             : 
-RBRACKET             : 18 19 20
-RCURLYBRACKET        : 10 11 12
+RBRACKET             : 19 20 21
+RCURLYBRACKET        : 11 12 13 51 52
 REDO                 : 
 RESCUE               : 
 RETRY                : 
 RETURN               : 
-RPARENTHESIS         : 13
+RPARENTHESIS         : 14
 SELF                 : 
 SEMICOLON            : 
 SHIFT_LEFT           : 
 SHIFT_RIGHT          : 
-STR                  : 5 6 6 12 23
+STR                  : 6 7 7 24 54 56
 SUPER                : 
 SYMBOL               : 
 THEN                 : 
@@ -210,29 +217,33 @@ error                :
 Nonterminals, with rules where they appear
 
 array                : 2
-array_numero         : 16
-array_str            : 17
-array_vacio          : 15
-bloque               : 13 14 25
-comparacion          : 14 40 41 41
-comparacion_num      : 38
-comparacion_variables : 39
-comparaciones        : 25
-comparador           : 35
-conector             : 41
+array_numero         : 17
+array_str            : 18
+array_vacio          : 16
+bloque               : 14 15 26
+comparacion          : 15 41 42 42
+comparacion_num      : 39
+comparacion_variables : 40
+comparaciones        : 26
+comparador           : 36
+conector             : 42
 declaration          : 4
+hash                 : 5
+hash_elementos       : 50
+hash_vacio           : 49
 inicio               : 0
-numero               : 22 35 35 46 47
+numero               : 23 36 36 47 48
 set                  : 1
-set_numero           : 8
-set_str              : 9
-set_vacio            : 7
-statement            : 26 27 28
-statement_list       : 27
+set_numero           : 9
+set_str              : 10
+set_vacio            : 8
+statement            : 27 28 29
+statement_list       : 28
 statement_loop       : 3
-valor                : 21
-varios_numeros       : 11 19 47
-varios_str           : 20
+valor                : 22 53 54 55 56
+varios_numeros       : 12 20 48
+varios_pares_hash    : 52 55 56
+varios_str           : 13 21
 
 Parsing method: LALR
 
@@ -243,36 +254,44 @@ state 0
     (2) inicio -> . array
     (3) inicio -> . statement_loop
     (4) inicio -> . declaration
-    (7) set -> . set_vacio
-    (8) set -> . set_numero
-    (9) set -> . set_str
-    (15) array -> . array_vacio
-    (16) array -> . array_numero
-    (17) array -> . array_str
-    (14) statement_loop -> . LOOP DO bloque BREAK IF comparacion
-    (13) declaration -> . DEF ID LPARENTHESIS RPARENTHESIS bloque END_UPPER
-    (10) set_vacio -> . ID EQUALS LCURLYBRACKET RCURLYBRACKET
-    (11) set_numero -> . ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET
-    (12) set_str -> . ID EQUALS LCURLYBRACKET STR RCURLYBRACKET
-    (18) array_vacio -> . ID EQUALS LBRACKET RBRACKET
-    (19) array_numero -> . ID EQUALS LBRACKET varios_numeros RBRACKET
-    (20) array_str -> . ID EQUALS LBRACKET varios_str RBRACKET
+    (5) inicio -> . hash
+    (8) set -> . set_vacio
+    (9) set -> . set_numero
+    (10) set -> . set_str
+    (16) array -> . array_vacio
+    (17) array -> . array_numero
+    (18) array -> . array_str
+    (15) statement_loop -> . LOOP DO bloque BREAK IF comparacion
+    (14) declaration -> . DEF ID LPARENTHESIS RPARENTHESIS bloque END_UPPER
+    (49) hash -> . hash_vacio
+    (50) hash -> . hash_elementos
+    (11) set_vacio -> . ID EQUALS LCURLYBRACKET RCURLYBRACKET
+    (12) set_numero -> . ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET
+    (13) set_str -> . ID EQUALS LCURLYBRACKET varios_str RCURLYBRACKET
+    (19) array_vacio -> . ID EQUALS LBRACKET RBRACKET
+    (20) array_numero -> . ID EQUALS LBRACKET varios_numeros RBRACKET
+    (21) array_str -> . ID EQUALS LBRACKET varios_str RBRACKET
+    (51) hash_vacio -> . ID EQUALS LCURLYBRACKET RCURLYBRACKET
+    (52) hash_elementos -> . ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
 
-    LOOP            shift and go to state 12
-    DEF             shift and go to state 13
-    ID              shift and go to state 14
+    LOOP            shift and go to state 13
+    DEF             shift and go to state 14
+    ID              shift and go to state 15
 
     inicio                         shift and go to state 1
     set                            shift and go to state 2
     array                          shift and go to state 3
     statement_loop                 shift and go to state 4
     declaration                    shift and go to state 5
-    set_vacio                      shift and go to state 6
-    set_numero                     shift and go to state 7
-    set_str                        shift and go to state 8
-    array_vacio                    shift and go to state 9
-    array_numero                   shift and go to state 10
-    array_str                      shift and go to state 11
+    hash                           shift and go to state 6
+    set_vacio                      shift and go to state 7
+    set_numero                     shift and go to state 8
+    set_str                        shift and go to state 9
+    array_vacio                    shift and go to state 10
+    array_numero                   shift and go to state 11
+    array_str                      shift and go to state 12
+    hash_vacio                     shift and go to state 16
+    hash_elementos                 shift and go to state 17
 
 state 1
 
@@ -310,706 +329,895 @@ state 5
 
 state 6
 
-    (7) set -> set_vacio .
+    (5) inicio -> hash .
 
-    $end            reduce using rule 7 (set -> set_vacio .)
+    $end            reduce using rule 5 (inicio -> hash .)
 
 
 state 7
 
-    (8) set -> set_numero .
+    (8) set -> set_vacio .
 
-    $end            reduce using rule 8 (set -> set_numero .)
+    $end            reduce using rule 8 (set -> set_vacio .)
 
 
 state 8
 
-    (9) set -> set_str .
+    (9) set -> set_numero .
 
-    $end            reduce using rule 9 (set -> set_str .)
+    $end            reduce using rule 9 (set -> set_numero .)
 
 
 state 9
 
-    (15) array -> array_vacio .
+    (10) set -> set_str .
 
-    $end            reduce using rule 15 (array -> array_vacio .)
+    $end            reduce using rule 10 (set -> set_str .)
 
 
 state 10
 
-    (16) array -> array_numero .
+    (16) array -> array_vacio .
 
-    $end            reduce using rule 16 (array -> array_numero .)
+    $end            reduce using rule 16 (array -> array_vacio .)
 
 
 state 11
 
-    (17) array -> array_str .
+    (17) array -> array_numero .
 
-    $end            reduce using rule 17 (array -> array_str .)
+    $end            reduce using rule 17 (array -> array_numero .)
 
 
 state 12
 
-    (14) statement_loop -> LOOP . DO bloque BREAK IF comparacion
+    (18) array -> array_str .
 
-    DO              shift and go to state 15
+    $end            reduce using rule 18 (array -> array_str .)
 
 
 state 13
 
-    (13) declaration -> DEF . ID LPARENTHESIS RPARENTHESIS bloque END_UPPER
+    (15) statement_loop -> LOOP . DO bloque BREAK IF comparacion
 
-    ID              shift and go to state 16
+    DO              shift and go to state 18
 
 
 state 14
 
-    (10) set_vacio -> ID . EQUALS LCURLYBRACKET RCURLYBRACKET
-    (11) set_numero -> ID . EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET
-    (12) set_str -> ID . EQUALS LCURLYBRACKET STR RCURLYBRACKET
-    (18) array_vacio -> ID . EQUALS LBRACKET RBRACKET
-    (19) array_numero -> ID . EQUALS LBRACKET varios_numeros RBRACKET
-    (20) array_str -> ID . EQUALS LBRACKET varios_str RBRACKET
+    (14) declaration -> DEF . ID LPARENTHESIS RPARENTHESIS bloque END_UPPER
 
-    EQUALS          shift and go to state 17
+    ID              shift and go to state 19
 
 
 state 15
 
-    (14) statement_loop -> LOOP DO . bloque BREAK IF comparacion
-    (26) bloque -> . INDENT statement DEDENT
+    (11) set_vacio -> ID . EQUALS LCURLYBRACKET RCURLYBRACKET
+    (12) set_numero -> ID . EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET
+    (13) set_str -> ID . EQUALS LCURLYBRACKET varios_str RCURLYBRACKET
+    (19) array_vacio -> ID . EQUALS LBRACKET RBRACKET
+    (20) array_numero -> ID . EQUALS LBRACKET varios_numeros RBRACKET
+    (21) array_str -> ID . EQUALS LBRACKET varios_str RBRACKET
+    (51) hash_vacio -> ID . EQUALS LCURLYBRACKET RCURLYBRACKET
+    (52) hash_elementos -> ID . EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
 
-    INDENT          shift and go to state 19
+    EQUALS          shift and go to state 20
 
-    bloque                         shift and go to state 18
 
 state 16
 
-    (13) declaration -> DEF ID . LPARENTHESIS RPARENTHESIS bloque END_UPPER
+    (49) hash -> hash_vacio .
 
-    LPARENTHESIS    shift and go to state 20
+    $end            reduce using rule 49 (hash -> hash_vacio .)
 
 
 state 17
 
-    (10) set_vacio -> ID EQUALS . LCURLYBRACKET RCURLYBRACKET
-    (11) set_numero -> ID EQUALS . LCURLYBRACKET varios_numeros RCURLYBRACKET
-    (12) set_str -> ID EQUALS . LCURLYBRACKET STR RCURLYBRACKET
-    (18) array_vacio -> ID EQUALS . LBRACKET RBRACKET
-    (19) array_numero -> ID EQUALS . LBRACKET varios_numeros RBRACKET
-    (20) array_str -> ID EQUALS . LBRACKET varios_str RBRACKET
+    (50) hash -> hash_elementos .
 
-    LCURLYBRACKET   shift and go to state 21
-    LBRACKET        shift and go to state 22
+    $end            reduce using rule 50 (hash -> hash_elementos .)
 
 
 state 18
 
-    (14) statement_loop -> LOOP DO bloque . BREAK IF comparacion
+    (15) statement_loop -> LOOP DO . bloque BREAK IF comparacion
+    (27) bloque -> . INDENT statement DEDENT
 
-    BREAK           shift and go to state 23
+    INDENT          shift and go to state 22
 
+    bloque                         shift and go to state 21
 
 state 19
 
-    (26) bloque -> INDENT . statement DEDENT
-    (21) statement -> . ID EQUALS valor
-    (25) statement -> . IF comparaciones bloque END_LOWER
+    (14) declaration -> DEF ID . LPARENTHESIS RPARENTHESIS bloque END_UPPER
 
-    ID              shift and go to state 25
-    IF              shift and go to state 26
+    LPARENTHESIS    shift and go to state 23
 
-    statement                      shift and go to state 24
 
 state 20
 
-    (13) declaration -> DEF ID LPARENTHESIS . RPARENTHESIS bloque END_UPPER
+    (11) set_vacio -> ID EQUALS . LCURLYBRACKET RCURLYBRACKET
+    (12) set_numero -> ID EQUALS . LCURLYBRACKET varios_numeros RCURLYBRACKET
+    (13) set_str -> ID EQUALS . LCURLYBRACKET varios_str RCURLYBRACKET
+    (19) array_vacio -> ID EQUALS . LBRACKET RBRACKET
+    (20) array_numero -> ID EQUALS . LBRACKET varios_numeros RBRACKET
+    (21) array_str -> ID EQUALS . LBRACKET varios_str RBRACKET
+    (51) hash_vacio -> ID EQUALS . LCURLYBRACKET RCURLYBRACKET
+    (52) hash_elementos -> ID EQUALS . LCURLYBRACKET varios_pares_hash RCURLYBRACKET
 
-    RPARENTHESIS    shift and go to state 27
+    LCURLYBRACKET   shift and go to state 24
+    LBRACKET        shift and go to state 25
 
 
 state 21
 
-    (10) set_vacio -> ID EQUALS LCURLYBRACKET . RCURLYBRACKET
-    (11) set_numero -> ID EQUALS LCURLYBRACKET . varios_numeros RCURLYBRACKET
-    (12) set_str -> ID EQUALS LCURLYBRACKET . STR RCURLYBRACKET
-    (46) varios_numeros -> . numero
-    (47) varios_numeros -> . numero COMMA varios_numeros
-    (44) numero -> . INT
-    (45) numero -> . FLOAT
+    (15) statement_loop -> LOOP DO bloque . BREAK IF comparacion
 
-    RCURLYBRACKET   shift and go to state 28
-    STR             shift and go to state 30
-    INT             shift and go to state 32
-    FLOAT           shift and go to state 33
+    BREAK           shift and go to state 26
 
-    varios_numeros                 shift and go to state 29
-    numero                         shift and go to state 31
 
 state 22
 
-    (18) array_vacio -> ID EQUALS LBRACKET . RBRACKET
-    (19) array_numero -> ID EQUALS LBRACKET . varios_numeros RBRACKET
-    (20) array_str -> ID EQUALS LBRACKET . varios_str RBRACKET
-    (46) varios_numeros -> . numero
-    (47) varios_numeros -> . numero COMMA varios_numeros
-    (5) varios_str -> . STR
-    (6) varios_str -> . STR COMMA STR
-    (44) numero -> . INT
-    (45) numero -> . FLOAT
+    (27) bloque -> INDENT . statement DEDENT
+    (22) statement -> . ID EQUALS valor
+    (26) statement -> . IF comparaciones bloque END_LOWER
 
-    RBRACKET        shift and go to state 34
-    STR             shift and go to state 37
-    INT             shift and go to state 32
-    FLOAT           shift and go to state 33
+    ID              shift and go to state 28
+    IF              shift and go to state 29
 
-    varios_numeros                 shift and go to state 35
-    varios_str                     shift and go to state 36
-    numero                         shift and go to state 31
+    statement                      shift and go to state 27
 
 state 23
 
-    (14) statement_loop -> LOOP DO bloque BREAK . IF comparacion
+    (14) declaration -> DEF ID LPARENTHESIS . RPARENTHESIS bloque END_UPPER
 
-    IF              shift and go to state 38
+    RPARENTHESIS    shift and go to state 30
 
 
 state 24
 
-    (26) bloque -> INDENT statement . DEDENT
+    (11) set_vacio -> ID EQUALS LCURLYBRACKET . RCURLYBRACKET
+    (12) set_numero -> ID EQUALS LCURLYBRACKET . varios_numeros RCURLYBRACKET
+    (13) set_str -> ID EQUALS LCURLYBRACKET . varios_str RCURLYBRACKET
+    (51) hash_vacio -> ID EQUALS LCURLYBRACKET . RCURLYBRACKET
+    (52) hash_elementos -> ID EQUALS LCURLYBRACKET . varios_pares_hash RCURLYBRACKET
+    (47) varios_numeros -> . numero
+    (48) varios_numeros -> . numero COMMA varios_numeros
+    (6) varios_str -> . STR
+    (7) varios_str -> . STR COMMA STR
+    (53) varios_pares_hash -> . ID COLON valor
+    (54) varios_pares_hash -> . STR HASHAS valor
+    (55) varios_pares_hash -> . ID COLON valor COMMA varios_pares_hash
+    (56) varios_pares_hash -> . STR HASHAS valor COMMA varios_pares_hash
+    (45) numero -> . INT
+    (46) numero -> . FLOAT
 
-    DEDENT          shift and go to state 39
+    RCURLYBRACKET   shift and go to state 32
+    STR             shift and go to state 37
+    ID              shift and go to state 31
+    INT             shift and go to state 38
+    FLOAT           shift and go to state 39
 
+    varios_numeros                 shift and go to state 33
+    varios_str                     shift and go to state 34
+    varios_pares_hash              shift and go to state 35
+    numero                         shift and go to state 36
 
 state 25
 
-    (21) statement -> ID . EQUALS valor
+    (19) array_vacio -> ID EQUALS LBRACKET . RBRACKET
+    (20) array_numero -> ID EQUALS LBRACKET . varios_numeros RBRACKET
+    (21) array_str -> ID EQUALS LBRACKET . varios_str RBRACKET
+    (47) varios_numeros -> . numero
+    (48) varios_numeros -> . numero COMMA varios_numeros
+    (6) varios_str -> . STR
+    (7) varios_str -> . STR COMMA STR
+    (45) numero -> . INT
+    (46) numero -> . FLOAT
 
-    EQUALS          shift and go to state 40
+    RBRACKET        shift and go to state 40
+    STR             shift and go to state 43
+    INT             shift and go to state 38
+    FLOAT           shift and go to state 39
 
+    varios_numeros                 shift and go to state 41
+    varios_str                     shift and go to state 42
+    numero                         shift and go to state 36
 
 state 26
 
-    (25) statement -> IF . comparaciones bloque END_LOWER
-    (40) comparaciones -> . comparacion
-    (41) comparaciones -> . comparacion conector comparacion
-    (38) comparacion -> . comparacion_num
-    (39) comparacion -> . comparacion_variables
-    (35) comparacion_num -> . numero comparador numero
-    (36) comparacion_variables -> . ID EQUAL ID
-    (37) comparacion_variables -> . ID NOT_EQUAL ID
-    (44) numero -> . INT
-    (45) numero -> . FLOAT
+    (15) statement_loop -> LOOP DO bloque BREAK . IF comparacion
 
-    ID              shift and go to state 46
-    INT             shift and go to state 32
-    FLOAT           shift and go to state 33
+    IF              shift and go to state 44
 
-    comparaciones                  shift and go to state 41
-    comparacion                    shift and go to state 42
-    comparacion_num                shift and go to state 43
-    comparacion_variables          shift and go to state 44
-    numero                         shift and go to state 45
 
 state 27
 
-    (13) declaration -> DEF ID LPARENTHESIS RPARENTHESIS . bloque END_UPPER
-    (26) bloque -> . INDENT statement DEDENT
+    (27) bloque -> INDENT statement . DEDENT
 
-    INDENT          shift and go to state 19
+    DEDENT          shift and go to state 45
 
-    bloque                         shift and go to state 47
 
 state 28
 
-    (10) set_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .
+    (22) statement -> ID . EQUALS valor
 
-    $end            reduce using rule 10 (set_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .)
+    EQUALS          shift and go to state 46
 
 
 state 29
 
-    (11) set_numero -> ID EQUALS LCURLYBRACKET varios_numeros . RCURLYBRACKET
+    (26) statement -> IF . comparaciones bloque END_LOWER
+    (41) comparaciones -> . comparacion
+    (42) comparaciones -> . comparacion conector comparacion
+    (39) comparacion -> . comparacion_num
+    (40) comparacion -> . comparacion_variables
+    (36) comparacion_num -> . numero comparador numero
+    (37) comparacion_variables -> . ID EQUAL ID
+    (38) comparacion_variables -> . ID NOT_EQUAL ID
+    (45) numero -> . INT
+    (46) numero -> . FLOAT
 
-    RCURLYBRACKET   shift and go to state 48
+    ID              shift and go to state 52
+    INT             shift and go to state 38
+    FLOAT           shift and go to state 39
 
+    comparaciones                  shift and go to state 47
+    comparacion                    shift and go to state 48
+    comparacion_num                shift and go to state 49
+    comparacion_variables          shift and go to state 50
+    numero                         shift and go to state 51
 
 state 30
 
-    (12) set_str -> ID EQUALS LCURLYBRACKET STR . RCURLYBRACKET
+    (14) declaration -> DEF ID LPARENTHESIS RPARENTHESIS . bloque END_UPPER
+    (27) bloque -> . INDENT statement DEDENT
 
-    RCURLYBRACKET   shift and go to state 49
+    INDENT          shift and go to state 22
 
+    bloque                         shift and go to state 53
 
 state 31
 
-    (46) varios_numeros -> numero .
-    (47) varios_numeros -> numero . COMMA varios_numeros
+    (53) varios_pares_hash -> ID . COLON valor
+    (55) varios_pares_hash -> ID . COLON valor COMMA varios_pares_hash
 
-    RCURLYBRACKET   reduce using rule 46 (varios_numeros -> numero .)
-    RBRACKET        reduce using rule 46 (varios_numeros -> numero .)
-    COMMA           shift and go to state 50
+    COLON           shift and go to state 54
 
 
 state 32
 
-    (44) numero -> INT .
+    (11) set_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .
+    (51) hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .
 
-    COMMA           reduce using rule 44 (numero -> INT .)
-    RCURLYBRACKET   reduce using rule 44 (numero -> INT .)
-    RBRACKET        reduce using rule 44 (numero -> INT .)
-    EQUAL           reduce using rule 44 (numero -> INT .)
-    NOT_EQUAL       reduce using rule 44 (numero -> INT .)
-    GREATER_THAN    reduce using rule 44 (numero -> INT .)
-    LESS_THAN       reduce using rule 44 (numero -> INT .)
-    GREATER_THAN_EQUAL reduce using rule 44 (numero -> INT .)
-    LESS_THAN_EQUAL reduce using rule 44 (numero -> INT .)
-    DEDENT          reduce using rule 44 (numero -> INT .)
-    OP_AND          reduce using rule 44 (numero -> INT .)
-    OP_OR           reduce using rule 44 (numero -> INT .)
-    INDENT          reduce using rule 44 (numero -> INT .)
-    $end            reduce using rule 44 (numero -> INT .)
+  ! reduce/reduce conflict for $end resolved using rule 11 (set_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .)
+    $end            reduce using rule 11 (set_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .)
+
+  ! $end            [ reduce using rule 51 (hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .) ]
 
 
 state 33
 
-    (45) numero -> FLOAT .
+    (12) set_numero -> ID EQUALS LCURLYBRACKET varios_numeros . RCURLYBRACKET
 
-    COMMA           reduce using rule 45 (numero -> FLOAT .)
-    RCURLYBRACKET   reduce using rule 45 (numero -> FLOAT .)
-    RBRACKET        reduce using rule 45 (numero -> FLOAT .)
-    EQUAL           reduce using rule 45 (numero -> FLOAT .)
-    NOT_EQUAL       reduce using rule 45 (numero -> FLOAT .)
-    GREATER_THAN    reduce using rule 45 (numero -> FLOAT .)
-    LESS_THAN       reduce using rule 45 (numero -> FLOAT .)
-    GREATER_THAN_EQUAL reduce using rule 45 (numero -> FLOAT .)
-    LESS_THAN_EQUAL reduce using rule 45 (numero -> FLOAT .)
-    DEDENT          reduce using rule 45 (numero -> FLOAT .)
-    OP_AND          reduce using rule 45 (numero -> FLOAT .)
-    OP_OR           reduce using rule 45 (numero -> FLOAT .)
-    INDENT          reduce using rule 45 (numero -> FLOAT .)
-    $end            reduce using rule 45 (numero -> FLOAT .)
+    RCURLYBRACKET   shift and go to state 55
 
 
 state 34
 
-    (18) array_vacio -> ID EQUALS LBRACKET RBRACKET .
+    (13) set_str -> ID EQUALS LCURLYBRACKET varios_str . RCURLYBRACKET
 
-    $end            reduce using rule 18 (array_vacio -> ID EQUALS LBRACKET RBRACKET .)
+    RCURLYBRACKET   shift and go to state 56
 
 
 state 35
 
-    (19) array_numero -> ID EQUALS LBRACKET varios_numeros . RBRACKET
+    (52) hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash . RCURLYBRACKET
 
-    RBRACKET        shift and go to state 51
+    RCURLYBRACKET   shift and go to state 57
 
 
 state 36
 
-    (20) array_str -> ID EQUALS LBRACKET varios_str . RBRACKET
+    (47) varios_numeros -> numero .
+    (48) varios_numeros -> numero . COMMA varios_numeros
 
-    RBRACKET        shift and go to state 52
+    RCURLYBRACKET   reduce using rule 47 (varios_numeros -> numero .)
+    RBRACKET        reduce using rule 47 (varios_numeros -> numero .)
+    COMMA           shift and go to state 58
 
 
 state 37
 
-    (5) varios_str -> STR .
-    (6) varios_str -> STR . COMMA STR
+    (6) varios_str -> STR .
+    (7) varios_str -> STR . COMMA STR
+    (54) varios_pares_hash -> STR . HASHAS valor
+    (56) varios_pares_hash -> STR . HASHAS valor COMMA varios_pares_hash
 
-    RBRACKET        reduce using rule 5 (varios_str -> STR .)
-    COMMA           shift and go to state 53
+    RCURLYBRACKET   reduce using rule 6 (varios_str -> STR .)
+    COMMA           shift and go to state 59
+    HASHAS          shift and go to state 60
 
 
 state 38
 
-    (14) statement_loop -> LOOP DO bloque BREAK IF . comparacion
-    (38) comparacion -> . comparacion_num
-    (39) comparacion -> . comparacion_variables
-    (35) comparacion_num -> . numero comparador numero
-    (36) comparacion_variables -> . ID EQUAL ID
-    (37) comparacion_variables -> . ID NOT_EQUAL ID
-    (44) numero -> . INT
-    (45) numero -> . FLOAT
+    (45) numero -> INT .
 
-    ID              shift and go to state 46
-    INT             shift and go to state 32
-    FLOAT           shift and go to state 33
+    COMMA           reduce using rule 45 (numero -> INT .)
+    RCURLYBRACKET   reduce using rule 45 (numero -> INT .)
+    RBRACKET        reduce using rule 45 (numero -> INT .)
+    EQUAL           reduce using rule 45 (numero -> INT .)
+    NOT_EQUAL       reduce using rule 45 (numero -> INT .)
+    GREATER_THAN    reduce using rule 45 (numero -> INT .)
+    LESS_THAN       reduce using rule 45 (numero -> INT .)
+    GREATER_THAN_EQUAL reduce using rule 45 (numero -> INT .)
+    LESS_THAN_EQUAL reduce using rule 45 (numero -> INT .)
+    DEDENT          reduce using rule 45 (numero -> INT .)
+    OP_AND          reduce using rule 45 (numero -> INT .)
+    OP_OR           reduce using rule 45 (numero -> INT .)
+    INDENT          reduce using rule 45 (numero -> INT .)
+    $end            reduce using rule 45 (numero -> INT .)
 
-    comparacion                    shift and go to state 54
-    comparacion_num                shift and go to state 43
-    comparacion_variables          shift and go to state 44
-    numero                         shift and go to state 45
 
 state 39
 
-    (26) bloque -> INDENT statement DEDENT .
+    (46) numero -> FLOAT .
 
-    BREAK           reduce using rule 26 (bloque -> INDENT statement DEDENT .)
-    END_UPPER       reduce using rule 26 (bloque -> INDENT statement DEDENT .)
-    END_LOWER       reduce using rule 26 (bloque -> INDENT statement DEDENT .)
+    COMMA           reduce using rule 46 (numero -> FLOAT .)
+    RCURLYBRACKET   reduce using rule 46 (numero -> FLOAT .)
+    RBRACKET        reduce using rule 46 (numero -> FLOAT .)
+    EQUAL           reduce using rule 46 (numero -> FLOAT .)
+    NOT_EQUAL       reduce using rule 46 (numero -> FLOAT .)
+    GREATER_THAN    reduce using rule 46 (numero -> FLOAT .)
+    LESS_THAN       reduce using rule 46 (numero -> FLOAT .)
+    GREATER_THAN_EQUAL reduce using rule 46 (numero -> FLOAT .)
+    LESS_THAN_EQUAL reduce using rule 46 (numero -> FLOAT .)
+    DEDENT          reduce using rule 46 (numero -> FLOAT .)
+    OP_AND          reduce using rule 46 (numero -> FLOAT .)
+    OP_OR           reduce using rule 46 (numero -> FLOAT .)
+    INDENT          reduce using rule 46 (numero -> FLOAT .)
+    $end            reduce using rule 46 (numero -> FLOAT .)
 
 
 state 40
 
-    (21) statement -> ID EQUALS . valor
-    (22) valor -> . numero
-    (23) valor -> . STR
-    (24) valor -> . ID
-    (44) numero -> . INT
-    (45) numero -> . FLOAT
+    (19) array_vacio -> ID EQUALS LBRACKET RBRACKET .
 
-    STR             shift and go to state 58
-    ID              shift and go to state 55
-    INT             shift and go to state 32
-    FLOAT           shift and go to state 33
+    $end            reduce using rule 19 (array_vacio -> ID EQUALS LBRACKET RBRACKET .)
 
-    valor                          shift and go to state 56
-    numero                         shift and go to state 57
 
 state 41
 
-    (25) statement -> IF comparaciones . bloque END_LOWER
-    (26) bloque -> . INDENT statement DEDENT
+    (20) array_numero -> ID EQUALS LBRACKET varios_numeros . RBRACKET
 
-    INDENT          shift and go to state 19
+    RBRACKET        shift and go to state 61
 
-    bloque                         shift and go to state 59
 
 state 42
 
-    (40) comparaciones -> comparacion .
-    (41) comparaciones -> comparacion . conector comparacion
-    (42) conector -> . OP_AND
-    (43) conector -> . OP_OR
+    (21) array_str -> ID EQUALS LBRACKET varios_str . RBRACKET
 
-    INDENT          reduce using rule 40 (comparaciones -> comparacion .)
-    OP_AND          shift and go to state 61
-    OP_OR           shift and go to state 62
+    RBRACKET        shift and go to state 62
 
-    conector                       shift and go to state 60
 
 state 43
 
-    (38) comparacion -> comparacion_num .
+    (6) varios_str -> STR .
+    (7) varios_str -> STR . COMMA STR
 
-    OP_AND          reduce using rule 38 (comparacion -> comparacion_num .)
-    OP_OR           reduce using rule 38 (comparacion -> comparacion_num .)
-    INDENT          reduce using rule 38 (comparacion -> comparacion_num .)
-    $end            reduce using rule 38 (comparacion -> comparacion_num .)
+    RBRACKET        reduce using rule 6 (varios_str -> STR .)
+    COMMA           shift and go to state 59
 
 
 state 44
 
-    (39) comparacion -> comparacion_variables .
+    (15) statement_loop -> LOOP DO bloque BREAK IF . comparacion
+    (39) comparacion -> . comparacion_num
+    (40) comparacion -> . comparacion_variables
+    (36) comparacion_num -> . numero comparador numero
+    (37) comparacion_variables -> . ID EQUAL ID
+    (38) comparacion_variables -> . ID NOT_EQUAL ID
+    (45) numero -> . INT
+    (46) numero -> . FLOAT
 
-    OP_AND          reduce using rule 39 (comparacion -> comparacion_variables .)
-    OP_OR           reduce using rule 39 (comparacion -> comparacion_variables .)
-    INDENT          reduce using rule 39 (comparacion -> comparacion_variables .)
-    $end            reduce using rule 39 (comparacion -> comparacion_variables .)
+    ID              shift and go to state 52
+    INT             shift and go to state 38
+    FLOAT           shift and go to state 39
 
+    comparacion                    shift and go to state 63
+    comparacion_num                shift and go to state 49
+    comparacion_variables          shift and go to state 50
+    numero                         shift and go to state 51
 
 state 45
 
-    (35) comparacion_num -> numero . comparador numero
-    (29) comparador -> . EQUAL
-    (30) comparador -> . NOT_EQUAL
-    (31) comparador -> . GREATER_THAN
-    (32) comparador -> . LESS_THAN
-    (33) comparador -> . GREATER_THAN_EQUAL
-    (34) comparador -> . LESS_THAN_EQUAL
+    (27) bloque -> INDENT statement DEDENT .
 
-    EQUAL           shift and go to state 64
-    NOT_EQUAL       shift and go to state 65
-    GREATER_THAN    shift and go to state 66
-    LESS_THAN       shift and go to state 67
-    GREATER_THAN_EQUAL shift and go to state 68
-    LESS_THAN_EQUAL shift and go to state 69
+    BREAK           reduce using rule 27 (bloque -> INDENT statement DEDENT .)
+    END_UPPER       reduce using rule 27 (bloque -> INDENT statement DEDENT .)
+    END_LOWER       reduce using rule 27 (bloque -> INDENT statement DEDENT .)
 
-    comparador                     shift and go to state 63
 
 state 46
 
-    (36) comparacion_variables -> ID . EQUAL ID
-    (37) comparacion_variables -> ID . NOT_EQUAL ID
+    (22) statement -> ID EQUALS . valor
+    (23) valor -> . numero
+    (24) valor -> . STR
+    (25) valor -> . ID
+    (45) numero -> . INT
+    (46) numero -> . FLOAT
 
-    EQUAL           shift and go to state 70
-    NOT_EQUAL       shift and go to state 71
+    STR             shift and go to state 67
+    ID              shift and go to state 64
+    INT             shift and go to state 38
+    FLOAT           shift and go to state 39
 
+    valor                          shift and go to state 65
+    numero                         shift and go to state 66
 
 state 47
 
-    (13) declaration -> DEF ID LPARENTHESIS RPARENTHESIS bloque . END_UPPER
+    (26) statement -> IF comparaciones . bloque END_LOWER
+    (27) bloque -> . INDENT statement DEDENT
 
-    END_UPPER       shift and go to state 72
+    INDENT          shift and go to state 22
 
+    bloque                         shift and go to state 68
 
 state 48
 
-    (11) set_numero -> ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET .
+    (41) comparaciones -> comparacion .
+    (42) comparaciones -> comparacion . conector comparacion
+    (43) conector -> . OP_AND
+    (44) conector -> . OP_OR
 
-    $end            reduce using rule 11 (set_numero -> ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET .)
+    INDENT          reduce using rule 41 (comparaciones -> comparacion .)
+    OP_AND          shift and go to state 70
+    OP_OR           shift and go to state 71
 
+    conector                       shift and go to state 69
 
 state 49
 
-    (12) set_str -> ID EQUALS LCURLYBRACKET STR RCURLYBRACKET .
+    (39) comparacion -> comparacion_num .
 
-    $end            reduce using rule 12 (set_str -> ID EQUALS LCURLYBRACKET STR RCURLYBRACKET .)
+    OP_AND          reduce using rule 39 (comparacion -> comparacion_num .)
+    OP_OR           reduce using rule 39 (comparacion -> comparacion_num .)
+    INDENT          reduce using rule 39 (comparacion -> comparacion_num .)
+    $end            reduce using rule 39 (comparacion -> comparacion_num .)
 
 
 state 50
 
-    (47) varios_numeros -> numero COMMA . varios_numeros
-    (46) varios_numeros -> . numero
-    (47) varios_numeros -> . numero COMMA varios_numeros
-    (44) numero -> . INT
-    (45) numero -> . FLOAT
+    (40) comparacion -> comparacion_variables .
 
-    INT             shift and go to state 32
-    FLOAT           shift and go to state 33
+    OP_AND          reduce using rule 40 (comparacion -> comparacion_variables .)
+    OP_OR           reduce using rule 40 (comparacion -> comparacion_variables .)
+    INDENT          reduce using rule 40 (comparacion -> comparacion_variables .)
+    $end            reduce using rule 40 (comparacion -> comparacion_variables .)
 
-    numero                         shift and go to state 31
-    varios_numeros                 shift and go to state 73
 
 state 51
 
-    (19) array_numero -> ID EQUALS LBRACKET varios_numeros RBRACKET .
+    (36) comparacion_num -> numero . comparador numero
+    (30) comparador -> . EQUAL
+    (31) comparador -> . NOT_EQUAL
+    (32) comparador -> . GREATER_THAN
+    (33) comparador -> . LESS_THAN
+    (34) comparador -> . GREATER_THAN_EQUAL
+    (35) comparador -> . LESS_THAN_EQUAL
 
-    $end            reduce using rule 19 (array_numero -> ID EQUALS LBRACKET varios_numeros RBRACKET .)
+    EQUAL           shift and go to state 73
+    NOT_EQUAL       shift and go to state 74
+    GREATER_THAN    shift and go to state 75
+    LESS_THAN       shift and go to state 76
+    GREATER_THAN_EQUAL shift and go to state 77
+    LESS_THAN_EQUAL shift and go to state 78
 
+    comparador                     shift and go to state 72
 
 state 52
 
-    (20) array_str -> ID EQUALS LBRACKET varios_str RBRACKET .
+    (37) comparacion_variables -> ID . EQUAL ID
+    (38) comparacion_variables -> ID . NOT_EQUAL ID
 
-    $end            reduce using rule 20 (array_str -> ID EQUALS LBRACKET varios_str RBRACKET .)
+    EQUAL           shift and go to state 79
+    NOT_EQUAL       shift and go to state 80
 
 
 state 53
 
-    (6) varios_str -> STR COMMA . STR
+    (14) declaration -> DEF ID LPARENTHESIS RPARENTHESIS bloque . END_UPPER
 
-    STR             shift and go to state 74
+    END_UPPER       shift and go to state 81
 
 
 state 54
 
-    (14) statement_loop -> LOOP DO bloque BREAK IF comparacion .
+    (53) varios_pares_hash -> ID COLON . valor
+    (55) varios_pares_hash -> ID COLON . valor COMMA varios_pares_hash
+    (23) valor -> . numero
+    (24) valor -> . STR
+    (25) valor -> . ID
+    (45) numero -> . INT
+    (46) numero -> . FLOAT
 
-    $end            reduce using rule 14 (statement_loop -> LOOP DO bloque BREAK IF comparacion .)
+    STR             shift and go to state 67
+    ID              shift and go to state 64
+    INT             shift and go to state 38
+    FLOAT           shift and go to state 39
 
+    valor                          shift and go to state 82
+    numero                         shift and go to state 66
 
 state 55
 
-    (24) valor -> ID .
+    (12) set_numero -> ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET .
 
-    DEDENT          reduce using rule 24 (valor -> ID .)
+    $end            reduce using rule 12 (set_numero -> ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET .)
 
 
 state 56
 
-    (21) statement -> ID EQUALS valor .
+    (13) set_str -> ID EQUALS LCURLYBRACKET varios_str RCURLYBRACKET .
 
-    DEDENT          reduce using rule 21 (statement -> ID EQUALS valor .)
+    $end            reduce using rule 13 (set_str -> ID EQUALS LCURLYBRACKET varios_str RCURLYBRACKET .)
 
 
 state 57
 
-    (22) valor -> numero .
+    (52) hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET .
 
-    DEDENT          reduce using rule 22 (valor -> numero .)
+    $end            reduce using rule 52 (hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET .)
 
 
 state 58
 
-    (23) valor -> STR .
+    (48) varios_numeros -> numero COMMA . varios_numeros
+    (47) varios_numeros -> . numero
+    (48) varios_numeros -> . numero COMMA varios_numeros
+    (45) numero -> . INT
+    (46) numero -> . FLOAT
 
-    DEDENT          reduce using rule 23 (valor -> STR .)
+    INT             shift and go to state 38
+    FLOAT           shift and go to state 39
 
+    numero                         shift and go to state 36
+    varios_numeros                 shift and go to state 83
 
 state 59
 
-    (25) statement -> IF comparaciones bloque . END_LOWER
+    (7) varios_str -> STR COMMA . STR
 
-    END_LOWER       shift and go to state 75
+    STR             shift and go to state 84
 
 
 state 60
 
-    (41) comparaciones -> comparacion conector . comparacion
-    (38) comparacion -> . comparacion_num
-    (39) comparacion -> . comparacion_variables
-    (35) comparacion_num -> . numero comparador numero
-    (36) comparacion_variables -> . ID EQUAL ID
-    (37) comparacion_variables -> . ID NOT_EQUAL ID
-    (44) numero -> . INT
-    (45) numero -> . FLOAT
+    (54) varios_pares_hash -> STR HASHAS . valor
+    (56) varios_pares_hash -> STR HASHAS . valor COMMA varios_pares_hash
+    (23) valor -> . numero
+    (24) valor -> . STR
+    (25) valor -> . ID
+    (45) numero -> . INT
+    (46) numero -> . FLOAT
 
-    ID              shift and go to state 46
-    INT             shift and go to state 32
-    FLOAT           shift and go to state 33
+    STR             shift and go to state 67
+    ID              shift and go to state 64
+    INT             shift and go to state 38
+    FLOAT           shift and go to state 39
 
-    comparacion                    shift and go to state 76
-    comparacion_num                shift and go to state 43
-    comparacion_variables          shift and go to state 44
-    numero                         shift and go to state 45
+    valor                          shift and go to state 85
+    numero                         shift and go to state 66
 
 state 61
 
-    (42) conector -> OP_AND .
+    (20) array_numero -> ID EQUALS LBRACKET varios_numeros RBRACKET .
 
-    ID              reduce using rule 42 (conector -> OP_AND .)
-    INT             reduce using rule 42 (conector -> OP_AND .)
-    FLOAT           reduce using rule 42 (conector -> OP_AND .)
+    $end            reduce using rule 20 (array_numero -> ID EQUALS LBRACKET varios_numeros RBRACKET .)
 
 
 state 62
 
-    (43) conector -> OP_OR .
+    (21) array_str -> ID EQUALS LBRACKET varios_str RBRACKET .
 
-    ID              reduce using rule 43 (conector -> OP_OR .)
-    INT             reduce using rule 43 (conector -> OP_OR .)
-    FLOAT           reduce using rule 43 (conector -> OP_OR .)
+    $end            reduce using rule 21 (array_str -> ID EQUALS LBRACKET varios_str RBRACKET .)
 
 
 state 63
 
-    (35) comparacion_num -> numero comparador . numero
-    (44) numero -> . INT
-    (45) numero -> . FLOAT
+    (15) statement_loop -> LOOP DO bloque BREAK IF comparacion .
 
-    INT             shift and go to state 32
-    FLOAT           shift and go to state 33
+    $end            reduce using rule 15 (statement_loop -> LOOP DO bloque BREAK IF comparacion .)
 
-    numero                         shift and go to state 77
 
 state 64
 
-    (29) comparador -> EQUAL .
+    (25) valor -> ID .
 
-    INT             reduce using rule 29 (comparador -> EQUAL .)
-    FLOAT           reduce using rule 29 (comparador -> EQUAL .)
+    DEDENT          reduce using rule 25 (valor -> ID .)
+    COMMA           reduce using rule 25 (valor -> ID .)
+    RCURLYBRACKET   reduce using rule 25 (valor -> ID .)
 
 
 state 65
 
-    (30) comparador -> NOT_EQUAL .
+    (22) statement -> ID EQUALS valor .
 
-    INT             reduce using rule 30 (comparador -> NOT_EQUAL .)
-    FLOAT           reduce using rule 30 (comparador -> NOT_EQUAL .)
+    DEDENT          reduce using rule 22 (statement -> ID EQUALS valor .)
 
 
 state 66
 
-    (31) comparador -> GREATER_THAN .
+    (23) valor -> numero .
 
-    INT             reduce using rule 31 (comparador -> GREATER_THAN .)
-    FLOAT           reduce using rule 31 (comparador -> GREATER_THAN .)
+    DEDENT          reduce using rule 23 (valor -> numero .)
+    COMMA           reduce using rule 23 (valor -> numero .)
+    RCURLYBRACKET   reduce using rule 23 (valor -> numero .)
 
 
 state 67
 
-    (32) comparador -> LESS_THAN .
+    (24) valor -> STR .
 
-    INT             reduce using rule 32 (comparador -> LESS_THAN .)
-    FLOAT           reduce using rule 32 (comparador -> LESS_THAN .)
+    DEDENT          reduce using rule 24 (valor -> STR .)
+    COMMA           reduce using rule 24 (valor -> STR .)
+    RCURLYBRACKET   reduce using rule 24 (valor -> STR .)
 
 
 state 68
 
-    (33) comparador -> GREATER_THAN_EQUAL .
+    (26) statement -> IF comparaciones bloque . END_LOWER
 
-    INT             reduce using rule 33 (comparador -> GREATER_THAN_EQUAL .)
-    FLOAT           reduce using rule 33 (comparador -> GREATER_THAN_EQUAL .)
+    END_LOWER       shift and go to state 86
 
 
 state 69
 
-    (34) comparador -> LESS_THAN_EQUAL .
+    (42) comparaciones -> comparacion conector . comparacion
+    (39) comparacion -> . comparacion_num
+    (40) comparacion -> . comparacion_variables
+    (36) comparacion_num -> . numero comparador numero
+    (37) comparacion_variables -> . ID EQUAL ID
+    (38) comparacion_variables -> . ID NOT_EQUAL ID
+    (45) numero -> . INT
+    (46) numero -> . FLOAT
 
-    INT             reduce using rule 34 (comparador -> LESS_THAN_EQUAL .)
-    FLOAT           reduce using rule 34 (comparador -> LESS_THAN_EQUAL .)
+    ID              shift and go to state 52
+    INT             shift and go to state 38
+    FLOAT           shift and go to state 39
 
+    comparacion                    shift and go to state 87
+    comparacion_num                shift and go to state 49
+    comparacion_variables          shift and go to state 50
+    numero                         shift and go to state 51
 
 state 70
 
-    (36) comparacion_variables -> ID EQUAL . ID
+    (43) conector -> OP_AND .
 
-    ID              shift and go to state 78
+    ID              reduce using rule 43 (conector -> OP_AND .)
+    INT             reduce using rule 43 (conector -> OP_AND .)
+    FLOAT           reduce using rule 43 (conector -> OP_AND .)
 
 
 state 71
 
-    (37) comparacion_variables -> ID NOT_EQUAL . ID
+    (44) conector -> OP_OR .
 
-    ID              shift and go to state 79
+    ID              reduce using rule 44 (conector -> OP_OR .)
+    INT             reduce using rule 44 (conector -> OP_OR .)
+    FLOAT           reduce using rule 44 (conector -> OP_OR .)
 
 
 state 72
 
-    (13) declaration -> DEF ID LPARENTHESIS RPARENTHESIS bloque END_UPPER .
+    (36) comparacion_num -> numero comparador . numero
+    (45) numero -> . INT
+    (46) numero -> . FLOAT
 
-    $end            reduce using rule 13 (declaration -> DEF ID LPARENTHESIS RPARENTHESIS bloque END_UPPER .)
+    INT             shift and go to state 38
+    FLOAT           shift and go to state 39
 
+    numero                         shift and go to state 88
 
 state 73
 
-    (47) varios_numeros -> numero COMMA varios_numeros .
+    (30) comparador -> EQUAL .
 
-    RCURLYBRACKET   reduce using rule 47 (varios_numeros -> numero COMMA varios_numeros .)
-    RBRACKET        reduce using rule 47 (varios_numeros -> numero COMMA varios_numeros .)
+    INT             reduce using rule 30 (comparador -> EQUAL .)
+    FLOAT           reduce using rule 30 (comparador -> EQUAL .)
 
 
 state 74
 
-    (6) varios_str -> STR COMMA STR .
+    (31) comparador -> NOT_EQUAL .
 
-    RBRACKET        reduce using rule 6 (varios_str -> STR COMMA STR .)
+    INT             reduce using rule 31 (comparador -> NOT_EQUAL .)
+    FLOAT           reduce using rule 31 (comparador -> NOT_EQUAL .)
 
 
 state 75
 
-    (25) statement -> IF comparaciones bloque END_LOWER .
+    (32) comparador -> GREATER_THAN .
 
-    DEDENT          reduce using rule 25 (statement -> IF comparaciones bloque END_LOWER .)
+    INT             reduce using rule 32 (comparador -> GREATER_THAN .)
+    FLOAT           reduce using rule 32 (comparador -> GREATER_THAN .)
 
 
 state 76
 
-    (41) comparaciones -> comparacion conector comparacion .
+    (33) comparador -> LESS_THAN .
 
-    INDENT          reduce using rule 41 (comparaciones -> comparacion conector comparacion .)
+    INT             reduce using rule 33 (comparador -> LESS_THAN .)
+    FLOAT           reduce using rule 33 (comparador -> LESS_THAN .)
 
 
 state 77
 
-    (35) comparacion_num -> numero comparador numero .
+    (34) comparador -> GREATER_THAN_EQUAL .
 
-    OP_AND          reduce using rule 35 (comparacion_num -> numero comparador numero .)
-    OP_OR           reduce using rule 35 (comparacion_num -> numero comparador numero .)
-    INDENT          reduce using rule 35 (comparacion_num -> numero comparador numero .)
-    $end            reduce using rule 35 (comparacion_num -> numero comparador numero .)
+    INT             reduce using rule 34 (comparador -> GREATER_THAN_EQUAL .)
+    FLOAT           reduce using rule 34 (comparador -> GREATER_THAN_EQUAL .)
 
 
 state 78
 
-    (36) comparacion_variables -> ID EQUAL ID .
+    (35) comparador -> LESS_THAN_EQUAL .
 
-    OP_AND          reduce using rule 36 (comparacion_variables -> ID EQUAL ID .)
-    OP_OR           reduce using rule 36 (comparacion_variables -> ID EQUAL ID .)
-    INDENT          reduce using rule 36 (comparacion_variables -> ID EQUAL ID .)
-    $end            reduce using rule 36 (comparacion_variables -> ID EQUAL ID .)
+    INT             reduce using rule 35 (comparador -> LESS_THAN_EQUAL .)
+    FLOAT           reduce using rule 35 (comparador -> LESS_THAN_EQUAL .)
 
 
 state 79
 
-    (37) comparacion_variables -> ID NOT_EQUAL ID .
+    (37) comparacion_variables -> ID EQUAL . ID
 
-    OP_AND          reduce using rule 37 (comparacion_variables -> ID NOT_EQUAL ID .)
-    OP_OR           reduce using rule 37 (comparacion_variables -> ID NOT_EQUAL ID .)
-    INDENT          reduce using rule 37 (comparacion_variables -> ID NOT_EQUAL ID .)
-    $end            reduce using rule 37 (comparacion_variables -> ID NOT_EQUAL ID .)
+    ID              shift and go to state 89
 
+
+state 80
+
+    (38) comparacion_variables -> ID NOT_EQUAL . ID
+
+    ID              shift and go to state 90
+
+
+state 81
+
+    (14) declaration -> DEF ID LPARENTHESIS RPARENTHESIS bloque END_UPPER .
+
+    $end            reduce using rule 14 (declaration -> DEF ID LPARENTHESIS RPARENTHESIS bloque END_UPPER .)
+
+
+state 82
+
+    (53) varios_pares_hash -> ID COLON valor .
+    (55) varios_pares_hash -> ID COLON valor . COMMA varios_pares_hash
+
+    RCURLYBRACKET   reduce using rule 53 (varios_pares_hash -> ID COLON valor .)
+    COMMA           shift and go to state 91
+
+
+state 83
+
+    (48) varios_numeros -> numero COMMA varios_numeros .
+
+    RCURLYBRACKET   reduce using rule 48 (varios_numeros -> numero COMMA varios_numeros .)
+    RBRACKET        reduce using rule 48 (varios_numeros -> numero COMMA varios_numeros .)
+
+
+state 84
+
+    (7) varios_str -> STR COMMA STR .
+
+    RCURLYBRACKET   reduce using rule 7 (varios_str -> STR COMMA STR .)
+    RBRACKET        reduce using rule 7 (varios_str -> STR COMMA STR .)
+
+
+state 85
+
+    (54) varios_pares_hash -> STR HASHAS valor .
+    (56) varios_pares_hash -> STR HASHAS valor . COMMA varios_pares_hash
+
+    RCURLYBRACKET   reduce using rule 54 (varios_pares_hash -> STR HASHAS valor .)
+    COMMA           shift and go to state 92
+
+
+state 86
+
+    (26) statement -> IF comparaciones bloque END_LOWER .
+
+    DEDENT          reduce using rule 26 (statement -> IF comparaciones bloque END_LOWER .)
+
+
+state 87
+
+    (42) comparaciones -> comparacion conector comparacion .
+
+    INDENT          reduce using rule 42 (comparaciones -> comparacion conector comparacion .)
+
+
+state 88
+
+    (36) comparacion_num -> numero comparador numero .
+
+    OP_AND          reduce using rule 36 (comparacion_num -> numero comparador numero .)
+    OP_OR           reduce using rule 36 (comparacion_num -> numero comparador numero .)
+    INDENT          reduce using rule 36 (comparacion_num -> numero comparador numero .)
+    $end            reduce using rule 36 (comparacion_num -> numero comparador numero .)
+
+
+state 89
+
+    (37) comparacion_variables -> ID EQUAL ID .
+
+    OP_AND          reduce using rule 37 (comparacion_variables -> ID EQUAL ID .)
+    OP_OR           reduce using rule 37 (comparacion_variables -> ID EQUAL ID .)
+    INDENT          reduce using rule 37 (comparacion_variables -> ID EQUAL ID .)
+    $end            reduce using rule 37 (comparacion_variables -> ID EQUAL ID .)
+
+
+state 90
+
+    (38) comparacion_variables -> ID NOT_EQUAL ID .
+
+    OP_AND          reduce using rule 38 (comparacion_variables -> ID NOT_EQUAL ID .)
+    OP_OR           reduce using rule 38 (comparacion_variables -> ID NOT_EQUAL ID .)
+    INDENT          reduce using rule 38 (comparacion_variables -> ID NOT_EQUAL ID .)
+    $end            reduce using rule 38 (comparacion_variables -> ID NOT_EQUAL ID .)
+
+
+state 91
+
+    (55) varios_pares_hash -> ID COLON valor COMMA . varios_pares_hash
+    (53) varios_pares_hash -> . ID COLON valor
+    (54) varios_pares_hash -> . STR HASHAS valor
+    (55) varios_pares_hash -> . ID COLON valor COMMA varios_pares_hash
+    (56) varios_pares_hash -> . STR HASHAS valor COMMA varios_pares_hash
+
+    ID              shift and go to state 31
+    STR             shift and go to state 94
+
+    varios_pares_hash              shift and go to state 93
+
+state 92
+
+    (56) varios_pares_hash -> STR HASHAS valor COMMA . varios_pares_hash
+    (53) varios_pares_hash -> . ID COLON valor
+    (54) varios_pares_hash -> . STR HASHAS valor
+    (55) varios_pares_hash -> . ID COLON valor COMMA varios_pares_hash
+    (56) varios_pares_hash -> . STR HASHAS valor COMMA varios_pares_hash
+
+    ID              shift and go to state 31
+    STR             shift and go to state 94
+
+    varios_pares_hash              shift and go to state 95
+
+state 93
+
+    (55) varios_pares_hash -> ID COLON valor COMMA varios_pares_hash .
+
+    RCURLYBRACKET   reduce using rule 55 (varios_pares_hash -> ID COLON valor COMMA varios_pares_hash .)
+
+
+state 94
+
+    (54) varios_pares_hash -> STR . HASHAS valor
+    (56) varios_pares_hash -> STR . HASHAS valor COMMA varios_pares_hash
+
+    HASHAS          shift and go to state 60
+
+
+state 95
+
+    (56) varios_pares_hash -> STR HASHAS valor COMMA varios_pares_hash .
+
+    RCURLYBRACKET   reduce using rule 56 (varios_pares_hash -> STR HASHAS valor COMMA varios_pares_hash .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: reduce/reduce conflict in state 32 resolved using rule (set_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET)
+WARNING: rejected rule (hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET) in state 32
+WARNING: Rule (hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET) is never reduced
