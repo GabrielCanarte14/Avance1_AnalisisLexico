@@ -94,6 +94,8 @@ tokens = (
         'BITWISE_NOT',
         'SHIFT_LEFT',
         'SHIFT_RIGHT',
+        'INDENT',
+        'DEDENT'
          ) + tuple(reserved.values())
 
 # Exp Regulares para tokens de símbolos
@@ -176,6 +178,20 @@ def t_COMMENT_BLOCK(t):
     r'=begin\n(.*)\n?=end'
     pass
 
+
+
+def t_INDENT(t):
+    r'\n[ ]+'
+    # Cálculo del nivel de indentación basado en la cantidad de espacios
+    # y generación del token INDENT
+    return t
+
+# Regla para dedentación
+def t_DEDENT(t):
+    r'\n'
+    # Cálculo del nivel de dedentación basado en la posición actual del token
+    # y generación del token DEDENT
+    return t
 
 # Ignorar lo que no sea un token en mi LP
 t_ignore = ' \t'

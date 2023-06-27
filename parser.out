@@ -22,26 +22,20 @@ Unused terminals:
     DIVIDE
     DO
     DOT
+    EACH
     ELSE
     ELSEIF
-    END_LOWER
     END_UPPER
     ENSURE
-    EQUAL
     EXPONENT
     FALSE
     FILE
     FOR
     GLOBAL
-    GREATER_THAN
-    GREATER_THAN_EQUAL
     HASH
     HASHAS
-    IF
     IN
     LCURLYBRACKET
-    LESS_THAN
-    LESS_THAN_EQUAL
     LINE
     LPARENTHESIS
     MINUS
@@ -51,10 +45,7 @@ Unused terminals:
     NEXT
     NIL
     NOT
-    NOT_EQUAL
-    OP_AND
     OP_NOT
-    OP_OR
     OR
     PLUS
     PUTS
@@ -86,12 +77,35 @@ Rule 0     S' -> array
 Rule 1     array -> ID EQUALS LBRACKET RBRACKET
 Rule 2     array -> ID EQUALS LBRACKET varios_numeros RBRACKET
 Rule 3     array -> ID EQUALS LBRACKET varios_str RBRACKET
-Rule 4     numero -> INT
-Rule 5     numero -> FLOAT
-Rule 6     varios_numeros -> numero
-Rule 7     varios_numeros -> numero COMMA varios_numeros
-Rule 8     varios_str -> STR
-Rule 9     varios_str -> STR COMMA STR
+Rule 4     statement -> ID EQUALS valor
+Rule 5     valor -> numero
+Rule 6     valor -> STR
+Rule 7     valor -> ID
+Rule 8     statement -> IF comparaciones bloqueif END_LOWER
+Rule 9     bloqueif -> INDENT statement DEDENT
+Rule 10    statement_list -> statement_list statement
+Rule 11    statement_list -> statement
+Rule 12    comparador -> EQUAL
+Rule 13    comparador -> NOT_EQUAL
+Rule 14    comparador -> GREATER_THAN
+Rule 15    comparador -> LESS_THAN
+Rule 16    comparador -> GREATER_THAN_EQUAL
+Rule 17    comparador -> LESS_THAN_EQUAL
+Rule 18    comparacion_num -> numero comparador numero
+Rule 19    comparacion_variables -> ID EQUAL ID
+Rule 20    comparacion_variables -> ID NOT_EQUAL ID
+Rule 21    comparacion -> comparacion_num
+Rule 22    comparacion -> comparacion_variables
+Rule 23    comparaciones -> comparacion
+Rule 24    comparaciones -> comparacion conector comparacion
+Rule 25    conector -> OP_AND
+Rule 26    conector -> OP_OR
+Rule 27    numero -> INT
+Rule 28    numero -> FLOAT
+Rule 29    varios_numeros -> numero
+Rule 30    varios_numeros -> numero COMMA varios_numeros
+Rule 31    varios_str -> STR
+Rule 32    varios_str -> STR COMMA STR
 
 Terminals, with rules where they appear
 
@@ -108,39 +122,42 @@ BREAK                :
 CASE                 : 
 CLASS                : 
 COLON                : 
-COMMA                : 7 9
+COMMA                : 30 32
 COMPLEX              : 
 CONSTANT             : 
+DEDENT               : 9
 DEF                  : 
 DEFINED              : 
 DIVIDE               : 
 DO                   : 
 DOT                  : 
+EACH                 : 
 ELSE                 : 
 ELSEIF               : 
-END_LOWER            : 
+END_LOWER            : 8
 END_UPPER            : 
 ENSURE               : 
-EQUAL                : 
-EQUALS               : 1 2 3
+EQUAL                : 12 19
+EQUALS               : 1 2 3 4
 EXPONENT             : 
 FALSE                : 
 FILE                 : 
-FLOAT                : 5
+FLOAT                : 28
 FOR                  : 
 GLOBAL               : 
-GREATER_THAN         : 
-GREATER_THAN_EQUAL   : 
+GREATER_THAN         : 14
+GREATER_THAN_EQUAL   : 16
 HASH                 : 
 HASHAS               : 
-ID                   : 1 2 3
-IF                   : 
+ID                   : 1 2 3 4 7 19 19 20 20
+IF                   : 8
 IN                   : 
-INT                  : 4
+INDENT               : 9
+INT                  : 27
 LBRACKET             : 1 2 3
 LCURLYBRACKET        : 
-LESS_THAN            : 
-LESS_THAN_EQUAL      : 
+LESS_THAN            : 15
+LESS_THAN_EQUAL      : 17
 LINE                 : 
 LPARENTHESIS         : 
 MINUS                : 
@@ -150,10 +167,10 @@ MULTIPLY             :
 NEXT                 : 
 NIL                  : 
 NOT                  : 
-NOT_EQUAL            : 
-OP_AND               : 
+NOT_EQUAL            : 13 20
+OP_AND               : 25
 OP_NOT               : 
-OP_OR                : 
+OP_OR                : 26
 OR                   : 
 PLUS                 : 
 PUTS                 : 
@@ -169,7 +186,7 @@ SELF                 :
 SEMICOLON            : 
 SHIFT_LEFT           : 
 SHIFT_RIGHT          : 
-STR                  : 8 9 9
+STR                  : 6 31 32 32
 SUPER                : 
 SYMBOL               : 
 THEN                 : 
@@ -185,8 +202,18 @@ error                :
 Nonterminals, with rules where they appear
 
 array                : 0
-numero               : 6 7
-varios_numeros       : 2 7
+bloqueif             : 8
+comparacion          : 23 24 24
+comparacion_num      : 21
+comparacion_variables : 22
+comparaciones        : 8
+comparador           : 18
+conector             : 24
+numero               : 5 18 18 29 30
+statement            : 9 10 11
+statement_list       : 10
+valor                : 4
+varios_numeros       : 2 30
 varios_str           : 3
 
 Parsing method: LALR
@@ -231,12 +258,12 @@ state 4
     (1) array -> ID EQUALS LBRACKET . RBRACKET
     (2) array -> ID EQUALS LBRACKET . varios_numeros RBRACKET
     (3) array -> ID EQUALS LBRACKET . varios_str RBRACKET
-    (6) varios_numeros -> . numero
-    (7) varios_numeros -> . numero COMMA varios_numeros
-    (8) varios_str -> . STR
-    (9) varios_str -> . STR COMMA STR
-    (4) numero -> . INT
-    (5) numero -> . FLOAT
+    (29) varios_numeros -> . numero
+    (30) varios_numeros -> . numero COMMA varios_numeros
+    (31) varios_str -> . STR
+    (32) varios_str -> . STR COMMA STR
+    (27) numero -> . INT
+    (28) numero -> . FLOAT
 
     RBRACKET        shift and go to state 5
     STR             shift and go to state 9
@@ -270,36 +297,36 @@ state 7
 
 state 8
 
-    (6) varios_numeros -> numero .
-    (7) varios_numeros -> numero . COMMA varios_numeros
+    (29) varios_numeros -> numero .
+    (30) varios_numeros -> numero . COMMA varios_numeros
 
-    RBRACKET        reduce using rule 6 (varios_numeros -> numero .)
+    RBRACKET        reduce using rule 29 (varios_numeros -> numero .)
     COMMA           shift and go to state 14
 
 
 state 9
 
-    (8) varios_str -> STR .
-    (9) varios_str -> STR . COMMA STR
+    (31) varios_str -> STR .
+    (32) varios_str -> STR . COMMA STR
 
-    RBRACKET        reduce using rule 8 (varios_str -> STR .)
+    RBRACKET        reduce using rule 31 (varios_str -> STR .)
     COMMA           shift and go to state 15
 
 
 state 10
 
-    (4) numero -> INT .
+    (27) numero -> INT .
 
-    COMMA           reduce using rule 4 (numero -> INT .)
-    RBRACKET        reduce using rule 4 (numero -> INT .)
+    COMMA           reduce using rule 27 (numero -> INT .)
+    RBRACKET        reduce using rule 27 (numero -> INT .)
 
 
 state 11
 
-    (5) numero -> FLOAT .
+    (28) numero -> FLOAT .
 
-    COMMA           reduce using rule 5 (numero -> FLOAT .)
-    RBRACKET        reduce using rule 5 (numero -> FLOAT .)
+    COMMA           reduce using rule 28 (numero -> FLOAT .)
+    RBRACKET        reduce using rule 28 (numero -> FLOAT .)
 
 
 state 12
@@ -318,11 +345,11 @@ state 13
 
 state 14
 
-    (7) varios_numeros -> numero COMMA . varios_numeros
-    (6) varios_numeros -> . numero
-    (7) varios_numeros -> . numero COMMA varios_numeros
-    (4) numero -> . INT
-    (5) numero -> . FLOAT
+    (30) varios_numeros -> numero COMMA . varios_numeros
+    (29) varios_numeros -> . numero
+    (30) varios_numeros -> . numero COMMA varios_numeros
+    (27) numero -> . INT
+    (28) numero -> . FLOAT
 
     INT             shift and go to state 10
     FLOAT           shift and go to state 11
@@ -332,21 +359,21 @@ state 14
 
 state 15
 
-    (9) varios_str -> STR COMMA . STR
+    (32) varios_str -> STR COMMA . STR
 
     STR             shift and go to state 17
 
 
 state 16
 
-    (7) varios_numeros -> numero COMMA varios_numeros .
+    (30) varios_numeros -> numero COMMA varios_numeros .
 
-    RBRACKET        reduce using rule 7 (varios_numeros -> numero COMMA varios_numeros .)
+    RBRACKET        reduce using rule 30 (varios_numeros -> numero COMMA varios_numeros .)
 
 
 state 17
 
-    (9) varios_str -> STR COMMA STR .
+    (32) varios_str -> STR COMMA STR .
 
-    RBRACKET        reduce using rule 9 (varios_str -> STR COMMA STR .)
+    RBRACKET        reduce using rule 32 (varios_str -> STR COMMA STR .)
 

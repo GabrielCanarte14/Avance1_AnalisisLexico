@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ALIAS AND ARRAY AT BEGIN BITWISE_AND BITWISE_NOT BITWISE_OR BITWISE_XOR BREAK CASE CLASS COLON COMMA COMPLEX CONSTANT DEF DEFINED DIVIDE DO DOT ELSE ELSEIF END_LOWER END_UPPER ENSURE EQUAL EQUALS EXPONENT FALSE FILE FLOAT FOR GLOBAL GREATER_THAN GREATER_THAN_EQUAL HASH HASHAS ID IF IN INT LBRACKET LCURLYBRACKET LESS_THAN LESS_THAN_EQUAL LINE LPARENTHESIS MINUS MODULE MODULO MULTIPLY NEXT NIL NOT NOT_EQUAL OP_AND OP_NOT OP_OR OR PLUS PUTS RATIONAL RBRACKET RCURLYBRACKET REDO RESCUE RETRY RETURN RPARENTHESIS SELF SEMICOLON SHIFT_LEFT SHIFT_RIGHT STR SUPER SYMBOL THEN TRUE UNDEF UNLESS UNTIL WHEN WHILE YIELD\n    array : ID EQUALS LBRACKET RBRACKET\n    \n    array : ID EQUALS LBRACKET varios_numeros RBRACKET\n    \n    array : ID EQUALS LBRACKET varios_str RBRACKET\n    \n    numero : INT\n    | FLOAT\n    \n    varios_numeros : numero\n    | numero COMMA varios_numeros\n    \n    varios_str : STR\n    | STR COMMA STR\n    '
+_lr_signature = 'ALIAS AND ARRAY AT BEGIN BITWISE_AND BITWISE_NOT BITWISE_OR BITWISE_XOR BREAK CASE CLASS COLON COMMA COMPLEX CONSTANT DEDENT DEF DEFINED DIVIDE DO DOT EACH ELSE ELSEIF END_LOWER END_UPPER ENSURE EQUAL EQUALS EXPONENT FALSE FILE FLOAT FOR GLOBAL GREATER_THAN GREATER_THAN_EQUAL HASH HASHAS ID IF IN INDENT INT LBRACKET LCURLYBRACKET LESS_THAN LESS_THAN_EQUAL LINE LPARENTHESIS MINUS MODULE MODULO MULTIPLY NEXT NIL NOT NOT_EQUAL OP_AND OP_NOT OP_OR OR PLUS PUTS RATIONAL RBRACKET RCURLYBRACKET REDO RESCUE RETRY RETURN RPARENTHESIS SELF SEMICOLON SHIFT_LEFT SHIFT_RIGHT STR SUPER SYMBOL THEN TRUE UNDEF UNLESS UNTIL WHEN WHILE YIELD\n    array : ID EQUALS LBRACKET RBRACKET\n    \n    array : ID EQUALS LBRACKET varios_numeros RBRACKET\n    \n    array : ID EQUALS LBRACKET varios_str RBRACKET\n    \n    statement : ID EQUALS valor\n    \n    valor : numero\n    | STR\n    | ID\n    \n    statement : IF comparaciones bloqueif END_LOWER\n    \n    bloqueif : INDENT statement DEDENT\n    \n    statement_list : statement_list statement\n    | statement\n    \n    comparador : EQUAL\n    | NOT_EQUAL\n    | GREATER_THAN\n    | LESS_THAN\n    | GREATER_THAN_EQUAL\n    | LESS_THAN_EQUAL\n    \n    comparacion_num : numero comparador numero\n    \n    comparacion_variables : ID EQUAL ID\n    | ID NOT_EQUAL ID\n    \n    comparacion : comparacion_num\n    | comparacion_variables\n    \n    comparaciones : comparacion\n    | comparacion conector comparacion\n    conector : OP_AND\n  | OP_OR\n  \n    numero : INT\n    | FLOAT\n    \n    varios_numeros : numero\n    | numero COMMA varios_numeros\n    \n    varios_str : STR\n    | STR COMMA STR\n    '
     
-_lr_action_items = {'ID':([0,],[2,]),'$end':([1,5,12,13,],[0,-1,-2,-3,]),'EQUALS':([2,],[3,]),'LBRACKET':([3,],[4,]),'RBRACKET':([4,6,7,8,9,10,11,16,17,],[5,12,13,-6,-8,-4,-5,-7,-9,]),'STR':([4,15,],[9,17,]),'INT':([4,14,],[10,10,]),'FLOAT':([4,14,],[11,11,]),'COMMA':([8,9,10,11,],[14,15,-4,-5,]),}
+_lr_action_items = {'ID':([0,],[2,]),'$end':([1,5,12,13,],[0,-1,-2,-3,]),'EQUALS':([2,],[3,]),'LBRACKET':([3,],[4,]),'RBRACKET':([4,6,7,8,9,10,11,16,17,],[5,12,13,-29,-31,-27,-28,-30,-32,]),'STR':([4,15,],[9,17,]),'INT':([4,14,],[10,10,]),'FLOAT':([4,14,],[11,11,]),'COMMA':([8,9,10,11,],[14,15,-27,-28,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -30,10 +30,33 @@ _lr_productions = [
   ('array -> ID EQUALS LBRACKET RBRACKET','array',4,'p_array_vacio','sintaxis.py',6),
   ('array -> ID EQUALS LBRACKET varios_numeros RBRACKET','array',5,'p_array_numeros','sintaxis.py',11),
   ('array -> ID EQUALS LBRACKET varios_str RBRACKET','array',5,'p_array_str','sintaxis.py',16),
-  ('numero -> INT','numero',1,'p_numero','sintaxis.py',21),
-  ('numero -> FLOAT','numero',1,'p_numero','sintaxis.py',22),
-  ('varios_numeros -> numero','varios_numeros',1,'p_varios_numeros','sintaxis.py',27),
-  ('varios_numeros -> numero COMMA varios_numeros','varios_numeros',3,'p_varios_numeros','sintaxis.py',28),
-  ('varios_str -> STR','varios_str',1,'p_varios_str','sintaxis.py',33),
-  ('varios_str -> STR COMMA STR','varios_str',3,'p_varios_str','sintaxis.py',34),
+  ('statement -> ID EQUALS valor','statement',3,'p_sentencia_asignacion','sintaxis.py',21),
+  ('valor -> numero','valor',1,'p_valor','sintaxis.py',26),
+  ('valor -> STR','valor',1,'p_valor','sintaxis.py',27),
+  ('valor -> ID','valor',1,'p_valor','sintaxis.py',28),
+  ('statement -> IF comparaciones bloqueif END_LOWER','statement',4,'p_sentencia_if','sintaxis.py',33),
+  ('bloqueif -> INDENT statement DEDENT','bloqueif',3,'p_bloqueif','sintaxis.py',38),
+  ('statement_list -> statement_list statement','statement_list',2,'p_statement_list','sintaxis.py',43),
+  ('statement_list -> statement','statement_list',1,'p_statement_list','sintaxis.py',44),
+  ('comparador -> EQUAL','comparador',1,'p_comparador','sintaxis.py',49),
+  ('comparador -> NOT_EQUAL','comparador',1,'p_comparador','sintaxis.py',50),
+  ('comparador -> GREATER_THAN','comparador',1,'p_comparador','sintaxis.py',51),
+  ('comparador -> LESS_THAN','comparador',1,'p_comparador','sintaxis.py',52),
+  ('comparador -> GREATER_THAN_EQUAL','comparador',1,'p_comparador','sintaxis.py',53),
+  ('comparador -> LESS_THAN_EQUAL','comparador',1,'p_comparador','sintaxis.py',54),
+  ('comparacion_num -> numero comparador numero','comparacion_num',3,'p_comparacion_num','sintaxis.py',59),
+  ('comparacion_variables -> ID EQUAL ID','comparacion_variables',3,'p_comparacion_variables','sintaxis.py',64),
+  ('comparacion_variables -> ID NOT_EQUAL ID','comparacion_variables',3,'p_comparacion_variables','sintaxis.py',65),
+  ('comparacion -> comparacion_num','comparacion',1,'p_comparacion','sintaxis.py',70),
+  ('comparacion -> comparacion_variables','comparacion',1,'p_comparacion','sintaxis.py',71),
+  ('comparaciones -> comparacion','comparaciones',1,'p_comparaciones','sintaxis.py',76),
+  ('comparaciones -> comparacion conector comparacion','comparaciones',3,'p_comparaciones','sintaxis.py',77),
+  ('conector -> OP_AND','conector',1,'p_conector','sintaxis.py',82),
+  ('conector -> OP_OR','conector',1,'p_conector','sintaxis.py',83),
+  ('numero -> INT','numero',1,'p_numero','sintaxis.py',88),
+  ('numero -> FLOAT','numero',1,'p_numero','sintaxis.py',89),
+  ('varios_numeros -> numero','varios_numeros',1,'p_varios_numeros','sintaxis.py',94),
+  ('varios_numeros -> numero COMMA varios_numeros','varios_numeros',3,'p_varios_numeros','sintaxis.py',95),
+  ('varios_str -> STR','varios_str',1,'p_varios_str','sintaxis.py',100),
+  ('varios_str -> STR COMMA STR','varios_str',3,'p_varios_str','sintaxis.py',101),
 ]
