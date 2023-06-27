@@ -1,19 +1,74 @@
 from main import tokens
 import ply.yacc as yacc
 
+def p_inicio(p):
+    '''
+    inicio : set
+    | array
+    | statement_loop
+    | declaration
+    '''
+#Gabriel Cañarte
+
+def p_varios_str(p):
+    '''
+    varios_str : STR
+    | STR COMMA STR
+    '''
+    
+def p_sets(p):
+    '''
+    set : set_vacio
+    | set_numero
+    | set_str
+    '''
+
+def p_set_vacio(p):
+    '''
+    set_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET
+    '''
+def p_set_numeros(p):
+    '''
+    set_numero : ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET
+    '''
+
+def p_set_str(p):
+    '''
+    set_str : ID EQUALS LCURLYBRACKET varios_str RCURLYBRACKET
+    '''
+
+def p_declaracion_basica(p):
+    '''
+    declaration : DEF ID LPARENTHESIS RPARENTHESIS bloque END_UPPER
+    '''
+
+def p_sentencia_loop(p):
+    '''
+    statement_loop : LOOP DO bloque BREAK IF comparacion 
+    '''
+
+#Freddy Gomez
+def p_array(p):
+    '''
+    array : array_vacio
+    | array_numero
+    | array_str
+    '''
+
+
 def p_array_vacio(p):
     '''
-    array : ID EQUALS LBRACKET RBRACKET
+    array_vacio : ID EQUALS LBRACKET RBRACKET
     '''
 
 def p_array_numeros(p):
     '''
-    array : ID EQUALS LBRACKET varios_numeros RBRACKET
+    array_numero : ID EQUALS LBRACKET varios_numeros RBRACKET
     '''
 
 def p_array_str(p):
     '''
-    array : ID EQUALS LBRACKET varios_str RBRACKET
+    array_str : ID EQUALS LBRACKET varios_str RBRACKET
     '''
 
 def p_sentencia_asignacion(p):
@@ -95,11 +150,7 @@ def p_varios_numeros(p):
     | numero COMMA varios_numeros
     '''
 
-def p_varios_str(p):
-    '''
-    varios_str : STR
-    | STR COMMA STR
-    '''
+
 
 
 

@@ -43,7 +43,8 @@ reserved = {'alias': 'ALIAS',
             'yield': 'YIELD',
             '_FILE_':'FILE',
             '_LINE_': 'LINE',
-            'each': 'EACH'
+            'each': 'EACH',
+            'loop': 'LOOP',
             }
 
 # Sequencia de tokens, puede ser lista o tupla
