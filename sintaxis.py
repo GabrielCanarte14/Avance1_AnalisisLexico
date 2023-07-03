@@ -130,7 +130,10 @@ def p_declaracion_parametros_return(p):
     statement : DEF ID LPARENTHESIS argumentos RPARENTHESIS statement RETURN valor END_LOWER
     '''
 
-
+def p_print(p):
+    '''
+    statement : PUTS valor
+    '''
 
 
 #Gabriel Cañarte
@@ -192,6 +195,7 @@ def p_comparacion_variables(p):
     '''
     comparacion_variables : ID EQUAL ID
     | ID NOT_EQUAL ID
+    | boolean
     '''
 
 def p_comparacion(p):
@@ -224,6 +228,36 @@ def p_varios_numeros(p):
     | numero COMMA varios_numeros
     '''
 
+
+def p_asignacion_arimetica(p):
+    '''
+    statement : ID EQUALS expresion
+    '''
+
+
+def p_operador_aritmetico(p):
+    '''
+    operador_aritmetico : PLUS
+    | MINUS
+    | MULTIPLY
+    | DIVIDE
+    | MODULO
+    | EXPONENT
+    '''
+
+def p_expresion(p):
+    '''
+    expresion : numero operador_aritmetico numero
+    | ID operador_aritmetico numero
+    | ID operador_aritmetico ID
+    | numero operador_aritmetico ID
+    '''
+
+def p_booleans(p):
+    '''
+    boolean : TRUE
+    | FALSE
+    '''
 
 def p_error(p):
     if p:
