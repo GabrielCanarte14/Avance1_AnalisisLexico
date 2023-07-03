@@ -1,6 +1,80 @@
 from main import tokens
 import ply.yacc as yacc
 
+symbol_table = {}
+
+def p_id(p):
+    'statement : ID'
+    variable_name = p[1]
+    if variable_name in symbol_table:
+        p[0] = symbol_table[variable_name]
+    else: 
+        print(f"Error semantico: Variable '{variable_name}' no definida")
+
+def p_asignacion_integer(p):
+    'statement : ID EQUALS INT'
+    variable_name = p[1]
+    value = int(p[3])
+
+    if variable_name in symbol_table:
+        print(f"Error semántico: La variable '{variable_name}' ya existe")
+    else:
+        symbol_table[variable_name] = value
+
+def p_asignacion_float(p):
+    'statement : ID EQUALS FLOAT'
+    variable_name = p[1]
+    value = float(p[3])
+
+    if variable_name in symbol_table:
+        print(f"Error semántico: La variable '{variable_name}' ya existe")
+    else:
+        symbol_table[variable_name] = value
+
+
+def p_asignacion_string(p):
+    'statement : ID EQUALS STR'
+    variable_name = p[1]
+    value = p[3]
+              
+    if variable_name in symbol_table:
+        print(f"Error semántico: La variable '{variable_name}' ya existe")
+    else:
+        symbol_table[variable_name] = value      
+
+def p_asignacion_matematica(p):
+    'statement : ID EQUALS statement'
+    variable_name = p[1]
+    value = p[3]
+
+    if variable_name in symbol_table:
+        print(f"Error semántico: La variable '{variable_name}' ya existe")
+    else:
+        symbol_table[variable_name] = value   
+
+
+def p_operaciones_matematicas(p):
+    '''
+    statement : statement PLUS statement
+    | statement MINUS statement
+    | statement MULTIPLY statement
+    | statement DIVIDE statement
+    ''' 
+    izquierda = p[1]
+    operador = p[2]
+    derecha = p[3]
+
+    if operador == '+':
+        p[0] = izquierda + derecha
+    elif operador == '-':
+        p[0] = izquierda - derecha
+    elif operador == '*':
+        p[0] = izquierda * derecha
+    elif operador == '/':
+        if derecha != 0:
+            p[0] = izquierda - derecha
+        else:
+            print("Error semantico: Division por cero")
 #Estructuras de datos
 
 #Set
@@ -234,29 +308,6 @@ def p_varios_numeros(p):
     '''
 
 
-def p_asignacion_arimetica(p):
-    '''
-    statement : ID EQUALS expresion
-    '''
-
-
-def p_operador_aritmetico(p):
-    '''
-    operador_aritmetico : PLUS
-    | MINUS
-    | MULTIPLY
-    | DIVIDE
-    | MODULO
-    | EXPONENT
-    '''
-
-def p_expresion(p):
-    '''
-    expresion : numero operador_aritmetico numero
-    | ID operador_aritmetico numero
-    | ID operador_aritmetico ID
-    | numero operador_aritmetico ID
-    '''
 
 def p_booleans(p):
     '''

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ALIAS AND ARRAY AT BEGIN BITWISE_AND BITWISE_NOT BITWISE_OR BITWISE_XOR BREAK CASE CLASS COLON COMMA COMPLEX CONSTANT DEDENT DEF DEFINED DIVIDE DO DOT EACH ELSE ELSEIF END_LOWER END_UPPER ENSURE EQUAL EQUALS EXPONENT FALSE FILE FLOAT FOR GLOBAL GREATER_THAN GREATER_THAN_EQUAL HASH HASHAS ID IF IN INDENT INT LBRACKET LCURLYBRACKET LESS_THAN LESS_THAN_EQUAL LINE LOOP LPARENTHESIS MINUS MODULE MODULO MULTIPLY NEXT NIL NOT NOT_EQUAL OP_AND OP_NOT OP_OR OR PLUS PUTS RATIONAL RBRACKET RCURLYBRACKET REDO RESCUE RETRY RETURN RPARENTHESIS SELF SEMICOLON SHIFT_LEFT SHIFT_RIGHT STR SUPER SYMBOL THEN TRUE UNDEF UNLESS UNTIL WHEN WHILE YIELD\n    statement : set_vacio\n    | set_numero\n    \n    set_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET\n    \n    set_numero : ID EQUALS LCURLYBRACKET varios_elementos RCURLYBRACKET\n    \n    varios_elementos : STR\n    | numero\n    | STR COMMA varios_elementos\n    | numero COMMA varios_elementos\n    \n    statement : array_vacio\n    | array_numero\n    | array_str\n    \n    array_vacio : ID EQUALS LBRACKET RBRACKET\n    \n    array_numero : ID EQUALS LBRACKET varios_numeros RBRACKET\n    \n    array_str : ID EQUALS LBRACKET varios_str RBRACKET\n    \n    statement : hash_vacio\n    | hash_elementos\n    \n    hash_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET\n    \n    hash_elementos : ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET\n    \n    varios_pares_hash : ID COLON valor\n    | STR HASHAS valor\n    | ID COLON valor COMMA varios_pares_hash\n    | STR HASHAS valor COMMA varios_pares_hash\n    \n    statement : IF comparaciones statement END_LOWER\n    \n    statement : LOOP DO statement BREAK IF comparacion\n    \n    statement : CASE valor when_clauses ELSE statement_list END_LOWER\n    | CASE valor when_clauses ELSE PUTS valor END_LOWER\n    \n    when_clauses : when_clause\n    | when_clauses when_clause\n    \n   when_clause : WHEN valor THEN statement_list\n   | WHEN valor PUTS valor\n    \n    statement : DEF ID LPARENTHESIS RPARENTHESIS statement END_LOWER\n    \n    statement : DEF ID LPARENTHESIS argumentos RPARENTHESIS statement END_LOWER\n    \n    statement : DEF ID LPARENTHESIS argumentos RPARENTHESIS statement RETURN valor END_LOWER\n    \n    statement : PUTS valor\n    \n    varios_str : STR\n    | STR COMMA STR\n    \n    statement : ID EQUALS valor\n    \n    valor : numero\n    | STR\n    | ID\n    \n    argumentos : ID\n    | ID COMMA argumentos\n    \n    statement_list : statement_list statement\n    | statement\n    \n    comparador : EQUAL\n    | NOT_EQUAL\n    | GREATER_THAN\n    | LESS_THAN\n    | GREATER_THAN_EQUAL\n    | LESS_THAN_EQUAL\n    \n    comparacion_num : numero comparador numero\n    \n    comparacion_variables : ID EQUAL ID\n    | ID NOT_EQUAL ID\n    | boolean\n    \n    comparacion : comparacion_num\n    | comparacion_variables\n    \n    comparaciones : comparacion\n    | comparacion conector comparacion\n    conector : OP_AND\n  | OP_OR\n  \n    numero : INT\n    | FLOAT\n    \n    varios_numeros : numero\n    | numero COMMA varios_numeros\n    \n    statement : ID EQUALS expresion\n    \n    operador_aritmetico : PLUS\n    | MINUS\n    | MULTIPLY\n    | DIVIDE\n    | MODULO\n    | EXPONENT\n    \n    expresion : numero operador_aritmetico numero\n    | ID operador_aritmetico numero\n    | ID operador_aritmetico ID\n    | numero operador_aritmetico ID\n    \n    boolean : TRUE\n    | FALSE\n    '
+_lr_signature = 'ALIAS AND ARRAY AT BEGIN BITWISE_AND BITWISE_NOT BITWISE_OR BITWISE_XOR BREAK CASE CLASS COLON COMMA COMPLEX CONSTANT DEDENT DEF DEFINED DIVIDE DO DOT EACH ELSE ELSEIF END_LOWER END_UPPER ENSURE EQUAL EQUALS EXPONENT FALSE FILE FLOAT FOR GLOBAL GREATER_THAN GREATER_THAN_EQUAL HASH HASHAS ID IF IN INDENT INT LBRACKET LCURLYBRACKET LESS_THAN LESS_THAN_EQUAL LINE LOOP LPARENTHESIS MINUS MODULE MODULO MULTIPLY NEXT NIL NOT NOT_EQUAL OP_AND OP_NOT OP_OR OR PLUS PUTS RATIONAL RBRACKET RCURLYBRACKET REDO RESCUE RETRY RETURN RPARENTHESIS SELF SEMICOLON SHIFT_LEFT SHIFT_RIGHT STR SUPER SYMBOL THEN TRUE UNDEF UNLESS UNTIL WHEN WHILE YIELDstatement : expressionexpression : ID EQUALS expression\n    expression : expression PLUS expression\n    | expression MINUS expression\n    | expression MULTIPLY expression\n    | expression DIVIDE expression\n    expression : INTexpression : FLOATexpression : STRexpression : ID'
     
-_lr_action_items = {'IF':([0,2,3,4,5,6,7,8,15,16,17,18,21,22,23,24,25,26,28,29,30,31,52,53,54,57,58,59,60,61,62,63,64,68,78,83,90,92,93,97,98,99,101,102,106,107,110,111,112,113,114,115,116,119,128,129,137,],[9,-1,-2,-9,-10,-11,-15,-16,9,-57,-55,-56,-54,-61,-62,-76,-77,9,-38,-39,-40,-34,-40,-37,-65,-38,-23,-58,-51,-52,-53,89,9,9,-3,-12,9,-44,9,9,-74,-73,-4,-18,-13,-14,-72,-75,-24,-25,-43,-34,9,-31,-26,-32,-33,]),'LOOP':([0,2,3,4,5,6,7,8,15,16,17,18,21,22,23,24,25,26,28,29,30,31,52,53,54,57,58,59,60,61,62,64,68,78,83,90,92,93,97,98,99,101,102,106,107,110,111,112,113,114,115,116,119,128,129,137,],[10,-1,-2,-9,-10,-11,-15,-16,10,-57,-55,-56,-54,-61,-62,-76,-77,10,-38,-39,-40,-34,-40,-37,-65,-38,-23,-58,-51,-52,-53,10,10,-3,-12,10,-44,10,10,-74,-73,-4,-18,-13,-14,-72,-75,-24,-25,-43,-34,10,-31,-26,-32,-33,]),'CASE':([0,2,3,4,5,6,7,8,15,16,17,18,21,22,23,24,25,26,28,29,30,31,52,53,54,57,58,59,60,61,62,64,68,78,83,90,92,93,97,98,99,101,102,106,107,110,111,112,113,114,115,116,119,128,129,137,],[11,-1,-2,-9,-10,-11,-15,-16,11,-57,-55,-56,-54,-61,-62,-76,-77,11,-38,-39,-40,-34,-40,-37,-65,-38,-23,-58,-51,-52,-53,11,11,-3,-12,11,-44,11,11,-74,-73,-4,-18,-13,-14,-72,-75,-24,-25,-43,-34,11,-31,-26,-32,-33,]),'DEF':([0,2,3,4,5,6,7,8,15,16,17,18,21,22,23,24,25,26,28,29,30,31,52,53,54,57,58,59,60,61,62,64,68,78,83,90,92,93,97,98,99,101,102,106,107,110,111,112,113,114,115,116,119,128,129,137,],[13,-1,-2,-9,-10,-11,-15,-16,13,-57,-55,-56,-54,-61,-62,-76,-77,13,-38,-39,-40,-34,-40,-37,-65,-38,-23,-58,-51,-52,-53,13,13,-3,-12,13,-44,13,13,-74,-73,-4,-18,-13,-14,-72,-75,-24,-25,-43,-34,13,-31,-26,-32,-33,]),'PUTS':([0,2,3,4,5,6,7,8,15,16,17,18,21,22,23,24,25,26,28,29,30,31,52,53,54,57,58,59,60,61,62,64,66,68,78,83,90,92,93,97,98,99,101,102,106,107,110,111,112,113,114,115,116,119,128,129,137,],[12,-1,-2,-9,-10,-11,-15,-16,12,-57,-55,-56,-54,-61,-62,-76,-77,12,-38,-39,-40,-34,-40,-37,-65,-38,-23,-58,-51,-52,-53,91,94,12,-3,-12,12,-44,12,12,-74,-73,-4,-18,-13,-14,-72,-75,-24,-25,-43,-34,12,-31,-26,-32,-33,]),'ID':([0,2,3,4,5,6,7,8,9,11,12,13,15,16,17,18,21,22,23,24,25,26,28,29,30,31,33,35,36,37,45,46,50,51,52,53,54,55,57,58,59,60,61,62,64,68,70,71,72,73,74,75,76,78,83,88,89,90,91,92,93,94,95,97,98,99,100,101,102,104,106,107,110,111,112,113,114,115,116,119,128,129,130,131,132,137,],[14,-1,-2,-9,-10,-11,-15,-16,20,30,30,32,14,-57,-55,-56,-54,-61,-62,-76,-77,14,-38,-39,-40,-34,52,20,-59,-60,61,62,30,67,-40,-37,-65,77,-38,-23,-58,-51,-52,-53,14,14,98,-66,-67,-68,-69,-70,-71,-3,-12,111,20,14,30,-44,14,30,67,14,-74,-73,30,-4,-18,30,-13,-14,-72,-75,-24,-25,-43,-34,14,-31,-26,-32,30,77,77,-33,]),'$end':([1,2,3,4,5,6,7,8,17,18,21,22,23,24,25,28,29,30,31,52,53,54,57,58,60,61,62,78,83,98,99,101,102,106,107,110,111,112,113,119,128,129,137,],[0,-1,-2,-9,-10,-11,-15,-16,-55,-56,-54,-61,-62,-76,-77,-38,-39,-40,-34,-40,-37,-65,-38,-23,-51,-52,-53,-3,-12,-74,-73,-4,-18,-13,-14,-72,-75,-24,-25,-31,-26,-32,-33,]),'END_LOWER':([2,3,4,5,6,7,8,17,18,21,22,23,24,25,28,29,30,31,34,52,53,54,57,58,60,61,62,78,83,90,92,96,98,99,101,102,106,107,110,111,112,113,114,115,119,120,128,129,133,137,],[-1,-2,-9,-10,-11,-15,-16,-55,-56,-54,-61,-62,-76,-77,-38,-39,-40,-34,58,-40,-37,-65,-38,-23,-51,-52,-53,-3,-12,113,-44,119,-74,-73,-4,-18,-13,-14,-72,-75,-24,-25,-43,128,-31,129,-26,-32,137,-33,]),'BREAK':([2,3,4,5,6,7,8,17,18,21,22,23,24,25,28,29,30,31,47,52,53,54,57,58,60,61,62,78,83,98,99,101,102,106,107,110,111,112,113,119,128,129,137,],[-1,-2,-9,-10,-11,-15,-16,-55,-56,-54,-61,-62,-76,-77,-38,-39,-40,-34,63,-40,-37,-65,-38,-23,-51,-52,-53,-3,-12,-74,-73,-4,-18,-13,-14,-72,-75,-24,-25,-31,-26,-32,-33,]),'ELSE':([2,3,4,5,6,7,8,17,18,21,22,23,24,25,28,29,30,31,48,49,52,53,54,57,58,60,61,62,65,78,83,92,98,99,101,102,106,107,110,111,112,113,114,116,117,119,128,129,137,],[-1,-2,-9,-10,-11,-15,-16,-55,-56,-54,-61,-62,-76,-77,-38,-39,-40,-34,64,-27,-40,-37,-65,-38,-23,-51,-52,-53,-28,-3,-12,-44,-74,-73,-4,-18,-13,-14,-72,-75,-24,-25,-43,-29,-30,-31,-26,-32,-33,]),'WHEN':([2,3,4,5,6,7,8,17,18,21,22,23,24,25,27,28,29,30,31,48,49,52,53,54,57,58,60,61,62,65,78,83,92,98,99,101,102,106,107,110,111,112,113,114,116,117,119,128,129,137,],[-1,-2,-9,-10,-11,-15,-16,-55,-56,-54,-61,-62,-76,-77,50,-38,-39,-40,-34,50,-27,-40,-37,-65,-38,-23,-51,-52,-53,-28,-3,-12,-44,-74,-73,-4,-18,-13,-14,-72,-75,-24,-25,-43,-29,-30,-31,-26,-32,-33,]),'RETURN':([2,3,4,5,6,7,8,17,18,21,22,23,24,25,28,29,30,31,52,53,54,57,58,60,61,62,78,83,98,99,101,102,106,107,110,111,112,113,119,120,128,129,137,],[-1,-2,-9,-10,-11,-15,-16,-55,-56,-54,-61,-62,-76,-77,-38,-39,-40,-34,-40,-37,-65,-38,-23,-51,-52,-53,-3,-12,-74,-73,-4,-18,-13,-14,-72,-75,-24,-25,-31,130,-26,-32,-33,]),'INT':([9,11,12,33,35,36,37,38,39,40,41,42,43,44,50,55,56,70,71,72,73,74,75,76,88,89,91,94,100,103,104,105,108,130,],[22,22,22,22,22,-59,-60,22,-45,-46,-47,-48,-49,-50,22,22,22,22,-66,-67,-68,-69,-70,-71,22,22,22,22,22,22,22,22,22,22,]),'FLOAT':([9,11,12,33,35,36,37,38,39,40,41,42,43,44,50,55,56,70,71,72,73,74,75,76,88,89,91,94,100,103,104,105,108,130,],[23,23,23,23,23,-59,-60,23,-45,-46,-47,-48,-49,-50,23,23,23,23,-66,-67,-68,-69,-70,-71,23,23,23,23,23,23,23,23,23,23,]),'TRUE':([9,35,36,37,89,],[24,24,-59,-60,24,]),'FALSE':([9,35,36,37,89,],[25,25,-59,-60,25,]),'DO':([10,],[26,]),'STR':([11,12,33,50,55,56,91,94,100,103,104,105,109,130,131,132,],[29,29,29,29,81,87,29,29,29,122,29,122,127,29,135,135,]),'EQUALS':([14,],[33,]),'OP_AND':([16,17,18,21,22,23,24,25,60,61,62,],[36,-55,-56,-54,-61,-62,-76,-77,-51,-52,-53,]),'OP_OR':([16,17,18,21,22,23,24,25,60,61,62,],[37,-55,-56,-54,-61,-62,-76,-77,-51,-52,-53,]),'EQUAL':([19,20,22,23,],[39,45,-61,-62,]),'NOT_EQUAL':([19,20,22,23,],[40,46,-61,-62,]),'GREATER_THAN':([19,22,23,],[41,-61,-62,]),'LESS_THAN':([19,22,23,],[42,-61,-62,]),'GREATER_THAN_EQUAL':([19,22,23,],[43,-61,-62,]),'LESS_THAN_EQUAL':([19,22,23,],[44,-61,-62,]),'PLUS':([22,23,52,57,],[-61,-62,71,71,]),'MINUS':([22,23,52,57,],[-61,-62,72,72,]),'MULTIPLY':([22,23,52,57,],[-61,-62,73,73,]),'DIVIDE':([22,23,52,57,],[-61,-62,74,74,]),'MODULO':([22,23,52,57,],[-61,-62,75,75,]),'EXPONENT':([22,23,52,57,],[-61,-62,76,76,]),'THEN':([22,23,28,29,30,66,],[-61,-62,-38,-39,-40,93,]),'COMMA':([22,23,28,29,30,67,81,82,86,87,121,122,124,],[-61,-62,-38,-39,-40,95,103,105,108,109,131,103,132,]),'RCURLYBRACKET':([22,23,28,29,30,55,79,80,81,82,121,122,123,124,125,134,136,],[-61,-62,-38,-39,-40,78,101,102,-5,-6,-19,-5,-7,-20,-8,-21,-22,]),'RBRACKET':([22,23,56,84,85,86,87,126,127,],[-61,-62,83,106,107,-63,-35,-64,-36,]),'LPARENTHESIS':([32,],[51,]),'LCURLYBRACKET':([33,],[55,]),'LBRACKET':([33,],[56,]),'RPARENTHESIS':([51,67,69,118,],[68,-41,97,-42,]),'COLON':([77,],[100,]),'HASHAS':([81,135,],[104,104,]),}
+_lr_action_items = {'ID':([0,7,8,9,10,11,],[3,3,3,3,3,3,]),'INT':([0,7,8,9,10,11,],[4,4,4,4,4,4,]),'FLOAT':([0,7,8,9,10,11,],[5,5,5,5,5,5,]),'STR':([0,7,8,9,10,11,],[6,6,6,6,6,6,]),'$end':([1,2,3,4,5,6,12,13,14,15,16,],[0,-1,-10,-7,-8,-9,-3,-4,-5,-6,-2,]),'PLUS':([2,3,4,5,6,12,13,14,15,16,],[7,-10,-7,-8,-9,7,7,7,7,7,]),'MINUS':([2,3,4,5,6,12,13,14,15,16,],[8,-10,-7,-8,-9,8,8,8,8,8,]),'MULTIPLY':([2,3,4,5,6,12,13,14,15,16,],[9,-10,-7,-8,-9,9,9,9,9,9,]),'DIVIDE':([2,3,4,5,6,12,13,14,15,16,],[10,-10,-7,-8,-9,10,10,10,10,10,]),'EQUALS':([3,],[11,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,15,26,64,68,90,93,97,116,],[1,34,47,92,96,114,92,120,114,]),'set_vacio':([0,15,26,64,68,90,93,97,116,],[2,2,2,2,2,2,2,2,2,]),'set_numero':([0,15,26,64,68,90,93,97,116,],[3,3,3,3,3,3,3,3,3,]),'array_vacio':([0,15,26,64,68,90,93,97,116,],[4,4,4,4,4,4,4,4,4,]),'array_numero':([0,15,26,64,68,90,93,97,116,],[5,5,5,5,5,5,5,5,5,]),'array_str':([0,15,26,64,68,90,93,97,116,],[6,6,6,6,6,6,6,6,6,]),'hash_vacio':([0,15,26,64,68,90,93,97,116,],[7,7,7,7,7,7,7,7,7,]),'hash_elementos':([0,15,26,64,68,90,93,97,116,],[8,8,8,8,8,8,8,8,8,]),'comparaciones':([9,],[15,]),'comparacion':([9,35,89,],[16,59,112,]),'comparacion_num':([9,35,89,],[17,17,17,]),'comparacion_variables':([9,35,89,],[18,18,18,]),'numero':([9,11,12,33,35,38,50,55,56,70,88,89,91,94,100,103,104,105,108,130,],[19,28,28,57,19,60,28,82,86,99,110,19,28,28,28,82,28,82,86,28,]),'boolean':([9,35,89,],[21,21,21,]),'valor':([11,12,33,50,91,94,100,104,130,],[27,31,53,66,115,117,121,124,133,]),'conector':([16,],[35,]),'comparador':([19,],[38,]),'when_clauses':([27,],[48,]),'when_clause':([27,48,],[49,65,]),'expresion':([33,],[54,]),'argumentos':([51,95,],[69,118,]),'operador_aritmetico':([52,57,],[70,88,]),'varios_elementos':([55,103,105,],[79,123,125,]),'varios_pares_hash':([55,131,132,],[80,134,136,]),'varios_numeros':([56,108,],[84,126,]),'varios_str':([56,],[85,]),'statement_list':([64,93,],[90,116,]),}
+_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,7,8,9,10,11,],[2,12,13,14,15,16,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,81 +27,14 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> statement","S'",1,None,None,None),
-  ('statement -> set_vacio','statement',1,'p_sets','sintaxis.py',10),
-  ('statement -> set_numero','statement',1,'p_sets','sintaxis.py',11),
-  ('set_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET','set_vacio',4,'p_set_vacio','sintaxis.py',16),
-  ('set_numero -> ID EQUALS LCURLYBRACKET varios_elementos RCURLYBRACKET','set_numero',5,'p_set','sintaxis.py',20),
-  ('varios_elementos -> STR','varios_elementos',1,'p_varios_elementos','sintaxis.py',25),
-  ('varios_elementos -> numero','varios_elementos',1,'p_varios_elementos','sintaxis.py',26),
-  ('varios_elementos -> STR COMMA varios_elementos','varios_elementos',3,'p_varios_elementos','sintaxis.py',27),
-  ('varios_elementos -> numero COMMA varios_elementos','varios_elementos',3,'p_varios_elementos','sintaxis.py',28),
-  ('statement -> array_vacio','statement',1,'p_array','sintaxis.py',35),
-  ('statement -> array_numero','statement',1,'p_array','sintaxis.py',36),
-  ('statement -> array_str','statement',1,'p_array','sintaxis.py',37),
-  ('array_vacio -> ID EQUALS LBRACKET RBRACKET','array_vacio',4,'p_array_vacio','sintaxis.py',42),
-  ('array_numero -> ID EQUALS LBRACKET varios_numeros RBRACKET','array_numero',5,'p_array_numeros','sintaxis.py',47),
-  ('array_str -> ID EQUALS LBRACKET varios_str RBRACKET','array_str',5,'p_array_str','sintaxis.py',52),
-  ('statement -> hash_vacio','statement',1,'p_hash','sintaxis.py',62),
-  ('statement -> hash_elementos','statement',1,'p_hash','sintaxis.py',63),
-  ('hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET','hash_vacio',4,'p_hash_vacio','sintaxis.py',68),
-  ('hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET','hash_elementos',5,'p_hash_elementos','sintaxis.py',73),
-  ('varios_pares_hash -> ID COLON valor','varios_pares_hash',3,'p_varios_pares_hash','sintaxis.py',78),
-  ('varios_pares_hash -> STR HASHAS valor','varios_pares_hash',3,'p_varios_pares_hash','sintaxis.py',79),
-  ('varios_pares_hash -> ID COLON valor COMMA varios_pares_hash','varios_pares_hash',5,'p_varios_pares_hash','sintaxis.py',80),
-  ('varios_pares_hash -> STR HASHAS valor COMMA varios_pares_hash','varios_pares_hash',5,'p_varios_pares_hash','sintaxis.py',81),
-  ('statement -> IF comparaciones statement END_LOWER','statement',4,'p_sentencia_if','sintaxis.py',90),
-  ('statement -> LOOP DO statement BREAK IF comparacion','statement',6,'p_sentencia_loop','sintaxis.py',97),
-  ('statement -> CASE valor when_clauses ELSE statement_list END_LOWER','statement',6,'p_case_when','sintaxis.py',103),
-  ('statement -> CASE valor when_clauses ELSE PUTS valor END_LOWER','statement',7,'p_case_when','sintaxis.py',104),
-  ('when_clauses -> when_clause','when_clauses',1,'p_when_clauses','sintaxis.py',109),
-  ('when_clauses -> when_clauses when_clause','when_clauses',2,'p_when_clauses','sintaxis.py',110),
-  ('when_clause -> WHEN valor THEN statement_list','when_clause',4,'p_when_clause','sintaxis.py',115),
-  ('when_clause -> WHEN valor PUTS valor','when_clause',4,'p_when_clause','sintaxis.py',116),
-  ('statement -> DEF ID LPARENTHESIS RPARENTHESIS statement END_LOWER','statement',6,'p_declaracion_basica','sintaxis.py',125),
-  ('statement -> DEF ID LPARENTHESIS argumentos RPARENTHESIS statement END_LOWER','statement',7,'p_declaracion_parametros','sintaxis.py',130),
-  ('statement -> DEF ID LPARENTHESIS argumentos RPARENTHESIS statement RETURN valor END_LOWER','statement',9,'p_declaracion_parametros_return','sintaxis.py',135),
-  ('statement -> PUTS valor','statement',2,'p_print','sintaxis.py',140),
-  ('varios_str -> STR','varios_str',1,'p_varios_str','sintaxis.py',148),
-  ('varios_str -> STR COMMA STR','varios_str',3,'p_varios_str','sintaxis.py',149),
-  ('statement -> ID EQUALS valor','statement',3,'p_sentencia_asignacion','sintaxis.py',159),
-  ('valor -> numero','valor',1,'p_valor','sintaxis.py',164),
-  ('valor -> STR','valor',1,'p_valor','sintaxis.py',165),
-  ('valor -> ID','valor',1,'p_valor','sintaxis.py',166),
-  ('argumentos -> ID','argumentos',1,'p_argumentos','sintaxis.py',174),
-  ('argumentos -> ID COMMA argumentos','argumentos',3,'p_argumentos','sintaxis.py',175),
-  ('statement_list -> statement_list statement','statement_list',2,'p_statement_list','sintaxis.py',180),
-  ('statement_list -> statement','statement_list',1,'p_statement_list','sintaxis.py',181),
-  ('comparador -> EQUAL','comparador',1,'p_comparador','sintaxis.py',186),
-  ('comparador -> NOT_EQUAL','comparador',1,'p_comparador','sintaxis.py',187),
-  ('comparador -> GREATER_THAN','comparador',1,'p_comparador','sintaxis.py',188),
-  ('comparador -> LESS_THAN','comparador',1,'p_comparador','sintaxis.py',189),
-  ('comparador -> GREATER_THAN_EQUAL','comparador',1,'p_comparador','sintaxis.py',190),
-  ('comparador -> LESS_THAN_EQUAL','comparador',1,'p_comparador','sintaxis.py',191),
-  ('comparacion_num -> numero comparador numero','comparacion_num',3,'p_comparacion_num','sintaxis.py',196),
-  ('comparacion_variables -> ID EQUAL ID','comparacion_variables',3,'p_comparacion_variables','sintaxis.py',201),
-  ('comparacion_variables -> ID NOT_EQUAL ID','comparacion_variables',3,'p_comparacion_variables','sintaxis.py',202),
-  ('comparacion_variables -> boolean','comparacion_variables',1,'p_comparacion_variables','sintaxis.py',203),
-  ('comparacion -> comparacion_num','comparacion',1,'p_comparacion','sintaxis.py',208),
-  ('comparacion -> comparacion_variables','comparacion',1,'p_comparacion','sintaxis.py',209),
-  ('comparaciones -> comparacion','comparaciones',1,'p_comparaciones','sintaxis.py',214),
-  ('comparaciones -> comparacion conector comparacion','comparaciones',3,'p_comparaciones','sintaxis.py',215),
-  ('conector -> OP_AND','conector',1,'p_conector','sintaxis.py',220),
-  ('conector -> OP_OR','conector',1,'p_conector','sintaxis.py',221),
-  ('numero -> INT','numero',1,'p_numero','sintaxis.py',226),
-  ('numero -> FLOAT','numero',1,'p_numero','sintaxis.py',227),
-  ('varios_numeros -> numero','varios_numeros',1,'p_varios_numeros','sintaxis.py',232),
-  ('varios_numeros -> numero COMMA varios_numeros','varios_numeros',3,'p_varios_numeros','sintaxis.py',233),
-  ('statement -> ID EQUALS expresion','statement',3,'p_asignacion_arimetica','sintaxis.py',239),
-  ('operador_aritmetico -> PLUS','operador_aritmetico',1,'p_operador_aritmetico','sintaxis.py',245),
-  ('operador_aritmetico -> MINUS','operador_aritmetico',1,'p_operador_aritmetico','sintaxis.py',246),
-  ('operador_aritmetico -> MULTIPLY','operador_aritmetico',1,'p_operador_aritmetico','sintaxis.py',247),
-  ('operador_aritmetico -> DIVIDE','operador_aritmetico',1,'p_operador_aritmetico','sintaxis.py',248),
-  ('operador_aritmetico -> MODULO','operador_aritmetico',1,'p_operador_aritmetico','sintaxis.py',249),
-  ('operador_aritmetico -> EXPONENT','operador_aritmetico',1,'p_operador_aritmetico','sintaxis.py',250),
-  ('expresion -> numero operador_aritmetico numero','expresion',3,'p_expresion','sintaxis.py',255),
-  ('expresion -> ID operador_aritmetico numero','expresion',3,'p_expresion','sintaxis.py',256),
-  ('expresion -> ID operador_aritmetico ID','expresion',3,'p_expresion','sintaxis.py',257),
-  ('expresion -> numero operador_aritmetico ID','expresion',3,'p_expresion','sintaxis.py',258),
-  ('boolean -> TRUE','boolean',1,'p_booleans','sintaxis.py',263),
-  ('boolean -> FALSE','boolean',1,'p_booleans','sintaxis.py',264),
+  ('statement -> expression','statement',1,'p_statement_expression','sintactico.py',8),
+  ('expression -> ID EQUALS expression','expression',3,'p_expression_assignment','sintactico.py',12),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binary_operation','sintactico.py',23),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binary_operation','sintactico.py',24),
+  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binary_operation','sintactico.py',25),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binary_operation','sintactico.py',26),
+  ('expression -> INT','expression',1,'p_expression_int','sintactico.py',45),
+  ('expression -> FLOAT','expression',1,'p_expression_float','sintactico.py',49),
+  ('expression -> STR','expression',1,'p_expression_string','sintactico.py',53),
+  ('expression -> ID','expression',1,'p_expression_id','sintactico.py',57),
 ]
