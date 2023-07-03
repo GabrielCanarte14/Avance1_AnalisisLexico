@@ -41,11 +41,11 @@ def p_expression_binary_operation(p):
 
 def p_expression_int(p):
     'expression : INT'
-    p[0] = p[1]
+    p[0] = int(p[1])
 
 def p_expression_float(p):
     'expression : FLOAT'
-    p[0] = p[1]
+    p[0] = float(p[1])
 
 def p_expression_string(p):
     'expression : STR'
