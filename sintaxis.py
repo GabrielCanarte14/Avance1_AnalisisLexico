@@ -1,13 +1,32 @@
 from main import tokens
 import ply.yacc as yacc
 
+#Estructuras de datos
+
+#Set
+
 def p_sets(p):
     '''
     statement : set_vacio
     | set_numero
-    | set_str
     '''
-#Estructuras de Datos
+
+def p_set_vacio(p):
+    '''
+    set_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET
+    '''
+def p_set(p):
+    '''
+    set_numero : ID EQUALS LCURLYBRACKET varios_elementos RCURLYBRACKET
+    '''
+
+def p_varios_elementos(p):
+    '''
+    varios_elementos : STR
+    | numero
+    | STR COMMA varios_elementos
+    | numero COMMA varios_elementos
+    '''
 
 #Array
 
@@ -33,21 +52,7 @@ def p_array_str(p):
     array_str : ID EQUALS LBRACKET varios_str RBRACKET
     '''
 
-#Set
 
-def p_set_vacio(p):
-    '''
-    set_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET
-    '''
-def p_set_numeros(p):
-    '''
-    set_numero : ID EQUALS LCURLYBRACKET varios_numeros RCURLYBRACKET
-    '''
-
-def p_set_str(p):
-    '''
-    set_str : ID EQUALS LCURLYBRACKET varios_str RCURLYBRACKET
-    '''
 
 
 #Hash
