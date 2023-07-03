@@ -59,6 +59,47 @@ def p_expression_id(p):
     else:
         print(f"Error semántico: Variable '{variable_name}' no definida")
 
+
+def p_expression_logicals(p):
+    '''
+    expression : expression EQUAL expression
+               | expression GREATER_THAN expression
+               | expression LESS_THAN expression
+               | expression GREATER_THAN_EQUAL expression
+               | expression LESS_THAN_EQUAL expression
+    '''
+    operator = p[2]
+    operand1 = p[1]
+    operand2 = p[3]
+
+    if operator == '==':
+        p[0] = operand1 == operand2
+    elif operator == '>':
+        p[0] = operand1 > operand2
+    elif operator == '<':
+        p[0] = operand1 < operand2
+    elif operator == '>=':
+        p[0] = operand1 >= operand2
+    elif operator == '<=':
+        p[0] = operand1 <= operand2
+def p_expression_logical(p):
+    '''
+    expression : expression OP_AND expression
+    | expression OP_OR expression
+    '''
+    operator = p[2]
+    operand1 = p[1]
+    operand2 = p[3]
+
+    if operator == '&&':
+        p[0] = operand1 and operand2
+    elif operator == '||':
+        p[0] = operand1 or operand2
+
+    if p[0] is None:
+        print("Error semántico: Operación lógica inválida")
+
+
 def p_error(p):
     print("Error de sintaxis")
 

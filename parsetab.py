@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ALIAS AND ARRAY AT BEGIN BITWISE_AND BITWISE_NOT BITWISE_OR BITWISE_XOR BREAK CASE CLASS COLON COMMA COMPLEX CONSTANT DEDENT DEF DEFINED DIVIDE DO DOT EACH ELSE ELSEIF END_LOWER END_UPPER ENSURE EQUAL EQUALS EXPONENT FALSE FILE FLOAT FOR GLOBAL GREATER_THAN GREATER_THAN_EQUAL HASH HASHAS ID IF IN INDENT INT LBRACKET LCURLYBRACKET LESS_THAN LESS_THAN_EQUAL LINE LOOP LPARENTHESIS MINUS MODULE MODULO MULTIPLY NEXT NIL NOT NOT_EQUAL OP_AND OP_NOT OP_OR OR PLUS PUTS RATIONAL RBRACKET RCURLYBRACKET REDO RESCUE RETRY RETURN RPARENTHESIS SELF SEMICOLON SHIFT_LEFT SHIFT_RIGHT STR SUPER SYMBOL THEN TRUE UNDEF UNLESS UNTIL WHEN WHILE YIELDstatement : expressionexpression : ID EQUALS expression\n    expression : expression PLUS expression\n    | expression MINUS expression\n    | expression MULTIPLY expression\n    | expression DIVIDE expression\n    expression : INTexpression : FLOATexpression : STRexpression : ID'
+_lr_signature = 'ALIAS AND ARRAY AT BEGIN BITWISE_AND BITWISE_NOT BITWISE_OR BITWISE_XOR BREAK CASE CLASS COLON COMMA COMPLEX CONSTANT DEDENT DEF DEFINED DIVIDE DO DOT EACH ELSE ELSEIF END_LOWER END_UPPER ENSURE EQUAL EQUALS EXPONENT FALSE FILE FLOAT FOR GLOBAL GREATER_THAN GREATER_THAN_EQUAL HASH HASHAS ID IF IN INDENT INT LBRACKET LCURLYBRACKET LESS_THAN LESS_THAN_EQUAL LINE LOOP LPARENTHESIS MINUS MODULE MODULO MULTIPLY NEXT NIL NOT NOT_EQUAL OP_AND OP_NOT OP_OR OR PLUS PUTS RATIONAL RBRACKET RCURLYBRACKET REDO RESCUE RETRY RETURN RPARENTHESIS SELF SEMICOLON SHIFT_LEFT SHIFT_RIGHT STR SUPER SYMBOL THEN TRUE UNDEF UNLESS UNTIL WHEN WHILE YIELDstatement : expressionexpression : ID EQUALS expression\n    expression : expression PLUS expression\n    | expression MINUS expression\n    | expression MULTIPLY expression\n    | expression DIVIDE expression\n    expression : INTexpression : FLOATexpression : STRexpression : ID\n    expression : expression EQUAL expression\n               | expression GREATER_THAN expression\n               | expression LESS_THAN expression\n               | expression GREATER_THAN_EQUAL expression\n               | expression LESS_THAN_EQUAL expression\n    \n    expression : expression OP_AND expression\n    | expression OP_OR expression\n    '
     
-_lr_action_items = {'ID':([0,7,8,9,10,11,],[3,3,3,3,3,3,]),'INT':([0,7,8,9,10,11,],[4,4,4,4,4,4,]),'FLOAT':([0,7,8,9,10,11,],[5,5,5,5,5,5,]),'STR':([0,7,8,9,10,11,],[6,6,6,6,6,6,]),'$end':([1,2,3,4,5,6,12,13,14,15,16,],[0,-1,-10,-7,-8,-9,-3,-4,-5,-6,-2,]),'PLUS':([2,3,4,5,6,12,13,14,15,16,],[7,-10,-7,-8,-9,7,7,7,7,7,]),'MINUS':([2,3,4,5,6,12,13,14,15,16,],[8,-10,-7,-8,-9,8,8,8,8,8,]),'MULTIPLY':([2,3,4,5,6,12,13,14,15,16,],[9,-10,-7,-8,-9,9,9,9,9,9,]),'DIVIDE':([2,3,4,5,6,12,13,14,15,16,],[10,-10,-7,-8,-9,10,10,10,10,10,]),'EQUALS':([3,],[11,]),}
+_lr_action_items = {'ID':([0,7,8,9,10,11,12,13,14,15,16,17,18,],[3,3,3,3,3,3,3,3,3,3,3,3,3,]),'INT':([0,7,8,9,10,11,12,13,14,15,16,17,18,],[4,4,4,4,4,4,4,4,4,4,4,4,4,]),'FLOAT':([0,7,8,9,10,11,12,13,14,15,16,17,18,],[5,5,5,5,5,5,5,5,5,5,5,5,5,]),'STR':([0,7,8,9,10,11,12,13,14,15,16,17,18,],[6,6,6,6,6,6,6,6,6,6,6,6,6,]),'$end':([1,2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[0,-1,-10,-7,-8,-9,-3,-4,-5,-6,-11,-12,-13,-14,-15,-16,-17,-2,]),'PLUS':([2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[7,-10,-7,-8,-9,7,7,7,7,7,7,7,7,7,7,7,7,]),'MINUS':([2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[8,-10,-7,-8,-9,8,8,8,8,8,8,8,8,8,8,8,8,]),'MULTIPLY':([2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[9,-10,-7,-8,-9,9,9,9,9,9,9,9,9,9,9,9,9,]),'DIVIDE':([2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[10,-10,-7,-8,-9,10,10,10,10,10,10,10,10,10,10,10,10,]),'EQUAL':([2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[11,-10,-7,-8,-9,11,11,11,11,11,11,11,11,11,11,11,11,]),'GREATER_THAN':([2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[12,-10,-7,-8,-9,12,12,12,12,12,12,12,12,12,12,12,12,]),'LESS_THAN':([2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[13,-10,-7,-8,-9,13,13,13,13,13,13,13,13,13,13,13,13,]),'GREATER_THAN_EQUAL':([2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[14,-10,-7,-8,-9,14,14,14,14,14,14,14,14,14,14,14,14,]),'LESS_THAN_EQUAL':([2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[15,-10,-7,-8,-9,15,15,15,15,15,15,15,15,15,15,15,15,]),'OP_AND':([2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[16,-10,-7,-8,-9,16,16,16,16,16,16,16,16,16,16,16,16,]),'OP_OR':([2,3,4,5,6,19,20,21,22,23,24,25,26,27,28,29,30,],[17,-10,-7,-8,-9,17,17,17,17,17,17,17,17,17,17,17,17,]),'EQUALS':([3,],[18,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,7,8,9,10,11,],[2,12,13,14,15,16,]),}
+_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,7,8,9,10,11,12,13,14,15,16,17,18,],[2,19,20,21,22,23,24,25,26,27,28,29,30,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -29,12 +29,19 @@ _lr_productions = [
   ("S' -> statement","S'",1,None,None,None),
   ('statement -> expression','statement',1,'p_statement_expression','sintactico.py',8),
   ('expression -> ID EQUALS expression','expression',3,'p_expression_assignment','sintactico.py',12),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binary_operation','sintactico.py',23),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binary_operation','sintactico.py',24),
-  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binary_operation','sintactico.py',25),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binary_operation','sintactico.py',26),
-  ('expression -> INT','expression',1,'p_expression_int','sintactico.py',45),
-  ('expression -> FLOAT','expression',1,'p_expression_float','sintactico.py',49),
-  ('expression -> STR','expression',1,'p_expression_string','sintactico.py',53),
-  ('expression -> ID','expression',1,'p_expression_id','sintactico.py',57),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binary_operation','sintactico.py',21),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binary_operation','sintactico.py',22),
+  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binary_operation','sintactico.py',23),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binary_operation','sintactico.py',24),
+  ('expression -> INT','expression',1,'p_expression_int','sintactico.py',43),
+  ('expression -> FLOAT','expression',1,'p_expression_float','sintactico.py',47),
+  ('expression -> STR','expression',1,'p_expression_string','sintactico.py',51),
+  ('expression -> ID','expression',1,'p_expression_id','sintactico.py',55),
+  ('expression -> expression EQUAL expression','expression',3,'p_expression_logicals','sintactico.py',65),
+  ('expression -> expression GREATER_THAN expression','expression',3,'p_expression_logicals','sintactico.py',66),
+  ('expression -> expression LESS_THAN expression','expression',3,'p_expression_logicals','sintactico.py',67),
+  ('expression -> expression GREATER_THAN_EQUAL expression','expression',3,'p_expression_logicals','sintactico.py',68),
+  ('expression -> expression LESS_THAN_EQUAL expression','expression',3,'p_expression_logicals','sintactico.py',69),
+  ('expression -> expression OP_AND expression','expression',3,'p_expression_logical','sintactico.py',87),
+  ('expression -> expression OP_OR expression','expression',3,'p_expression_logical','sintactico.py',88),
 ]
