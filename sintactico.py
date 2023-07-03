@@ -72,32 +72,41 @@ def p_expression_logicals(p):
     operand1 = p[1]
     operand2 = p[3]
 
-    if operator == '==':
-        p[0] = operand1 == operand2
-    elif operator == '>':
-        p[0] = operand1 > operand2
-    elif operator == '<':
-        p[0] = operand1 < operand2
-    elif operator == '>=':
-        p[0] = operand1 >= operand2
-    elif operator == '<=':
-        p[0] = operand1 <= operand2
+    if isinstance(operand1, type(operand2)):
+        if operator == '==':
+            p[0] = operand1 == operand2
+        elif operator == '>':
+            p[0] = operand1 > operand2
+        elif operator == '<':
+            p[0] = operand1 < operand2
+        elif operator == '>=':
+            p[0] = operand1 >= operand2
+        elif operator == '<=':
+            p[0] = operand1 <= operand2
+    else:
+        print("Error semántico: Incompatibilidad de tipos en la comparación")
+
 def p_expression_logical(p):
     '''
     expression : expression OP_AND expression
     | expression OP_OR expression
+    | OP_NOT expression
     '''
-    operator = p[2]
-    operand1 = p[1]
-    operand2 = p[3]
+    operator = p[1]
+    if operator == 'not':
+        operand = p[2]
+        p[0] = not operand
+    else:
+        operand1 = p[1]
+        operand2 = p[3]
 
-    if operator == '&&':
-        p[0] = operand1 and operand2
-    elif operator == '||':
-        p[0] = operand1 or operand2
+        if operator == '&&':
+            p[0] = operand1 and operand2
+        elif operator == '||':
+            p[0] = operand1 or operand2
 
-    if p[0] is None:
-        print("Error semántico: Operación lógica inválida")
+        if p[0] is None:
+            print("Error semántico: Operación lógica inválida")
 
 
 def p_error(p):

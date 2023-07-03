@@ -50,7 +50,6 @@ Unused terminals:
     NIL
     NOT
     NOT_EQUAL
-    OP_NOT
     OR
     PUTS
     RATIONAL
@@ -96,6 +95,7 @@ Rule 14    expression -> expression GREATER_THAN_EQUAL expression
 Rule 15    expression -> expression LESS_THAN_EQUAL expression
 Rule 16    expression -> expression OP_AND expression
 Rule 17    expression -> expression OP_OR expression
+Rule 18    expression -> OP_NOT expression
 
 Terminals, with rules where they appear
 
@@ -160,7 +160,7 @@ NIL                  :
 NOT                  : 
 NOT_EQUAL            : 
 OP_AND               : 16
-OP_NOT               : 
+OP_NOT               : 18
 OP_OR                : 17
 OR                   : 
 PLUS                 : 3
@@ -192,7 +192,7 @@ error                :
 
 Nonterminals, with rules where they appear
 
-expression           : 1 2 3 3 4 4 5 5 6 6 11 11 12 12 13 13 14 14 15 15 16 16 17 17
+expression           : 1 2 3 3 4 4 5 5 6 6 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18
 statement            : 0
 
 Parsing method: LALR
@@ -217,11 +217,13 @@ state 0
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
     statement                      shift and go to state 1
     expression                     shift and go to state 2
@@ -248,17 +250,17 @@ state 2
     (17) expression -> expression . OP_OR expression
 
     $end            reduce using rule 1 (statement -> expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
 
 state 3
@@ -266,7 +268,7 @@ state 3
     (2) expression -> ID . EQUALS expression
     (10) expression -> ID .
 
-    EQUALS          shift and go to state 18
+    EQUALS          shift and go to state 19
     PLUS            reduce using rule 10 (expression -> ID .)
     MINUS           reduce using rule 10 (expression -> ID .)
     MULTIPLY        reduce using rule 10 (expression -> ID .)
@@ -337,6 +339,35 @@ state 6
 
 state 7
 
+    (18) expression -> OP_NOT . expression
+    (2) expression -> . ID EQUALS expression
+    (3) expression -> . expression PLUS expression
+    (4) expression -> . expression MINUS expression
+    (5) expression -> . expression MULTIPLY expression
+    (6) expression -> . expression DIVIDE expression
+    (7) expression -> . INT
+    (8) expression -> . FLOAT
+    (9) expression -> . STR
+    (10) expression -> . ID
+    (11) expression -> . expression EQUAL expression
+    (12) expression -> . expression GREATER_THAN expression
+    (13) expression -> . expression LESS_THAN expression
+    (14) expression -> . expression GREATER_THAN_EQUAL expression
+    (15) expression -> . expression LESS_THAN_EQUAL expression
+    (16) expression -> . expression OP_AND expression
+    (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
+
+    ID              shift and go to state 3
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
+
+    expression                     shift and go to state 20
+
+state 8
+
     (3) expression -> expression PLUS . expression
     (2) expression -> . ID EQUALS expression
     (3) expression -> . expression PLUS expression
@@ -354,15 +385,17 @@ state 7
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 19
+    expression                     shift and go to state 21
 
-state 8
+state 9
 
     (4) expression -> expression MINUS . expression
     (2) expression -> . ID EQUALS expression
@@ -381,15 +414,17 @@ state 8
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 20
+    expression                     shift and go to state 22
 
-state 9
+state 10
 
     (5) expression -> expression MULTIPLY . expression
     (2) expression -> . ID EQUALS expression
@@ -408,15 +443,17 @@ state 9
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 21
+    expression                     shift and go to state 23
 
-state 10
+state 11
 
     (6) expression -> expression DIVIDE . expression
     (2) expression -> . ID EQUALS expression
@@ -435,15 +472,17 @@ state 10
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 22
+    expression                     shift and go to state 24
 
-state 11
+state 12
 
     (11) expression -> expression EQUAL . expression
     (2) expression -> . ID EQUALS expression
@@ -462,15 +501,17 @@ state 11
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 23
+    expression                     shift and go to state 25
 
-state 12
+state 13
 
     (12) expression -> expression GREATER_THAN . expression
     (2) expression -> . ID EQUALS expression
@@ -489,15 +530,17 @@ state 12
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 24
+    expression                     shift and go to state 26
 
-state 13
+state 14
 
     (13) expression -> expression LESS_THAN . expression
     (2) expression -> . ID EQUALS expression
@@ -516,15 +559,17 @@ state 13
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 25
+    expression                     shift and go to state 27
 
-state 14
+state 15
 
     (14) expression -> expression GREATER_THAN_EQUAL . expression
     (2) expression -> . ID EQUALS expression
@@ -543,15 +588,17 @@ state 14
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 26
+    expression                     shift and go to state 28
 
-state 15
+state 16
 
     (15) expression -> expression LESS_THAN_EQUAL . expression
     (2) expression -> . ID EQUALS expression
@@ -570,15 +617,17 @@ state 15
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 27
+    expression                     shift and go to state 29
 
-state 16
+state 17
 
     (16) expression -> expression OP_AND . expression
     (2) expression -> . ID EQUALS expression
@@ -597,15 +646,17 @@ state 16
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 28
+    expression                     shift and go to state 30
 
-state 17
+state 18
 
     (17) expression -> expression OP_OR . expression
     (2) expression -> . ID EQUALS expression
@@ -624,15 +675,17 @@ state 17
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 29
+    expression                     shift and go to state 31
 
-state 18
+state 19
 
     (2) expression -> ID EQUALS . expression
     (2) expression -> . ID EQUALS expression
@@ -651,15 +704,69 @@ state 18
     (15) expression -> . expression LESS_THAN_EQUAL expression
     (16) expression -> . expression OP_AND expression
     (17) expression -> . expression OP_OR expression
+    (18) expression -> . OP_NOT expression
 
     ID              shift and go to state 3
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
     STR             shift and go to state 6
+    OP_NOT          shift and go to state 7
 
-    expression                     shift and go to state 30
+    expression                     shift and go to state 32
 
-state 19
+state 20
+
+    (18) expression -> OP_NOT expression .
+    (3) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
+    (11) expression -> expression . EQUAL expression
+    (12) expression -> expression . GREATER_THAN expression
+    (13) expression -> expression . LESS_THAN expression
+    (14) expression -> expression . GREATER_THAN_EQUAL expression
+    (15) expression -> expression . LESS_THAN_EQUAL expression
+    (16) expression -> expression . OP_AND expression
+    (17) expression -> expression . OP_OR expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MULTIPLY resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for EQUAL resolved as shift
+  ! shift/reduce conflict for GREATER_THAN resolved as shift
+  ! shift/reduce conflict for LESS_THAN resolved as shift
+  ! shift/reduce conflict for GREATER_THAN_EQUAL resolved as shift
+  ! shift/reduce conflict for LESS_THAN_EQUAL resolved as shift
+  ! shift/reduce conflict for OP_AND resolved as shift
+  ! shift/reduce conflict for OP_OR resolved as shift
+    $end            reduce using rule 18 (expression -> OP_NOT expression .)
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
+
+  ! PLUS            [ reduce using rule 18 (expression -> OP_NOT expression .) ]
+  ! MINUS           [ reduce using rule 18 (expression -> OP_NOT expression .) ]
+  ! MULTIPLY        [ reduce using rule 18 (expression -> OP_NOT expression .) ]
+  ! DIVIDE          [ reduce using rule 18 (expression -> OP_NOT expression .) ]
+  ! EQUAL           [ reduce using rule 18 (expression -> OP_NOT expression .) ]
+  ! GREATER_THAN    [ reduce using rule 18 (expression -> OP_NOT expression .) ]
+  ! LESS_THAN       [ reduce using rule 18 (expression -> OP_NOT expression .) ]
+  ! GREATER_THAN_EQUAL [ reduce using rule 18 (expression -> OP_NOT expression .) ]
+  ! LESS_THAN_EQUAL [ reduce using rule 18 (expression -> OP_NOT expression .) ]
+  ! OP_AND          [ reduce using rule 18 (expression -> OP_NOT expression .) ]
+  ! OP_OR           [ reduce using rule 18 (expression -> OP_NOT expression .) ]
+
+
+state 21
 
     (3) expression -> expression PLUS expression .
     (3) expression -> expression . PLUS expression
@@ -686,17 +793,17 @@ state 19
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 3 (expression -> expression PLUS expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 3 (expression -> expression PLUS expression .) ]
   ! MINUS           [ reduce using rule 3 (expression -> expression PLUS expression .) ]
@@ -711,7 +818,7 @@ state 19
   ! OP_OR           [ reduce using rule 3 (expression -> expression PLUS expression .) ]
 
 
-state 20
+state 22
 
     (4) expression -> expression MINUS expression .
     (3) expression -> expression . PLUS expression
@@ -738,17 +845,17 @@ state 20
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 4 (expression -> expression MINUS expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 4 (expression -> expression MINUS expression .) ]
   ! MINUS           [ reduce using rule 4 (expression -> expression MINUS expression .) ]
@@ -763,7 +870,7 @@ state 20
   ! OP_OR           [ reduce using rule 4 (expression -> expression MINUS expression .) ]
 
 
-state 21
+state 23
 
     (5) expression -> expression MULTIPLY expression .
     (3) expression -> expression . PLUS expression
@@ -790,17 +897,17 @@ state 21
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 5 (expression -> expression MULTIPLY expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
   ! MINUS           [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
@@ -815,7 +922,7 @@ state 21
   ! OP_OR           [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
 
 
-state 22
+state 24
 
     (6) expression -> expression DIVIDE expression .
     (3) expression -> expression . PLUS expression
@@ -842,17 +949,17 @@ state 22
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 6 (expression -> expression DIVIDE expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
   ! MINUS           [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
@@ -867,7 +974,7 @@ state 22
   ! OP_OR           [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
 
 
-state 23
+state 25
 
     (11) expression -> expression EQUAL expression .
     (3) expression -> expression . PLUS expression
@@ -894,17 +1001,17 @@ state 23
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 11 (expression -> expression EQUAL expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
   ! MINUS           [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
@@ -919,7 +1026,7 @@ state 23
   ! OP_OR           [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
 
 
-state 24
+state 26
 
     (12) expression -> expression GREATER_THAN expression .
     (3) expression -> expression . PLUS expression
@@ -946,17 +1053,17 @@ state 24
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 12 (expression -> expression GREATER_THAN expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
   ! MINUS           [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
@@ -971,7 +1078,7 @@ state 24
   ! OP_OR           [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
 
 
-state 25
+state 27
 
     (13) expression -> expression LESS_THAN expression .
     (3) expression -> expression . PLUS expression
@@ -998,17 +1105,17 @@ state 25
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 13 (expression -> expression LESS_THAN expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
   ! MINUS           [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
@@ -1023,7 +1130,7 @@ state 25
   ! OP_OR           [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
 
 
-state 26
+state 28
 
     (14) expression -> expression GREATER_THAN_EQUAL expression .
     (3) expression -> expression . PLUS expression
@@ -1050,17 +1157,17 @@ state 26
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
   ! MINUS           [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
@@ -1075,7 +1182,7 @@ state 26
   ! OP_OR           [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
 
 
-state 27
+state 29
 
     (15) expression -> expression LESS_THAN_EQUAL expression .
     (3) expression -> expression . PLUS expression
@@ -1102,17 +1209,17 @@ state 27
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
   ! MINUS           [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
@@ -1127,7 +1234,7 @@ state 27
   ! OP_OR           [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
 
 
-state 28
+state 30
 
     (16) expression -> expression OP_AND expression .
     (3) expression -> expression . PLUS expression
@@ -1154,17 +1261,17 @@ state 28
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 16 (expression -> expression OP_AND expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 16 (expression -> expression OP_AND expression .) ]
   ! MINUS           [ reduce using rule 16 (expression -> expression OP_AND expression .) ]
@@ -1179,7 +1286,7 @@ state 28
   ! OP_OR           [ reduce using rule 16 (expression -> expression OP_AND expression .) ]
 
 
-state 29
+state 31
 
     (17) expression -> expression OP_OR expression .
     (3) expression -> expression . PLUS expression
@@ -1206,17 +1313,17 @@ state 29
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 17 (expression -> expression OP_OR expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 17 (expression -> expression OP_OR expression .) ]
   ! MINUS           [ reduce using rule 17 (expression -> expression OP_OR expression .) ]
@@ -1231,7 +1338,7 @@ state 29
   ! OP_OR           [ reduce using rule 17 (expression -> expression OP_OR expression .) ]
 
 
-state 30
+state 32
 
     (2) expression -> ID EQUALS expression .
     (3) expression -> expression . PLUS expression
@@ -1258,17 +1365,17 @@ state 30
   ! shift/reduce conflict for OP_AND resolved as shift
   ! shift/reduce conflict for OP_OR resolved as shift
     $end            reduce using rule 2 (expression -> ID EQUALS expression .)
-    PLUS            shift and go to state 7
-    MINUS           shift and go to state 8
-    MULTIPLY        shift and go to state 9
-    DIVIDE          shift and go to state 10
-    EQUAL           shift and go to state 11
-    GREATER_THAN    shift and go to state 12
-    LESS_THAN       shift and go to state 13
-    GREATER_THAN_EQUAL shift and go to state 14
-    LESS_THAN_EQUAL shift and go to state 15
-    OP_AND          shift and go to state 16
-    OP_OR           shift and go to state 17
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULTIPLY        shift and go to state 10
+    DIVIDE          shift and go to state 11
+    EQUAL           shift and go to state 12
+    GREATER_THAN    shift and go to state 13
+    LESS_THAN       shift and go to state 14
+    GREATER_THAN_EQUAL shift and go to state 15
+    LESS_THAN_EQUAL shift and go to state 16
+    OP_AND          shift and go to state 17
+    OP_OR           shift and go to state 18
 
   ! PLUS            [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
   ! MINUS           [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
@@ -1285,17 +1392,6 @@ state 30
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for PLUS in state 19 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 19 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 19 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 19 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 19 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 19 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 19 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 19 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 19 resolved as shift
-WARNING: shift/reduce conflict for OP_AND in state 19 resolved as shift
-WARNING: shift/reduce conflict for OP_OR in state 19 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 20 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 20 resolved as shift
 WARNING: shift/reduce conflict for MULTIPLY in state 20 resolved as shift
@@ -1417,3 +1513,25 @@ WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 30 resolved as sh
 WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 30 resolved as shift
 WARNING: shift/reduce conflict for OP_AND in state 30 resolved as shift
 WARNING: shift/reduce conflict for OP_OR in state 30 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 31 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 31 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLY in state 31 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 31 resolved as shift
+WARNING: shift/reduce conflict for EQUAL in state 31 resolved as shift
+WARNING: shift/reduce conflict for GREATER_THAN in state 31 resolved as shift
+WARNING: shift/reduce conflict for LESS_THAN in state 31 resolved as shift
+WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 31 resolved as shift
+WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 31 resolved as shift
+WARNING: shift/reduce conflict for OP_AND in state 31 resolved as shift
+WARNING: shift/reduce conflict for OP_OR in state 31 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 32 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 32 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLY in state 32 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 32 resolved as shift
+WARNING: shift/reduce conflict for EQUAL in state 32 resolved as shift
+WARNING: shift/reduce conflict for GREATER_THAN in state 32 resolved as shift
+WARNING: shift/reduce conflict for LESS_THAN in state 32 resolved as shift
+WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 32 resolved as shift
+WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 32 resolved as shift
+WARNING: shift/reduce conflict for OP_AND in state 32 resolved as shift
+WARNING: shift/reduce conflict for OP_OR in state 32 resolved as shift
