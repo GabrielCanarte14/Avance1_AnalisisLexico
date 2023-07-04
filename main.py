@@ -4,6 +4,7 @@ import ply.lex as lex
 
 # Diccionario de palabras reservadas
 reserved = {'alias': 'ALIAS',
+            'set' : 'SET',
             'puts':'PUTS',
             'and': 'AND',
             'begin': 'BEGIN',

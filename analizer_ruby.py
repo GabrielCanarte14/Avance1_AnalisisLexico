@@ -6,6 +6,7 @@ symbol_table = {}  # Tabla de símbolos para almacenar variables y sus valores
 hashes_table = {}
 arrays_table = {}
 function_table = {}  # Tabla de funciones para almacenar funciones y sus declaraciones
+sets_table = {}
 
 def p_statement_expression(p):
     'statement : expression'
@@ -45,6 +46,49 @@ def p_expression_binary_operation(p):
             print("Error semántico: División entre cero")
             error_message = f"Error semántico: División entre cero \n"
             update_errors(error_message)
+
+def p_set(p):
+    '''
+    statement : set_vacio
+    | set_elementos
+    '''
+
+def p_set_vacio(p):
+    '''
+    set_vacio : ID EQUALS SET LCURLYBRACKET RCURLYBRACKET
+    '''
+    set_name = p[1]
+    sets_table[set_name] = {}
+    if set_name in hashes_table:
+        print(f"Error semántico: El set '{set_name}' ya ha sido creado anteriormente")
+    else:
+        sets_table[set_name] = set()
+
+def p_set_elementos(p):
+    '''
+    set_elementos : ID EQUALS SET LCURLYBRACKET varios_set_elementos RCURLYBRACKET
+    '''
+    set_name = p[1]
+    if set_name in sets_table:
+        print(f"Error semántico: El set '{set_name}' ya ha sido creado anteriormente")
+    else:
+        set_elements = p[5]
+        sets_table[set_name] = set_elements
+
+def p_varios_set_elementos(p):
+    '''
+    varios_set_elementos : INT
+    | STR
+    | FLOAT
+    | INT COMMA varios_set_elementos
+    | FLOAT COMMA varios_set_elementos
+    | STR COMMA varios_set_elementos 
+    '''
+    if len(p) == 2:
+        p[0] = set((p[1], ))
+    else:
+        elemento = p[1]
+        p[0] = set(elemento)
 
 def p_array(p):
     '''
@@ -200,6 +244,7 @@ def analyze_code(code):
         result = analizador.parse(line)
         print(symbol_table)
         print(hashes_table)
+        print(sets_table)
         if result is not None:
             print(result)
 
