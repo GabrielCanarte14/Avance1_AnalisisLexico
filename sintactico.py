@@ -3,6 +3,7 @@ import ply.yacc as yacc
 
 # Reglas de gramática y acciones semánticas
 symbol_table = {}  # Tabla de símbolos para almacenar variables y sus valores
+function_table = {}  # Tabla de funciones para almacenar funciones y sus declaraciones
 
 def p_statement_expression(p):
     'statement : expression'
@@ -60,13 +61,14 @@ def p_expression_id(p):
         print(f"Error semántico: Variable '{variable_name}' no definida")
 
 
-def p_expression_logicals(p):
+def p_expression_logical(p):
     '''
     expression : expression EQUAL expression
                | expression GREATER_THAN expression
                | expression LESS_THAN expression
                | expression GREATER_THAN_EQUAL expression
                | expression LESS_THAN_EQUAL expression
+
     '''
     operator = p[2]
     operand1 = p[1]
@@ -86,28 +88,19 @@ def p_expression_logicals(p):
     else:
         print("Error semántico: Incompatibilidad de tipos en la comparación")
 
-def p_expression_logical(p):
-    '''
-    expression : expression OP_AND expression
-    | expression OP_OR expression
-    | OP_NOT expression
-    '''
-    operator = p[1]
-    if operator == 'not':
-        operand = p[2]
-        p[0] = not operand
+def p_statement_function_declaration(p):
+    'expression : DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER'
+    function_name = p[2]
+    function_table[function_name] = True
+    p[0] = None
+
+def p_expression_function_call(p):
+    'expression : ID LPARENTHESIS RPARENTHESIS'
+    function_name = p[1]
+    if function_name in function_table:
+        p[0] = f'Llamada a la función {function_name}'
     else:
-        operand1 = p[1]
-        operand2 = p[3]
-
-        if operator == '&&':
-            p[0] = operand1 and operand2
-        elif operator == '||':
-            p[0] = operand1 or operand2
-
-        if p[0] is None:
-            print("Error semántico: Operación lógica inválida")
-
+        print(f"Error semántico: Función '{function_name}' no declarada")
 
 def p_error(p):
     print("Error de sintaxis")
