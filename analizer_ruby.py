@@ -42,6 +42,8 @@ def p_expression_binary_operation(p):
             p[0] = operand1 / operand2
         else:
             print("Error semántico: División entre cero")
+            error_message = f"Error semántico: División entre cero \n"
+            update_errors(error_message)
 
 def p_hash(p):
     '''
@@ -58,6 +60,8 @@ def p_hash_vacio(p):
     hashes_table[hash_name] = {}
     if hash_name in hashes_table:
         print(f"Error semántico: El hash '{hash_name}' ya ha sido creado anteriormente")
+        error_message = f"Error semántico: El hash '{hash_name}' ya ha sido creado anteriormente \n"
+        update_errors(error_message)
     else:
         hashes_table[hash_name] = {}
 
@@ -69,6 +73,8 @@ def p_hash_elementos(p):
     hash_name = p[1]
     if hash_name in hashes_table:
         print(f"Error semántico: El hash '{hash_name}' ya ha sido creado anteriormente")
+        error_message = f"Error semántico: El hash '{hash_name}' ya ha sido creado anteriormente \n"
+        update_errors(error_message)
     else:
         hash_elements = p[4]
         hashes_table[hash_name] = hash_elements
@@ -114,17 +120,23 @@ def p_expression_id(p):
         p[0] = symbol_table[variable_name]
     else:
         print(f"Error semántico: Variable '{variable_name}' no definida")
+        error_message =f"Error semántico: Variable '{variable_name}' no definida \n"
+        update_errors(error_message)
 
 
 def p_error(p):
     if p:
-         print("Error de sintaxis en token:", p.type)
-         #sintactico.errok()
+        error_message = f"Error de sintaxis en token: {p.type}\n"
+        update_errors(error_message)
     else:
-         print("Syntax error at EOF")
+        error_message = "Syntax error at EOF\n"
+        update_errors(error_message)
 
 # Build the parser
 analizador = yacc.yacc()
+
+# Variable para almacenar los errores
+errors_list = []
 
 def analyze_code(code):
     lines = code.splitlines()
@@ -136,3 +148,6 @@ def analyze_code(code):
         print(hashes_table)
         if result is not None:
             print(result)
+
+def update_errors(error_message):
+    errors_list.append(error_message)
