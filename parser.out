@@ -14,33 +14,37 @@ Unused terminals:
     BREAK
     CASE
     CLASS
-    COLON
-    COMMA
     COMPLEX
     CONSTANT
     DEDENT
+    DEF
     DEFINED
     DO
     DOT
     EACH
     ELSE
     ELSEIF
+    END_LOWER
     END_UPPER
     ENSURE
+    EQUAL
     EXPONENT
     FALSE
     FILE
     FOR
     GLOBAL
+    GREATER_THAN
+    GREATER_THAN_EQUAL
     HASH
-    HASHAS
     IF
     IN
     INDENT
     LBRACKET
-    LCURLYBRACKET
+    LESS_THAN
+    LESS_THAN_EQUAL
     LINE
     LOOP
+    LPARENTHESIS
     MODULE
     MODULO
     NEXT
@@ -54,11 +58,11 @@ Unused terminals:
     PUTS
     RATIONAL
     RBRACKET
-    RCURLYBRACKET
     REDO
     RESCUE
     RETRY
     RETURN
+    RPARENTHESIS
     SELF
     SEMICOLON
     SHIFT_LEFT
@@ -83,17 +87,18 @@ Rule 3     expression -> expression PLUS expression
 Rule 4     expression -> expression MINUS expression
 Rule 5     expression -> expression MULTIPLY expression
 Rule 6     expression -> expression DIVIDE expression
-Rule 7     expression -> INT
-Rule 8     expression -> FLOAT
-Rule 9     expression -> STR
-Rule 10    expression -> ID
-Rule 11    expression -> expression EQUAL expression
-Rule 12    expression -> expression GREATER_THAN expression
-Rule 13    expression -> expression LESS_THAN expression
-Rule 14    expression -> expression GREATER_THAN_EQUAL expression
-Rule 15    expression -> expression LESS_THAN_EQUAL expression
-Rule 16    expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-Rule 17    expression -> ID LPARENTHESIS RPARENTHESIS
+Rule 7     statement -> hash_vacio
+Rule 8     statement -> hash_elementos
+Rule 9     hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET
+Rule 10    hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
+Rule 11    varios_pares_hash -> ID COLON expression
+Rule 12    varios_pares_hash -> STR HASHAS expression
+Rule 13    varios_pares_hash -> ID COLON expression COMMA varios_pares_hash
+Rule 14    varios_pares_hash -> STR HASHAS expression COMMA varios_pares_hash
+Rule 15    expression -> INT
+Rule 16    expression -> FLOAT
+Rule 17    expression -> STR
+Rule 18    expression -> ID
 
 Terminals, with rules where they appear
 
@@ -109,12 +114,12 @@ BITWISE_XOR          :
 BREAK                : 
 CASE                 : 
 CLASS                : 
-COLON                : 
-COMMA                : 
+COLON                : 11 13
+COMMA                : 13 14
 COMPLEX              : 
 CONSTANT             : 
 DEDENT               : 
-DEF                  : 16
+DEF                  : 
 DEFINED              : 
 DIVIDE               : 6
 DO                   : 
@@ -122,33 +127,33 @@ DOT                  :
 EACH                 : 
 ELSE                 : 
 ELSEIF               : 
-END_LOWER            : 16
+END_LOWER            : 
 END_UPPER            : 
 ENSURE               : 
-EQUAL                : 11
-EQUALS               : 2
+EQUAL                : 
+EQUALS               : 2 9 10
 EXPONENT             : 
 FALSE                : 
 FILE                 : 
-FLOAT                : 8
+FLOAT                : 16
 FOR                  : 
 GLOBAL               : 
-GREATER_THAN         : 12
-GREATER_THAN_EQUAL   : 14
+GREATER_THAN         : 
+GREATER_THAN_EQUAL   : 
 HASH                 : 
-HASHAS               : 
-ID                   : 2 10 16 17
+HASHAS               : 12 14
+ID                   : 2 9 10 11 13 18
 IF                   : 
 IN                   : 
 INDENT               : 
-INT                  : 7
+INT                  : 15
 LBRACKET             : 
-LCURLYBRACKET        : 
-LESS_THAN            : 13
-LESS_THAN_EQUAL      : 15
+LCURLYBRACKET        : 9 10
+LESS_THAN            : 
+LESS_THAN_EQUAL      : 
 LINE                 : 
 LOOP                 : 
-LPARENTHESIS         : 16 17
+LPARENTHESIS         : 
 MINUS                : 4
 MODULE               : 
 MODULO               : 
@@ -165,17 +170,17 @@ PLUS                 : 3
 PUTS                 : 
 RATIONAL             : 
 RBRACKET             : 
-RCURLYBRACKET        : 
+RCURLYBRACKET        : 9 10
 REDO                 : 
 RESCUE               : 
 RETRY                : 
 RETURN               : 
-RPARENTHESIS         : 16 17
+RPARENTHESIS         : 
 SELF                 : 
 SEMICOLON            : 
 SHIFT_LEFT           : 
 SHIFT_RIGHT          : 
-STR                  : 9
+STR                  : 12 14 17
 SUPER                : 
 SYMBOL               : 
 THEN                 : 
@@ -190,8 +195,11 @@ error                :
 
 Nonterminals, with rules where they appear
 
-expression           : 1 2 3 3 4 4 5 5 6 6 11 11 12 12 13 13 14 14 15 15 16
+expression           : 1 2 3 3 4 4 5 5 6 6 11 12 13 14
+hash_elementos       : 8
+hash_vacio           : 7
 statement            : 0
+varios_pares_hash    : 10 13 14
 
 Parsing method: LALR
 
@@ -199,31 +207,29 @@ state 0
 
     (0) S' -> . statement
     (1) statement -> . expression
+    (7) statement -> . hash_vacio
+    (8) statement -> . hash_elementos
     (2) expression -> . ID EQUALS expression
     (3) expression -> . expression PLUS expression
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
+    (15) expression -> . INT
+    (16) expression -> . FLOAT
+    (17) expression -> . STR
+    (18) expression -> . ID
+    (9) hash_vacio -> . ID EQUALS LCURLYBRACKET RCURLYBRACKET
+    (10) hash_elementos -> . ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
 
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
+    ID              shift and go to state 5
+    INT             shift and go to state 6
+    FLOAT           shift and go to state 7
+    STR             shift and go to state 8
 
     statement                      shift and go to state 1
     expression                     shift and go to state 2
+    hash_vacio                     shift and go to state 3
+    hash_elementos                 shift and go to state 4
 
 state 1
 
@@ -238,104 +244,83 @@ state 2
     (4) expression -> expression . MINUS expression
     (5) expression -> expression . MULTIPLY expression
     (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
 
     $end            reduce using rule 1 (statement -> expression .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
+    PLUS            shift and go to state 9
+    MINUS           shift and go to state 10
+    MULTIPLY        shift and go to state 11
+    DIVIDE          shift and go to state 12
 
 
 state 3
 
-    (2) expression -> ID . EQUALS expression
-    (10) expression -> ID .
-    (17) expression -> ID . LPARENTHESIS RPARENTHESIS
+    (7) statement -> hash_vacio .
 
-    EQUALS          shift and go to state 17
-    PLUS            reduce using rule 10 (expression -> ID .)
-    MINUS           reduce using rule 10 (expression -> ID .)
-    MULTIPLY        reduce using rule 10 (expression -> ID .)
-    DIVIDE          reduce using rule 10 (expression -> ID .)
-    EQUAL           reduce using rule 10 (expression -> ID .)
-    GREATER_THAN    reduce using rule 10 (expression -> ID .)
-    LESS_THAN       reduce using rule 10 (expression -> ID .)
-    GREATER_THAN_EQUAL reduce using rule 10 (expression -> ID .)
-    LESS_THAN_EQUAL reduce using rule 10 (expression -> ID .)
-    $end            reduce using rule 10 (expression -> ID .)
-    END_LOWER       reduce using rule 10 (expression -> ID .)
-    LPARENTHESIS    shift and go to state 18
+    $end            reduce using rule 7 (statement -> hash_vacio .)
 
 
 state 4
 
-    (7) expression -> INT .
+    (8) statement -> hash_elementos .
 
-    PLUS            reduce using rule 7 (expression -> INT .)
-    MINUS           reduce using rule 7 (expression -> INT .)
-    MULTIPLY        reduce using rule 7 (expression -> INT .)
-    DIVIDE          reduce using rule 7 (expression -> INT .)
-    EQUAL           reduce using rule 7 (expression -> INT .)
-    GREATER_THAN    reduce using rule 7 (expression -> INT .)
-    LESS_THAN       reduce using rule 7 (expression -> INT .)
-    GREATER_THAN_EQUAL reduce using rule 7 (expression -> INT .)
-    LESS_THAN_EQUAL reduce using rule 7 (expression -> INT .)
-    $end            reduce using rule 7 (expression -> INT .)
-    END_LOWER       reduce using rule 7 (expression -> INT .)
+    $end            reduce using rule 8 (statement -> hash_elementos .)
 
 
 state 5
 
-    (8) expression -> FLOAT .
+    (2) expression -> ID . EQUALS expression
+    (18) expression -> ID .
+    (9) hash_vacio -> ID . EQUALS LCURLYBRACKET RCURLYBRACKET
+    (10) hash_elementos -> ID . EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
 
-    PLUS            reduce using rule 8 (expression -> FLOAT .)
-    MINUS           reduce using rule 8 (expression -> FLOAT .)
-    MULTIPLY        reduce using rule 8 (expression -> FLOAT .)
-    DIVIDE          reduce using rule 8 (expression -> FLOAT .)
-    EQUAL           reduce using rule 8 (expression -> FLOAT .)
-    GREATER_THAN    reduce using rule 8 (expression -> FLOAT .)
-    LESS_THAN       reduce using rule 8 (expression -> FLOAT .)
-    GREATER_THAN_EQUAL reduce using rule 8 (expression -> FLOAT .)
-    LESS_THAN_EQUAL reduce using rule 8 (expression -> FLOAT .)
-    $end            reduce using rule 8 (expression -> FLOAT .)
-    END_LOWER       reduce using rule 8 (expression -> FLOAT .)
+    EQUALS          shift and go to state 13
+    PLUS            reduce using rule 18 (expression -> ID .)
+    MINUS           reduce using rule 18 (expression -> ID .)
+    MULTIPLY        reduce using rule 18 (expression -> ID .)
+    DIVIDE          reduce using rule 18 (expression -> ID .)
+    $end            reduce using rule 18 (expression -> ID .)
 
 
 state 6
 
-    (9) expression -> STR .
+    (15) expression -> INT .
 
-    PLUS            reduce using rule 9 (expression -> STR .)
-    MINUS           reduce using rule 9 (expression -> STR .)
-    MULTIPLY        reduce using rule 9 (expression -> STR .)
-    DIVIDE          reduce using rule 9 (expression -> STR .)
-    EQUAL           reduce using rule 9 (expression -> STR .)
-    GREATER_THAN    reduce using rule 9 (expression -> STR .)
-    LESS_THAN       reduce using rule 9 (expression -> STR .)
-    GREATER_THAN_EQUAL reduce using rule 9 (expression -> STR .)
-    LESS_THAN_EQUAL reduce using rule 9 (expression -> STR .)
-    $end            reduce using rule 9 (expression -> STR .)
-    END_LOWER       reduce using rule 9 (expression -> STR .)
+    PLUS            reduce using rule 15 (expression -> INT .)
+    MINUS           reduce using rule 15 (expression -> INT .)
+    MULTIPLY        reduce using rule 15 (expression -> INT .)
+    DIVIDE          reduce using rule 15 (expression -> INT .)
+    $end            reduce using rule 15 (expression -> INT .)
+    COMMA           reduce using rule 15 (expression -> INT .)
+    RCURLYBRACKET   reduce using rule 15 (expression -> INT .)
 
 
 state 7
 
-    (16) expression -> DEF . ID LPARENTHESIS RPARENTHESIS expression END_LOWER
+    (16) expression -> FLOAT .
 
-    ID              shift and go to state 19
+    PLUS            reduce using rule 16 (expression -> FLOAT .)
+    MINUS           reduce using rule 16 (expression -> FLOAT .)
+    MULTIPLY        reduce using rule 16 (expression -> FLOAT .)
+    DIVIDE          reduce using rule 16 (expression -> FLOAT .)
+    $end            reduce using rule 16 (expression -> FLOAT .)
+    COMMA           reduce using rule 16 (expression -> FLOAT .)
+    RCURLYBRACKET   reduce using rule 16 (expression -> FLOAT .)
 
 
 state 8
+
+    (17) expression -> STR .
+
+    PLUS            reduce using rule 17 (expression -> STR .)
+    MINUS           reduce using rule 17 (expression -> STR .)
+    MULTIPLY        reduce using rule 17 (expression -> STR .)
+    DIVIDE          reduce using rule 17 (expression -> STR .)
+    $end            reduce using rule 17 (expression -> STR .)
+    COMMA           reduce using rule 17 (expression -> STR .)
+    RCURLYBRACKET   reduce using rule 17 (expression -> STR .)
+
+
+state 9
 
     (3) expression -> expression PLUS . expression
     (2) expression -> . ID EQUALS expression
@@ -343,27 +328,19 @@ state 8
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
+    (15) expression -> . INT
+    (16) expression -> . FLOAT
+    (17) expression -> . STR
+    (18) expression -> . ID
 
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
+    ID              shift and go to state 15
+    INT             shift and go to state 6
+    FLOAT           shift and go to state 7
+    STR             shift and go to state 8
 
-    expression                     shift and go to state 20
+    expression                     shift and go to state 14
 
-state 9
+state 10
 
     (4) expression -> expression MINUS . expression
     (2) expression -> . ID EQUALS expression
@@ -371,27 +348,19 @@ state 9
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
+    (15) expression -> . INT
+    (16) expression -> . FLOAT
+    (17) expression -> . STR
+    (18) expression -> . ID
 
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
+    ID              shift and go to state 15
+    INT             shift and go to state 6
+    FLOAT           shift and go to state 7
+    STR             shift and go to state 8
 
-    expression                     shift and go to state 21
+    expression                     shift and go to state 16
 
-state 10
+state 11
 
     (5) expression -> expression MULTIPLY . expression
     (2) expression -> . ID EQUALS expression
@@ -399,27 +368,19 @@ state 10
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
+    (15) expression -> . INT
+    (16) expression -> . FLOAT
+    (17) expression -> . STR
+    (18) expression -> . ID
 
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
+    ID              shift and go to state 15
+    INT             shift and go to state 6
+    FLOAT           shift and go to state 7
+    STR             shift and go to state 8
 
-    expression                     shift and go to state 22
+    expression                     shift and go to state 17
 
-state 11
+state 12
 
     (6) expression -> expression DIVIDE . expression
     (2) expression -> . ID EQUALS expression
@@ -427,167 +388,202 @@ state 11
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
+    (15) expression -> . INT
+    (16) expression -> . FLOAT
+    (17) expression -> . STR
+    (18) expression -> . ID
 
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
+    ID              shift and go to state 15
+    INT             shift and go to state 6
+    FLOAT           shift and go to state 7
+    STR             shift and go to state 8
 
-    expression                     shift and go to state 23
-
-state 12
-
-    (11) expression -> expression EQUAL . expression
-    (2) expression -> . ID EQUALS expression
-    (3) expression -> . expression PLUS expression
-    (4) expression -> . expression MINUS expression
-    (5) expression -> . expression MULTIPLY expression
-    (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
-
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
-
-    expression                     shift and go to state 24
+    expression                     shift and go to state 18
 
 state 13
 
-    (12) expression -> expression GREATER_THAN . expression
+    (2) expression -> ID EQUALS . expression
+    (9) hash_vacio -> ID EQUALS . LCURLYBRACKET RCURLYBRACKET
+    (10) hash_elementos -> ID EQUALS . LCURLYBRACKET varios_pares_hash RCURLYBRACKET
     (2) expression -> . ID EQUALS expression
     (3) expression -> . expression PLUS expression
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
+    (15) expression -> . INT
+    (16) expression -> . FLOAT
+    (17) expression -> . STR
+    (18) expression -> . ID
 
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
+    LCURLYBRACKET   shift and go to state 20
+    ID              shift and go to state 15
+    INT             shift and go to state 6
+    FLOAT           shift and go to state 7
+    STR             shift and go to state 8
 
-    expression                     shift and go to state 25
+    expression                     shift and go to state 19
 
 state 14
 
-    (13) expression -> expression LESS_THAN . expression
-    (2) expression -> . ID EQUALS expression
-    (3) expression -> . expression PLUS expression
-    (4) expression -> . expression MINUS expression
-    (5) expression -> . expression MULTIPLY expression
-    (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
+    (3) expression -> expression PLUS expression .
+    (3) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
 
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MULTIPLY resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    $end            reduce using rule 3 (expression -> expression PLUS expression .)
+    COMMA           reduce using rule 3 (expression -> expression PLUS expression .)
+    RCURLYBRACKET   reduce using rule 3 (expression -> expression PLUS expression .)
+    PLUS            shift and go to state 9
+    MINUS           shift and go to state 10
+    MULTIPLY        shift and go to state 11
+    DIVIDE          shift and go to state 12
 
-    expression                     shift and go to state 26
+  ! PLUS            [ reduce using rule 3 (expression -> expression PLUS expression .) ]
+  ! MINUS           [ reduce using rule 3 (expression -> expression PLUS expression .) ]
+  ! MULTIPLY        [ reduce using rule 3 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 3 (expression -> expression PLUS expression .) ]
+
 
 state 15
 
-    (14) expression -> expression GREATER_THAN_EQUAL . expression
-    (2) expression -> . ID EQUALS expression
-    (3) expression -> . expression PLUS expression
-    (4) expression -> . expression MINUS expression
-    (5) expression -> . expression MULTIPLY expression
-    (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
+    (2) expression -> ID . EQUALS expression
+    (18) expression -> ID .
 
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
+    EQUALS          shift and go to state 21
+    PLUS            reduce using rule 18 (expression -> ID .)
+    MINUS           reduce using rule 18 (expression -> ID .)
+    MULTIPLY        reduce using rule 18 (expression -> ID .)
+    DIVIDE          reduce using rule 18 (expression -> ID .)
+    $end            reduce using rule 18 (expression -> ID .)
+    COMMA           reduce using rule 18 (expression -> ID .)
+    RCURLYBRACKET   reduce using rule 18 (expression -> ID .)
 
-    expression                     shift and go to state 27
 
 state 16
 
-    (15) expression -> expression LESS_THAN_EQUAL . expression
-    (2) expression -> . ID EQUALS expression
-    (3) expression -> . expression PLUS expression
-    (4) expression -> . expression MINUS expression
-    (5) expression -> . expression MULTIPLY expression
-    (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
+    (4) expression -> expression MINUS expression .
+    (3) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
 
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MULTIPLY resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    $end            reduce using rule 4 (expression -> expression MINUS expression .)
+    COMMA           reduce using rule 4 (expression -> expression MINUS expression .)
+    RCURLYBRACKET   reduce using rule 4 (expression -> expression MINUS expression .)
+    PLUS            shift and go to state 9
+    MINUS           shift and go to state 10
+    MULTIPLY        shift and go to state 11
+    DIVIDE          shift and go to state 12
 
-    expression                     shift and go to state 28
+  ! PLUS            [ reduce using rule 4 (expression -> expression MINUS expression .) ]
+  ! MINUS           [ reduce using rule 4 (expression -> expression MINUS expression .) ]
+  ! MULTIPLY        [ reduce using rule 4 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 4 (expression -> expression MINUS expression .) ]
+
 
 state 17
+
+    (5) expression -> expression MULTIPLY expression .
+    (3) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MULTIPLY resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    $end            reduce using rule 5 (expression -> expression MULTIPLY expression .)
+    COMMA           reduce using rule 5 (expression -> expression MULTIPLY expression .)
+    RCURLYBRACKET   reduce using rule 5 (expression -> expression MULTIPLY expression .)
+    PLUS            shift and go to state 9
+    MINUS           shift and go to state 10
+    MULTIPLY        shift and go to state 11
+    DIVIDE          shift and go to state 12
+
+  ! PLUS            [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
+  ! MINUS           [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
+  ! MULTIPLY        [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
+  ! DIVIDE          [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
+
+
+state 18
+
+    (6) expression -> expression DIVIDE expression .
+    (3) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MULTIPLY resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    $end            reduce using rule 6 (expression -> expression DIVIDE expression .)
+    COMMA           reduce using rule 6 (expression -> expression DIVIDE expression .)
+    RCURLYBRACKET   reduce using rule 6 (expression -> expression DIVIDE expression .)
+    PLUS            shift and go to state 9
+    MINUS           shift and go to state 10
+    MULTIPLY        shift and go to state 11
+    DIVIDE          shift and go to state 12
+
+  ! PLUS            [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
+  ! MINUS           [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
+  ! MULTIPLY        [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
+  ! DIVIDE          [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
+
+
+state 19
+
+    (2) expression -> ID EQUALS expression .
+    (3) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MULTIPLY resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    $end            reduce using rule 2 (expression -> ID EQUALS expression .)
+    COMMA           reduce using rule 2 (expression -> ID EQUALS expression .)
+    RCURLYBRACKET   reduce using rule 2 (expression -> ID EQUALS expression .)
+    PLUS            shift and go to state 9
+    MINUS           shift and go to state 10
+    MULTIPLY        shift and go to state 11
+    DIVIDE          shift and go to state 12
+
+  ! PLUS            [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
+  ! MINUS           [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
+  ! MULTIPLY        [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
+  ! DIVIDE          [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
+
+
+state 20
+
+    (9) hash_vacio -> ID EQUALS LCURLYBRACKET . RCURLYBRACKET
+    (10) hash_elementos -> ID EQUALS LCURLYBRACKET . varios_pares_hash RCURLYBRACKET
+    (11) varios_pares_hash -> . ID COLON expression
+    (12) varios_pares_hash -> . STR HASHAS expression
+    (13) varios_pares_hash -> . ID COLON expression COMMA varios_pares_hash
+    (14) varios_pares_hash -> . STR HASHAS expression COMMA varios_pares_hash
+
+    RCURLYBRACKET   shift and go to state 23
+    ID              shift and go to state 22
+    STR             shift and go to state 25
+
+    varios_pares_hash              shift and go to state 24
+
+state 21
 
     (2) expression -> ID EQUALS . expression
     (2) expression -> . ID EQUALS expression
@@ -595,673 +591,190 @@ state 17
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
+    (15) expression -> . INT
+    (16) expression -> . FLOAT
+    (17) expression -> . STR
+    (18) expression -> . ID
 
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
+    ID              shift and go to state 15
+    INT             shift and go to state 6
+    FLOAT           shift and go to state 7
+    STR             shift and go to state 8
 
-    expression                     shift and go to state 29
-
-state 18
-
-    (17) expression -> ID LPARENTHESIS . RPARENTHESIS
-
-    RPARENTHESIS    shift and go to state 30
-
-
-state 19
-
-    (16) expression -> DEF ID . LPARENTHESIS RPARENTHESIS expression END_LOWER
-
-    LPARENTHESIS    shift and go to state 31
-
-
-state 20
-
-    (3) expression -> expression PLUS expression .
-    (3) expression -> expression . PLUS expression
-    (4) expression -> expression . MINUS expression
-    (5) expression -> expression . MULTIPLY expression
-    (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
-
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for GREATER_THAN resolved as shift
-  ! shift/reduce conflict for LESS_THAN resolved as shift
-  ! shift/reduce conflict for GREATER_THAN_EQUAL resolved as shift
-  ! shift/reduce conflict for LESS_THAN_EQUAL resolved as shift
-    $end            reduce using rule 3 (expression -> expression PLUS expression .)
-    END_LOWER       reduce using rule 3 (expression -> expression PLUS expression .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
-
-  ! PLUS            [ reduce using rule 3 (expression -> expression PLUS expression .) ]
-  ! MINUS           [ reduce using rule 3 (expression -> expression PLUS expression .) ]
-  ! MULTIPLY        [ reduce using rule 3 (expression -> expression PLUS expression .) ]
-  ! DIVIDE          [ reduce using rule 3 (expression -> expression PLUS expression .) ]
-  ! EQUAL           [ reduce using rule 3 (expression -> expression PLUS expression .) ]
-  ! GREATER_THAN    [ reduce using rule 3 (expression -> expression PLUS expression .) ]
-  ! LESS_THAN       [ reduce using rule 3 (expression -> expression PLUS expression .) ]
-  ! GREATER_THAN_EQUAL [ reduce using rule 3 (expression -> expression PLUS expression .) ]
-  ! LESS_THAN_EQUAL [ reduce using rule 3 (expression -> expression PLUS expression .) ]
-
-
-state 21
-
-    (4) expression -> expression MINUS expression .
-    (3) expression -> expression . PLUS expression
-    (4) expression -> expression . MINUS expression
-    (5) expression -> expression . MULTIPLY expression
-    (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
-
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for GREATER_THAN resolved as shift
-  ! shift/reduce conflict for LESS_THAN resolved as shift
-  ! shift/reduce conflict for GREATER_THAN_EQUAL resolved as shift
-  ! shift/reduce conflict for LESS_THAN_EQUAL resolved as shift
-    $end            reduce using rule 4 (expression -> expression MINUS expression .)
-    END_LOWER       reduce using rule 4 (expression -> expression MINUS expression .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
-
-  ! PLUS            [ reduce using rule 4 (expression -> expression MINUS expression .) ]
-  ! MINUS           [ reduce using rule 4 (expression -> expression MINUS expression .) ]
-  ! MULTIPLY        [ reduce using rule 4 (expression -> expression MINUS expression .) ]
-  ! DIVIDE          [ reduce using rule 4 (expression -> expression MINUS expression .) ]
-  ! EQUAL           [ reduce using rule 4 (expression -> expression MINUS expression .) ]
-  ! GREATER_THAN    [ reduce using rule 4 (expression -> expression MINUS expression .) ]
-  ! LESS_THAN       [ reduce using rule 4 (expression -> expression MINUS expression .) ]
-  ! GREATER_THAN_EQUAL [ reduce using rule 4 (expression -> expression MINUS expression .) ]
-  ! LESS_THAN_EQUAL [ reduce using rule 4 (expression -> expression MINUS expression .) ]
-
+    expression                     shift and go to state 19
 
 state 22
 
-    (5) expression -> expression MULTIPLY expression .
-    (3) expression -> expression . PLUS expression
-    (4) expression -> expression . MINUS expression
-    (5) expression -> expression . MULTIPLY expression
-    (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
+    (11) varios_pares_hash -> ID . COLON expression
+    (13) varios_pares_hash -> ID . COLON expression COMMA varios_pares_hash
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for GREATER_THAN resolved as shift
-  ! shift/reduce conflict for LESS_THAN resolved as shift
-  ! shift/reduce conflict for GREATER_THAN_EQUAL resolved as shift
-  ! shift/reduce conflict for LESS_THAN_EQUAL resolved as shift
-    $end            reduce using rule 5 (expression -> expression MULTIPLY expression .)
-    END_LOWER       reduce using rule 5 (expression -> expression MULTIPLY expression .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
-
-  ! PLUS            [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
-  ! MINUS           [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
-  ! MULTIPLY        [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
-  ! DIVIDE          [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
-  ! EQUAL           [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
-  ! GREATER_THAN    [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
-  ! LESS_THAN       [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
-  ! GREATER_THAN_EQUAL [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
-  ! LESS_THAN_EQUAL [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
+    COLON           shift and go to state 26
 
 
 state 23
 
-    (6) expression -> expression DIVIDE expression .
-    (3) expression -> expression . PLUS expression
-    (4) expression -> expression . MINUS expression
-    (5) expression -> expression . MULTIPLY expression
-    (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
+    (9) hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for GREATER_THAN resolved as shift
-  ! shift/reduce conflict for LESS_THAN resolved as shift
-  ! shift/reduce conflict for GREATER_THAN_EQUAL resolved as shift
-  ! shift/reduce conflict for LESS_THAN_EQUAL resolved as shift
-    $end            reduce using rule 6 (expression -> expression DIVIDE expression .)
-    END_LOWER       reduce using rule 6 (expression -> expression DIVIDE expression .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
-
-  ! PLUS            [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
-  ! MINUS           [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
-  ! MULTIPLY        [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
-  ! DIVIDE          [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
-  ! EQUAL           [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
-  ! GREATER_THAN    [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
-  ! LESS_THAN       [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
-  ! GREATER_THAN_EQUAL [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
-  ! LESS_THAN_EQUAL [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
+    $end            reduce using rule 9 (hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .)
 
 
 state 24
 
-    (11) expression -> expression EQUAL expression .
-    (3) expression -> expression . PLUS expression
-    (4) expression -> expression . MINUS expression
-    (5) expression -> expression . MULTIPLY expression
-    (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
+    (10) hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash . RCURLYBRACKET
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for GREATER_THAN resolved as shift
-  ! shift/reduce conflict for LESS_THAN resolved as shift
-  ! shift/reduce conflict for GREATER_THAN_EQUAL resolved as shift
-  ! shift/reduce conflict for LESS_THAN_EQUAL resolved as shift
-    $end            reduce using rule 11 (expression -> expression EQUAL expression .)
-    END_LOWER       reduce using rule 11 (expression -> expression EQUAL expression .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
-
-  ! PLUS            [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
-  ! MINUS           [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
-  ! MULTIPLY        [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
-  ! DIVIDE          [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
-  ! EQUAL           [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
-  ! GREATER_THAN    [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
-  ! LESS_THAN       [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
-  ! GREATER_THAN_EQUAL [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
-  ! LESS_THAN_EQUAL [ reduce using rule 11 (expression -> expression EQUAL expression .) ]
+    RCURLYBRACKET   shift and go to state 27
 
 
 state 25
 
-    (12) expression -> expression GREATER_THAN expression .
-    (3) expression -> expression . PLUS expression
-    (4) expression -> expression . MINUS expression
-    (5) expression -> expression . MULTIPLY expression
-    (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
+    (12) varios_pares_hash -> STR . HASHAS expression
+    (14) varios_pares_hash -> STR . HASHAS expression COMMA varios_pares_hash
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for GREATER_THAN resolved as shift
-  ! shift/reduce conflict for LESS_THAN resolved as shift
-  ! shift/reduce conflict for GREATER_THAN_EQUAL resolved as shift
-  ! shift/reduce conflict for LESS_THAN_EQUAL resolved as shift
-    $end            reduce using rule 12 (expression -> expression GREATER_THAN expression .)
-    END_LOWER       reduce using rule 12 (expression -> expression GREATER_THAN expression .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
-
-  ! PLUS            [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
-  ! MINUS           [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
-  ! MULTIPLY        [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
-  ! DIVIDE          [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
-  ! EQUAL           [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
-  ! GREATER_THAN    [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
-  ! LESS_THAN       [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
-  ! GREATER_THAN_EQUAL [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
-  ! LESS_THAN_EQUAL [ reduce using rule 12 (expression -> expression GREATER_THAN expression .) ]
+    HASHAS          shift and go to state 28
 
 
 state 26
 
-    (13) expression -> expression LESS_THAN expression .
-    (3) expression -> expression . PLUS expression
-    (4) expression -> expression . MINUS expression
-    (5) expression -> expression . MULTIPLY expression
-    (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
-
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for GREATER_THAN resolved as shift
-  ! shift/reduce conflict for LESS_THAN resolved as shift
-  ! shift/reduce conflict for GREATER_THAN_EQUAL resolved as shift
-  ! shift/reduce conflict for LESS_THAN_EQUAL resolved as shift
-    $end            reduce using rule 13 (expression -> expression LESS_THAN expression .)
-    END_LOWER       reduce using rule 13 (expression -> expression LESS_THAN expression .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
-
-  ! PLUS            [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
-  ! MINUS           [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
-  ! MULTIPLY        [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
-  ! DIVIDE          [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
-  ! EQUAL           [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
-  ! GREATER_THAN    [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
-  ! LESS_THAN       [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
-  ! GREATER_THAN_EQUAL [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
-  ! LESS_THAN_EQUAL [ reduce using rule 13 (expression -> expression LESS_THAN expression .) ]
-
-
-state 27
-
-    (14) expression -> expression GREATER_THAN_EQUAL expression .
-    (3) expression -> expression . PLUS expression
-    (4) expression -> expression . MINUS expression
-    (5) expression -> expression . MULTIPLY expression
-    (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
-
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for GREATER_THAN resolved as shift
-  ! shift/reduce conflict for LESS_THAN resolved as shift
-  ! shift/reduce conflict for GREATER_THAN_EQUAL resolved as shift
-  ! shift/reduce conflict for LESS_THAN_EQUAL resolved as shift
-    $end            reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .)
-    END_LOWER       reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
-
-  ! PLUS            [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
-  ! MINUS           [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
-  ! MULTIPLY        [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
-  ! DIVIDE          [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
-  ! EQUAL           [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
-  ! GREATER_THAN    [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
-  ! LESS_THAN       [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
-  ! GREATER_THAN_EQUAL [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
-  ! LESS_THAN_EQUAL [ reduce using rule 14 (expression -> expression GREATER_THAN_EQUAL expression .) ]
-
-
-state 28
-
-    (15) expression -> expression LESS_THAN_EQUAL expression .
-    (3) expression -> expression . PLUS expression
-    (4) expression -> expression . MINUS expression
-    (5) expression -> expression . MULTIPLY expression
-    (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
-
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for GREATER_THAN resolved as shift
-  ! shift/reduce conflict for LESS_THAN resolved as shift
-  ! shift/reduce conflict for GREATER_THAN_EQUAL resolved as shift
-  ! shift/reduce conflict for LESS_THAN_EQUAL resolved as shift
-    $end            reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .)
-    END_LOWER       reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
-
-  ! PLUS            [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
-  ! MINUS           [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
-  ! MULTIPLY        [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
-  ! DIVIDE          [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
-  ! EQUAL           [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
-  ! GREATER_THAN    [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
-  ! LESS_THAN       [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
-  ! GREATER_THAN_EQUAL [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
-  ! LESS_THAN_EQUAL [ reduce using rule 15 (expression -> expression LESS_THAN_EQUAL expression .) ]
-
-
-state 29
-
-    (2) expression -> ID EQUALS expression .
-    (3) expression -> expression . PLUS expression
-    (4) expression -> expression . MINUS expression
-    (5) expression -> expression . MULTIPLY expression
-    (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
-
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for GREATER_THAN resolved as shift
-  ! shift/reduce conflict for LESS_THAN resolved as shift
-  ! shift/reduce conflict for GREATER_THAN_EQUAL resolved as shift
-  ! shift/reduce conflict for LESS_THAN_EQUAL resolved as shift
-    $end            reduce using rule 2 (expression -> ID EQUALS expression .)
-    END_LOWER       reduce using rule 2 (expression -> ID EQUALS expression .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
-
-  ! PLUS            [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
-  ! MINUS           [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
-  ! MULTIPLY        [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
-  ! DIVIDE          [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
-  ! EQUAL           [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
-  ! GREATER_THAN    [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
-  ! LESS_THAN       [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
-  ! GREATER_THAN_EQUAL [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
-  ! LESS_THAN_EQUAL [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
-
-
-state 30
-
-    (17) expression -> ID LPARENTHESIS RPARENTHESIS .
-
-    PLUS            reduce using rule 17 (expression -> ID LPARENTHESIS RPARENTHESIS .)
-    MINUS           reduce using rule 17 (expression -> ID LPARENTHESIS RPARENTHESIS .)
-    MULTIPLY        reduce using rule 17 (expression -> ID LPARENTHESIS RPARENTHESIS .)
-    DIVIDE          reduce using rule 17 (expression -> ID LPARENTHESIS RPARENTHESIS .)
-    EQUAL           reduce using rule 17 (expression -> ID LPARENTHESIS RPARENTHESIS .)
-    GREATER_THAN    reduce using rule 17 (expression -> ID LPARENTHESIS RPARENTHESIS .)
-    LESS_THAN       reduce using rule 17 (expression -> ID LPARENTHESIS RPARENTHESIS .)
-    GREATER_THAN_EQUAL reduce using rule 17 (expression -> ID LPARENTHESIS RPARENTHESIS .)
-    LESS_THAN_EQUAL reduce using rule 17 (expression -> ID LPARENTHESIS RPARENTHESIS .)
-    $end            reduce using rule 17 (expression -> ID LPARENTHESIS RPARENTHESIS .)
-    END_LOWER       reduce using rule 17 (expression -> ID LPARENTHESIS RPARENTHESIS .)
-
-
-state 31
-
-    (16) expression -> DEF ID LPARENTHESIS . RPARENTHESIS expression END_LOWER
-
-    RPARENTHESIS    shift and go to state 32
-
-
-state 32
-
-    (16) expression -> DEF ID LPARENTHESIS RPARENTHESIS . expression END_LOWER
+    (11) varios_pares_hash -> ID COLON . expression
+    (13) varios_pares_hash -> ID COLON . expression COMMA varios_pares_hash
     (2) expression -> . ID EQUALS expression
     (3) expression -> . expression PLUS expression
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (7) expression -> . INT
-    (8) expression -> . FLOAT
-    (9) expression -> . STR
-    (10) expression -> . ID
-    (11) expression -> . expression EQUAL expression
-    (12) expression -> . expression GREATER_THAN expression
-    (13) expression -> . expression LESS_THAN expression
-    (14) expression -> . expression GREATER_THAN_EQUAL expression
-    (15) expression -> . expression LESS_THAN_EQUAL expression
-    (16) expression -> . DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER
-    (17) expression -> . ID LPARENTHESIS RPARENTHESIS
+    (15) expression -> . INT
+    (16) expression -> . FLOAT
+    (17) expression -> . STR
+    (18) expression -> . ID
 
-    ID              shift and go to state 3
-    INT             shift and go to state 4
-    FLOAT           shift and go to state 5
-    STR             shift and go to state 6
-    DEF             shift and go to state 7
+    ID              shift and go to state 15
+    INT             shift and go to state 6
+    FLOAT           shift and go to state 7
+    STR             shift and go to state 8
 
-    expression                     shift and go to state 33
+    expression                     shift and go to state 29
 
-state 33
+state 27
 
-    (16) expression -> DEF ID LPARENTHESIS RPARENTHESIS expression . END_LOWER
+    (10) hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET .
+
+    $end            reduce using rule 10 (hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET .)
+
+
+state 28
+
+    (12) varios_pares_hash -> STR HASHAS . expression
+    (14) varios_pares_hash -> STR HASHAS . expression COMMA varios_pares_hash
+    (2) expression -> . ID EQUALS expression
+    (3) expression -> . expression PLUS expression
+    (4) expression -> . expression MINUS expression
+    (5) expression -> . expression MULTIPLY expression
+    (6) expression -> . expression DIVIDE expression
+    (15) expression -> . INT
+    (16) expression -> . FLOAT
+    (17) expression -> . STR
+    (18) expression -> . ID
+
+    ID              shift and go to state 15
+    INT             shift and go to state 6
+    FLOAT           shift and go to state 7
+    STR             shift and go to state 8
+
+    expression                     shift and go to state 30
+
+state 29
+
+    (11) varios_pares_hash -> ID COLON expression .
+    (13) varios_pares_hash -> ID COLON expression . COMMA varios_pares_hash
     (3) expression -> expression . PLUS expression
     (4) expression -> expression . MINUS expression
     (5) expression -> expression . MULTIPLY expression
     (6) expression -> expression . DIVIDE expression
-    (11) expression -> expression . EQUAL expression
-    (12) expression -> expression . GREATER_THAN expression
-    (13) expression -> expression . LESS_THAN expression
-    (14) expression -> expression . GREATER_THAN_EQUAL expression
-    (15) expression -> expression . LESS_THAN_EQUAL expression
 
-    END_LOWER       shift and go to state 34
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    MULTIPLY        shift and go to state 10
-    DIVIDE          shift and go to state 11
-    EQUAL           shift and go to state 12
-    GREATER_THAN    shift and go to state 13
-    LESS_THAN       shift and go to state 14
-    GREATER_THAN_EQUAL shift and go to state 15
-    LESS_THAN_EQUAL shift and go to state 16
+    RCURLYBRACKET   reduce using rule 11 (varios_pares_hash -> ID COLON expression .)
+    COMMA           shift and go to state 31
+    PLUS            shift and go to state 9
+    MINUS           shift and go to state 10
+    MULTIPLY        shift and go to state 11
+    DIVIDE          shift and go to state 12
+
+
+state 30
+
+    (12) varios_pares_hash -> STR HASHAS expression .
+    (14) varios_pares_hash -> STR HASHAS expression . COMMA varios_pares_hash
+    (3) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
+
+    RCURLYBRACKET   reduce using rule 12 (varios_pares_hash -> STR HASHAS expression .)
+    COMMA           shift and go to state 32
+    PLUS            shift and go to state 9
+    MINUS           shift and go to state 10
+    MULTIPLY        shift and go to state 11
+    DIVIDE          shift and go to state 12
+
+
+state 31
+
+    (13) varios_pares_hash -> ID COLON expression COMMA . varios_pares_hash
+    (11) varios_pares_hash -> . ID COLON expression
+    (12) varios_pares_hash -> . STR HASHAS expression
+    (13) varios_pares_hash -> . ID COLON expression COMMA varios_pares_hash
+    (14) varios_pares_hash -> . STR HASHAS expression COMMA varios_pares_hash
+
+    ID              shift and go to state 22
+    STR             shift and go to state 25
+
+    varios_pares_hash              shift and go to state 33
+
+state 32
+
+    (14) varios_pares_hash -> STR HASHAS expression COMMA . varios_pares_hash
+    (11) varios_pares_hash -> . ID COLON expression
+    (12) varios_pares_hash -> . STR HASHAS expression
+    (13) varios_pares_hash -> . ID COLON expression COMMA varios_pares_hash
+    (14) varios_pares_hash -> . STR HASHAS expression COMMA varios_pares_hash
+
+    ID              shift and go to state 22
+    STR             shift and go to state 25
+
+    varios_pares_hash              shift and go to state 34
+
+state 33
+
+    (13) varios_pares_hash -> ID COLON expression COMMA varios_pares_hash .
+
+    RCURLYBRACKET   reduce using rule 13 (varios_pares_hash -> ID COLON expression COMMA varios_pares_hash .)
 
 
 state 34
 
-    (16) expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .
+    (14) varios_pares_hash -> STR HASHAS expression COMMA varios_pares_hash .
 
-    PLUS            reduce using rule 16 (expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .)
-    MINUS           reduce using rule 16 (expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .)
-    MULTIPLY        reduce using rule 16 (expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .)
-    DIVIDE          reduce using rule 16 (expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .)
-    EQUAL           reduce using rule 16 (expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .)
-    GREATER_THAN    reduce using rule 16 (expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .)
-    LESS_THAN       reduce using rule 16 (expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .)
-    GREATER_THAN_EQUAL reduce using rule 16 (expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .)
-    LESS_THAN_EQUAL reduce using rule 16 (expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .)
-    $end            reduce using rule 16 (expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .)
-    END_LOWER       reduce using rule 16 (expression -> DEF ID LPARENTHESIS RPARENTHESIS expression END_LOWER .)
+    RCURLYBRACKET   reduce using rule 14 (varios_pares_hash -> STR HASHAS expression COMMA varios_pares_hash .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for PLUS in state 20 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 20 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 20 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 20 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 20 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 20 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 20 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 20 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 20 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 21 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 21 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 21 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 21 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 21 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 21 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 21 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 21 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 21 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 22 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 22 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 22 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 22 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 22 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 22 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 22 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 22 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 22 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 23 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 23 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 23 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 23 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 23 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 23 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 23 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 23 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 23 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 24 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 24 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 24 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 24 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 24 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 24 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 24 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 24 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 24 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 25 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 25 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 25 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 25 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 25 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 25 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 25 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 25 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 25 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 26 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 26 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 26 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 26 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 26 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 26 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 26 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 26 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 26 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 27 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 27 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 27 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 27 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 27 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 27 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 27 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 27 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 27 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 28 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 28 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 28 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 28 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 28 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 28 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 28 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 28 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 28 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 29 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 29 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 29 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 29 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 29 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 29 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 29 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN_EQUAL in state 29 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN_EQUAL in state 29 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 14 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 14 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLY in state 14 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 14 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 16 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 16 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLY in state 16 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 16 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 17 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 17 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLY in state 17 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 17 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 18 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 18 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLY in state 18 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 18 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 19 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 19 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLY in state 19 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 19 resolved as shift
