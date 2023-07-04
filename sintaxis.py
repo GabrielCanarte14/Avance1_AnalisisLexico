@@ -75,8 +75,10 @@ def p_operaciones_matematicas(p):
             p[0] = izquierda - derecha
         else:
             print("Error semantico: Division por cero")
-#Estructuras de datos
 
+
+
+#Estructuras de datos
 #Set
 
 def p_sets(p):
@@ -209,12 +211,27 @@ def p_declaracion_parametros_return(p):
     statement : DEF ID LPARENTHESIS argumentos RPARENTHESIS statement RETURN valor END_LOWER
     '''
 
-def p_print(p):
+def p_print_str(p):
     '''
-    statement : PUTS valor
+    statement : PUTS STR
     '''
-    impresion = p[2]
-    print({impresion})
+    valor = p[2]
+    valor = valor.strip('"')
+    print(valor)
+
+def p_print_int(p):
+    '''
+    statement : PUTS INT
+    '''
+    print(p[2])
+
+def p_print_float(p):
+    '''
+    statement : PUTS FLOAT
+    '''
+    print(p[2])
+
+
 
 
 #Gabriel Cañarte
@@ -272,6 +289,7 @@ def p_comparacion_num(p):
     '''
     comparacion_num : numero comparador numero
     '''
+    
 
 def p_comparacion_variables(p):
     '''

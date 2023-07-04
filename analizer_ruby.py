@@ -4,6 +4,7 @@ import ply.yacc as yacc
 
 symbol_table = {}  # Tabla de símbolos para almacenar variables y sus valores
 hashes_table = {}
+arrays_table = {}
 function_table = {}  # Tabla de funciones para almacenar funciones y sus declaraciones
 
 def p_statement_expression(p):
@@ -44,6 +45,38 @@ def p_expression_binary_operation(p):
             print("Error semántico: División entre cero")
             error_message = f"Error semántico: División entre cero \n"
             update_errors(error_message)
+
+def p_array(p):
+    '''
+    statement : array_vacio
+    '''
+    p[0] = p[1]
+
+def p_array_vacio(p):
+    '''
+    array_vacio : ID EQUALS LBRACKET RBRACKET
+    '''
+    array_name = p[1]
+    arrays_table[array_name] = []
+    if array_name in arrays_table:
+        print(f"Error semántico: El array '{array_name}' ya ha sido creado anteriormente")
+        error_message = f"Error semántico: El array '{array_name}' ya ha sido creado anteriormente \n"
+        update_errors(error_message)
+    else:
+        arrays_table[array_name] = []
+
+
+
+def p_array_str(p):
+    '''
+    array_str : ID EQUALS LBRACKET varios_str RBRACKET
+    '''
+def p_varios_str(p):
+    '''
+    varios_str : STR
+    | STR COMMA STR
+    '''
+    
 
 def p_hash(p):
     '''
@@ -122,6 +155,27 @@ def p_expression_id(p):
         print(f"Error semántico: Variable '{variable_name}' no definida")
         error_message =f"Error semántico: Variable '{variable_name}' no definida \n"
         update_errors(error_message)
+
+def p_print_str(p):
+    '''
+    statement : PUTS STR
+    '''
+    valor = p[2]
+    valor = valor.strip('"')
+    print(valor)
+
+def p_print_int(p):
+    '''
+    statement : PUTS INT
+    '''
+    print(p[2])
+
+def p_print_float(p):
+    '''
+    statement : PUTS FLOAT
+    '''
+    print(p[2])
+
 
 
 def p_error(p):

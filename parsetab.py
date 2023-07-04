@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ALIAS AND ARRAY AT BEGIN BITWISE_AND BITWISE_NOT BITWISE_OR BITWISE_XOR BREAK CASE CLASS COLON COMMA COMPLEX CONSTANT DEDENT DEF DEFINED DIVIDE DO DOT EACH ELSE ELSEIF END_LOWER END_UPPER ENSURE EQUAL EQUALS EXPONENT FALSE FILE FLOAT FOR GLOBAL GREATER_THAN GREATER_THAN_EQUAL HASH HASHAS ID IF IN INDENT INT LBRACKET LCURLYBRACKET LESS_THAN LESS_THAN_EQUAL LINE LOOP LPARENTHESIS MINUS MODULE MODULO MULTIPLY NEXT NIL NOT NOT_EQUAL OP_AND OP_NOT OP_OR OR PLUS PUTS RATIONAL RBRACKET RCURLYBRACKET REDO RESCUE RETRY RETURN RPARENTHESIS SELF SEMICOLON SHIFT_LEFT SHIFT_RIGHT STR SUPER SYMBOL THEN TRUE UNDEF UNLESS UNTIL WHEN WHILE YIELDstatement : expressionexpression : ID EQUALS expression\n    expression : expression PLUS expression\n    | expression MINUS expression\n    | expression MULTIPLY expression\n    | expression DIVIDE expression\n    \n    statement : hash_vacio\n    | hash_elementos\n    \n    hash_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET\n    \n    hash_elementos : ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET\n    \n    varios_pares_hash : ID COLON expression\n    | STR HASHAS expression\n    | ID COLON expression COMMA varios_pares_hash\n    | STR HASHAS expression COMMA varios_pares_hash\n    expression : INTexpression : FLOATexpression : STRexpression : ID'
+_lr_signature = 'ALIAS AND ARRAY AT BEGIN BITWISE_AND BITWISE_NOT BITWISE_OR BITWISE_XOR BREAK CASE CLASS COLON COMMA COMPLEX CONSTANT DEDENT DEF DEFINED DIVIDE DO DOT EACH ELSE ELSEIF END_LOWER END_UPPER ENSURE EQUAL EQUALS EXPONENT FALSE FILE FLOAT FOR GLOBAL GREATER_THAN GREATER_THAN_EQUAL HASH HASHAS ID IF IN INDENT INT LBRACKET LCURLYBRACKET LESS_THAN LESS_THAN_EQUAL LINE LOOP LPARENTHESIS MINUS MODULE MODULO MULTIPLY NEXT NIL NOT NOT_EQUAL OP_AND OP_NOT OP_OR OR PLUS PUTS RATIONAL RBRACKET RCURLYBRACKET REDO RESCUE RETRY RETURN RPARENTHESIS SELF SEMICOLON SHIFT_LEFT SHIFT_RIGHT STR SUPER SYMBOL THEN TRUE UNDEF UNLESS UNTIL WHEN WHILE YIELDstatement : expressionexpression : ID EQUALS expression\n    expression : expression PLUS expression\n    | expression MINUS expression\n    | expression MULTIPLY expression\n    | expression DIVIDE expression\n    \n    statement : array_vacio\n    \n    array_vacio : ID EQUALS LBRACKET RBRACKET\n    \n    array_str : ID EQUALS LBRACKET varios_str RBRACKET\n    \n    varios_str : STR\n    | STR COMMA STR\n    \n    statement : hash_vacio\n    | hash_elementos\n    \n    hash_vacio : ID EQUALS LCURLYBRACKET RCURLYBRACKET\n    \n    hash_elementos : ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET\n    \n    varios_pares_hash : ID COLON expression\n    | STR HASHAS expression\n    | ID COLON expression COMMA varios_pares_hash\n    | STR HASHAS expression COMMA varios_pares_hash\n    expression : INTexpression : FLOATexpression : STRexpression : ID\n    statement : PUTS STR\n    \n    statement : PUTS INT\n    \n    statement : PUTS FLOAT\n    '
     
-_lr_action_items = {'ID':([0,9,10,11,12,13,20,21,26,28,31,32,],[5,15,15,15,15,15,22,15,15,15,22,22,]),'INT':([0,9,10,11,12,13,21,26,28,],[6,6,6,6,6,6,6,6,6,]),'FLOAT':([0,9,10,11,12,13,21,26,28,],[7,7,7,7,7,7,7,7,7,]),'STR':([0,9,10,11,12,13,20,21,26,28,31,32,],[8,8,8,8,8,8,25,8,8,8,25,25,]),'$end':([1,2,3,4,5,6,7,8,14,15,16,17,18,19,23,27,],[0,-1,-7,-8,-18,-15,-16,-17,-3,-18,-4,-5,-6,-2,-9,-10,]),'PLUS':([2,5,6,7,8,14,15,16,17,18,19,29,30,],[9,-18,-15,-16,-17,9,-18,9,9,9,9,9,9,]),'MINUS':([2,5,6,7,8,14,15,16,17,18,19,29,30,],[10,-18,-15,-16,-17,10,-18,10,10,10,10,10,10,]),'MULTIPLY':([2,5,6,7,8,14,15,16,17,18,19,29,30,],[11,-18,-15,-16,-17,11,-18,11,11,11,11,11,11,]),'DIVIDE':([2,5,6,7,8,14,15,16,17,18,19,29,30,],[12,-18,-15,-16,-17,12,-18,12,12,12,12,12,12,]),'EQUALS':([5,15,],[13,21,]),'COMMA':([6,7,8,14,15,16,17,18,19,29,30,],[-15,-16,-17,-3,-18,-4,-5,-6,-2,31,32,]),'RCURLYBRACKET':([6,7,8,14,15,16,17,18,19,20,24,29,30,33,34,],[-15,-16,-17,-3,-18,-4,-5,-6,-2,23,27,-11,-12,-13,-14,]),'LCURLYBRACKET':([13,],[20,]),'COLON':([22,],[26,]),'HASHAS':([25,],[28,]),}
+_lr_action_items = {'PUTS':([0,],[6,]),'ID':([0,11,12,13,14,18,26,27,33,35,38,39,],[10,20,20,20,20,20,29,20,20,20,29,29,]),'INT':([0,6,11,12,13,14,18,27,33,35,],[8,16,8,8,8,8,8,8,8,8,]),'FLOAT':([0,6,11,12,13,14,18,27,33,35,],[9,17,9,9,9,9,9,9,9,9,]),'STR':([0,6,11,12,13,14,18,26,27,33,35,38,39,],[7,15,7,7,7,7,7,32,7,7,7,32,32,]),'$end':([1,2,3,4,5,7,8,9,10,15,16,17,19,20,21,22,23,24,28,30,34,],[0,-1,-7,-12,-13,-22,-20,-21,-23,-24,-25,-26,-3,-23,-4,-5,-6,-2,-8,-14,-15,]),'PLUS':([2,7,8,9,10,19,20,21,22,23,24,36,37,],[11,-22,-20,-21,-23,11,-23,11,11,11,11,11,11,]),'MINUS':([2,7,8,9,10,19,20,21,22,23,24,36,37,],[12,-22,-20,-21,-23,12,-23,12,12,12,12,12,12,]),'MULTIPLY':([2,7,8,9,10,19,20,21,22,23,24,36,37,],[13,-22,-20,-21,-23,13,-23,13,13,13,13,13,13,]),'DIVIDE':([2,7,8,9,10,19,20,21,22,23,24,36,37,],[14,-22,-20,-21,-23,14,-23,14,14,14,14,14,14,]),'COMMA':([7,8,9,19,20,21,22,23,24,36,37,],[-22,-20,-21,-3,-23,-4,-5,-6,-2,38,39,]),'RCURLYBRACKET':([7,8,9,19,20,21,22,23,24,26,31,36,37,40,41,],[-22,-20,-21,-3,-23,-4,-5,-6,-2,30,34,-16,-17,-18,-19,]),'EQUALS':([10,20,],[18,27,]),'LBRACKET':([18,],[25,]),'LCURLYBRACKET':([18,],[26,]),'RBRACKET':([25,],[28,]),'COLON':([29,],[33,]),'HASHAS':([32,],[35,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,9,10,11,12,13,21,26,28,],[2,14,16,17,18,19,19,29,30,]),'hash_vacio':([0,],[3,]),'hash_elementos':([0,],[4,]),'varios_pares_hash':([20,31,32,],[24,33,34,]),}
+_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,11,12,13,14,18,27,33,35,],[2,19,21,22,23,24,24,36,37,]),'array_vacio':([0,],[3,]),'hash_vacio':([0,],[4,]),'hash_elementos':([0,],[5,]),'varios_pares_hash':([26,38,39,],[31,40,41,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,22 +27,30 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> statement","S'",1,None,None,None),
-  ('statement -> expression','statement',1,'p_statement_expression','analizer_ruby.py',10),
-  ('expression -> ID EQUALS expression','expression',3,'p_expression_assignment','analizer_ruby.py',15),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binary_operation','analizer_ruby.py',25),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binary_operation','analizer_ruby.py',26),
-  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binary_operation','analizer_ruby.py',27),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binary_operation','analizer_ruby.py',28),
-  ('statement -> hash_vacio','statement',1,'p_hash','analizer_ruby.py',48),
-  ('statement -> hash_elementos','statement',1,'p_hash','analizer_ruby.py',49),
-  ('hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET','hash_vacio',4,'p_hash_vacio','analizer_ruby.py',55),
-  ('hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET','hash_elementos',5,'p_hash_elementos','analizer_ruby.py',66),
-  ('varios_pares_hash -> ID COLON expression','varios_pares_hash',3,'p_varios_pares_hash','analizer_ruby.py',78),
-  ('varios_pares_hash -> STR HASHAS expression','varios_pares_hash',3,'p_varios_pares_hash','analizer_ruby.py',79),
-  ('varios_pares_hash -> ID COLON expression COMMA varios_pares_hash','varios_pares_hash',5,'p_varios_pares_hash','analizer_ruby.py',80),
-  ('varios_pares_hash -> STR HASHAS expression COMMA varios_pares_hash','varios_pares_hash',5,'p_varios_pares_hash','analizer_ruby.py',81),
-  ('expression -> INT','expression',1,'p_expression_int','analizer_ruby.py',96),
-  ('expression -> FLOAT','expression',1,'p_expression_float','analizer_ruby.py',101),
-  ('expression -> STR','expression',1,'p_expression_string','analizer_ruby.py',106),
-  ('expression -> ID','expression',1,'p_expression_id','analizer_ruby.py',111),
+  ('statement -> expression','statement',1,'p_statement_expression','analizer_ruby.py',11),
+  ('expression -> ID EQUALS expression','expression',3,'p_expression_assignment','analizer_ruby.py',16),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binary_operation','analizer_ruby.py',26),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binary_operation','analizer_ruby.py',27),
+  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binary_operation','analizer_ruby.py',28),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binary_operation','analizer_ruby.py',29),
+  ('statement -> array_vacio','statement',1,'p_array','analizer_ruby.py',51),
+  ('array_vacio -> ID EQUALS LBRACKET RBRACKET','array_vacio',4,'p_array_vacio','analizer_ruby.py',57),
+  ('array_str -> ID EQUALS LBRACKET varios_str RBRACKET','array_str',5,'p_array_str','analizer_ruby.py',72),
+  ('varios_str -> STR','varios_str',1,'p_varios_str','analizer_ruby.py',76),
+  ('varios_str -> STR COMMA STR','varios_str',3,'p_varios_str','analizer_ruby.py',77),
+  ('statement -> hash_vacio','statement',1,'p_hash','analizer_ruby.py',83),
+  ('statement -> hash_elementos','statement',1,'p_hash','analizer_ruby.py',84),
+  ('hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET','hash_vacio',4,'p_hash_vacio','analizer_ruby.py',90),
+  ('hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET','hash_elementos',5,'p_hash_elementos','analizer_ruby.py',103),
+  ('varios_pares_hash -> ID COLON expression','varios_pares_hash',3,'p_varios_pares_hash','analizer_ruby.py',117),
+  ('varios_pares_hash -> STR HASHAS expression','varios_pares_hash',3,'p_varios_pares_hash','analizer_ruby.py',118),
+  ('varios_pares_hash -> ID COLON expression COMMA varios_pares_hash','varios_pares_hash',5,'p_varios_pares_hash','analizer_ruby.py',119),
+  ('varios_pares_hash -> STR HASHAS expression COMMA varios_pares_hash','varios_pares_hash',5,'p_varios_pares_hash','analizer_ruby.py',120),
+  ('expression -> INT','expression',1,'p_expression_int','analizer_ruby.py',135),
+  ('expression -> FLOAT','expression',1,'p_expression_float','analizer_ruby.py',140),
+  ('expression -> STR','expression',1,'p_expression_string','analizer_ruby.py',145),
+  ('expression -> ID','expression',1,'p_expression_id','analizer_ruby.py',150),
+  ('statement -> PUTS STR','statement',2,'p_print_str','analizer_ruby.py',161),
+  ('statement -> PUTS INT','statement',2,'p_print_int','analizer_ruby.py',169),
+  ('statement -> PUTS FLOAT','statement',2,'p_print_float','analizer_ruby.py',175),
 ]

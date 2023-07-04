@@ -39,7 +39,6 @@ Unused terminals:
     IF
     IN
     INDENT
-    LBRACKET
     LESS_THAN
     LESS_THAN_EQUAL
     LINE
@@ -55,9 +54,7 @@ Unused terminals:
     OP_NOT
     OP_OR
     OR
-    PUTS
     RATIONAL
-    RBRACKET
     REDO
     RESCUE
     RETRY
@@ -87,18 +84,26 @@ Rule 3     expression -> expression PLUS expression
 Rule 4     expression -> expression MINUS expression
 Rule 5     expression -> expression MULTIPLY expression
 Rule 6     expression -> expression DIVIDE expression
-Rule 7     statement -> hash_vacio
-Rule 8     statement -> hash_elementos
-Rule 9     hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET
-Rule 10    hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
-Rule 11    varios_pares_hash -> ID COLON expression
-Rule 12    varios_pares_hash -> STR HASHAS expression
-Rule 13    varios_pares_hash -> ID COLON expression COMMA varios_pares_hash
-Rule 14    varios_pares_hash -> STR HASHAS expression COMMA varios_pares_hash
-Rule 15    expression -> INT
-Rule 16    expression -> FLOAT
-Rule 17    expression -> STR
-Rule 18    expression -> ID
+Rule 7     statement -> array_vacio
+Rule 8     array_vacio -> ID EQUALS LBRACKET RBRACKET
+Rule 9     array_str -> ID EQUALS LBRACKET varios_str RBRACKET
+Rule 10    varios_str -> STR
+Rule 11    varios_str -> STR COMMA STR
+Rule 12    statement -> hash_vacio
+Rule 13    statement -> hash_elementos
+Rule 14    hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET
+Rule 15    hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
+Rule 16    varios_pares_hash -> ID COLON expression
+Rule 17    varios_pares_hash -> STR HASHAS expression
+Rule 18    varios_pares_hash -> ID COLON expression COMMA varios_pares_hash
+Rule 19    varios_pares_hash -> STR HASHAS expression COMMA varios_pares_hash
+Rule 20    expression -> INT
+Rule 21    expression -> FLOAT
+Rule 22    expression -> STR
+Rule 23    expression -> ID
+Rule 24    statement -> PUTS STR
+Rule 25    statement -> PUTS INT
+Rule 26    statement -> PUTS FLOAT
 
 Terminals, with rules where they appear
 
@@ -114,8 +119,8 @@ BITWISE_XOR          :
 BREAK                : 
 CASE                 : 
 CLASS                : 
-COLON                : 11 13
-COMMA                : 13 14
+COLON                : 16 18
+COMMA                : 11 18 19
 COMPLEX              : 
 CONSTANT             : 
 DEDENT               : 
@@ -131,24 +136,24 @@ END_LOWER            :
 END_UPPER            : 
 ENSURE               : 
 EQUAL                : 
-EQUALS               : 2 9 10
+EQUALS               : 2 8 9 14 15
 EXPONENT             : 
 FALSE                : 
 FILE                 : 
-FLOAT                : 16
+FLOAT                : 21 26
 FOR                  : 
 GLOBAL               : 
 GREATER_THAN         : 
 GREATER_THAN_EQUAL   : 
 HASH                 : 
-HASHAS               : 12 14
-ID                   : 2 9 10 11 13 18
+HASHAS               : 17 19
+ID                   : 2 8 9 14 15 16 18 23
 IF                   : 
 IN                   : 
 INDENT               : 
-INT                  : 15
-LBRACKET             : 
-LCURLYBRACKET        : 9 10
+INT                  : 20 25
+LBRACKET             : 8 9
+LCURLYBRACKET        : 14 15
 LESS_THAN            : 
 LESS_THAN_EQUAL      : 
 LINE                 : 
@@ -167,10 +172,10 @@ OP_NOT               :
 OP_OR                : 
 OR                   : 
 PLUS                 : 3
-PUTS                 : 
+PUTS                 : 24 25 26
 RATIONAL             : 
-RBRACKET             : 
-RCURLYBRACKET        : 9 10
+RBRACKET             : 8 9
+RCURLYBRACKET        : 14 15
 REDO                 : 
 RESCUE               : 
 RETRY                : 
@@ -180,7 +185,7 @@ SELF                 :
 SEMICOLON            : 
 SHIFT_LEFT           : 
 SHIFT_RIGHT          : 
-STR                  : 12 14 17
+STR                  : 10 11 11 17 19 22 24
 SUPER                : 
 SYMBOL               : 
 THEN                 : 
@@ -195,11 +200,14 @@ error                :
 
 Nonterminals, with rules where they appear
 
-expression           : 1 2 3 3 4 4 5 5 6 6 11 12 13 14
-hash_elementos       : 8
-hash_vacio           : 7
+array_str            : 
+array_vacio          : 7
+expression           : 1 2 3 3 4 4 5 5 6 6 16 17 18 19
+hash_elementos       : 13
+hash_vacio           : 12
 statement            : 0
-varios_pares_hash    : 10 13 14
+varios_pares_hash    : 15 18 19
+varios_str           : 9
 
 Parsing method: LALR
 
@@ -207,29 +215,36 @@ state 0
 
     (0) S' -> . statement
     (1) statement -> . expression
-    (7) statement -> . hash_vacio
-    (8) statement -> . hash_elementos
+    (7) statement -> . array_vacio
+    (12) statement -> . hash_vacio
+    (13) statement -> . hash_elementos
+    (24) statement -> . PUTS STR
+    (25) statement -> . PUTS INT
+    (26) statement -> . PUTS FLOAT
     (2) expression -> . ID EQUALS expression
     (3) expression -> . expression PLUS expression
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (15) expression -> . INT
-    (16) expression -> . FLOAT
-    (17) expression -> . STR
-    (18) expression -> . ID
-    (9) hash_vacio -> . ID EQUALS LCURLYBRACKET RCURLYBRACKET
-    (10) hash_elementos -> . ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
+    (20) expression -> . INT
+    (21) expression -> . FLOAT
+    (22) expression -> . STR
+    (23) expression -> . ID
+    (8) array_vacio -> . ID EQUALS LBRACKET RBRACKET
+    (14) hash_vacio -> . ID EQUALS LCURLYBRACKET RCURLYBRACKET
+    (15) hash_elementos -> . ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
 
-    ID              shift and go to state 5
-    INT             shift and go to state 6
-    FLOAT           shift and go to state 7
-    STR             shift and go to state 8
+    PUTS            shift and go to state 6
+    ID              shift and go to state 10
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    STR             shift and go to state 7
 
     statement                      shift and go to state 1
     expression                     shift and go to state 2
-    hash_vacio                     shift and go to state 3
-    hash_elementos                 shift and go to state 4
+    array_vacio                    shift and go to state 3
+    hash_vacio                     shift and go to state 4
+    hash_elementos                 shift and go to state 5
 
 state 1
 
@@ -246,81 +261,100 @@ state 2
     (6) expression -> expression . DIVIDE expression
 
     $end            reduce using rule 1 (statement -> expression .)
-    PLUS            shift and go to state 9
-    MINUS           shift and go to state 10
-    MULTIPLY        shift and go to state 11
-    DIVIDE          shift and go to state 12
+    PLUS            shift and go to state 11
+    MINUS           shift and go to state 12
+    MULTIPLY        shift and go to state 13
+    DIVIDE          shift and go to state 14
 
 
 state 3
 
-    (7) statement -> hash_vacio .
+    (7) statement -> array_vacio .
 
-    $end            reduce using rule 7 (statement -> hash_vacio .)
+    $end            reduce using rule 7 (statement -> array_vacio .)
 
 
 state 4
 
-    (8) statement -> hash_elementos .
+    (12) statement -> hash_vacio .
 
-    $end            reduce using rule 8 (statement -> hash_elementos .)
+    $end            reduce using rule 12 (statement -> hash_vacio .)
 
 
 state 5
 
-    (2) expression -> ID . EQUALS expression
-    (18) expression -> ID .
-    (9) hash_vacio -> ID . EQUALS LCURLYBRACKET RCURLYBRACKET
-    (10) hash_elementos -> ID . EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
+    (13) statement -> hash_elementos .
 
-    EQUALS          shift and go to state 13
-    PLUS            reduce using rule 18 (expression -> ID .)
-    MINUS           reduce using rule 18 (expression -> ID .)
-    MULTIPLY        reduce using rule 18 (expression -> ID .)
-    DIVIDE          reduce using rule 18 (expression -> ID .)
-    $end            reduce using rule 18 (expression -> ID .)
+    $end            reduce using rule 13 (statement -> hash_elementos .)
 
 
 state 6
 
-    (15) expression -> INT .
+    (24) statement -> PUTS . STR
+    (25) statement -> PUTS . INT
+    (26) statement -> PUTS . FLOAT
 
-    PLUS            reduce using rule 15 (expression -> INT .)
-    MINUS           reduce using rule 15 (expression -> INT .)
-    MULTIPLY        reduce using rule 15 (expression -> INT .)
-    DIVIDE          reduce using rule 15 (expression -> INT .)
-    $end            reduce using rule 15 (expression -> INT .)
-    COMMA           reduce using rule 15 (expression -> INT .)
-    RCURLYBRACKET   reduce using rule 15 (expression -> INT .)
+    STR             shift and go to state 15
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
 
 
 state 7
 
-    (16) expression -> FLOAT .
+    (22) expression -> STR .
 
-    PLUS            reduce using rule 16 (expression -> FLOAT .)
-    MINUS           reduce using rule 16 (expression -> FLOAT .)
-    MULTIPLY        reduce using rule 16 (expression -> FLOAT .)
-    DIVIDE          reduce using rule 16 (expression -> FLOAT .)
-    $end            reduce using rule 16 (expression -> FLOAT .)
-    COMMA           reduce using rule 16 (expression -> FLOAT .)
-    RCURLYBRACKET   reduce using rule 16 (expression -> FLOAT .)
+    PLUS            reduce using rule 22 (expression -> STR .)
+    MINUS           reduce using rule 22 (expression -> STR .)
+    MULTIPLY        reduce using rule 22 (expression -> STR .)
+    DIVIDE          reduce using rule 22 (expression -> STR .)
+    $end            reduce using rule 22 (expression -> STR .)
+    COMMA           reduce using rule 22 (expression -> STR .)
+    RCURLYBRACKET   reduce using rule 22 (expression -> STR .)
 
 
 state 8
 
-    (17) expression -> STR .
+    (20) expression -> INT .
 
-    PLUS            reduce using rule 17 (expression -> STR .)
-    MINUS           reduce using rule 17 (expression -> STR .)
-    MULTIPLY        reduce using rule 17 (expression -> STR .)
-    DIVIDE          reduce using rule 17 (expression -> STR .)
-    $end            reduce using rule 17 (expression -> STR .)
-    COMMA           reduce using rule 17 (expression -> STR .)
-    RCURLYBRACKET   reduce using rule 17 (expression -> STR .)
+    PLUS            reduce using rule 20 (expression -> INT .)
+    MINUS           reduce using rule 20 (expression -> INT .)
+    MULTIPLY        reduce using rule 20 (expression -> INT .)
+    DIVIDE          reduce using rule 20 (expression -> INT .)
+    $end            reduce using rule 20 (expression -> INT .)
+    COMMA           reduce using rule 20 (expression -> INT .)
+    RCURLYBRACKET   reduce using rule 20 (expression -> INT .)
 
 
 state 9
+
+    (21) expression -> FLOAT .
+
+    PLUS            reduce using rule 21 (expression -> FLOAT .)
+    MINUS           reduce using rule 21 (expression -> FLOAT .)
+    MULTIPLY        reduce using rule 21 (expression -> FLOAT .)
+    DIVIDE          reduce using rule 21 (expression -> FLOAT .)
+    $end            reduce using rule 21 (expression -> FLOAT .)
+    COMMA           reduce using rule 21 (expression -> FLOAT .)
+    RCURLYBRACKET   reduce using rule 21 (expression -> FLOAT .)
+
+
+state 10
+
+    (2) expression -> ID . EQUALS expression
+    (23) expression -> ID .
+    (8) array_vacio -> ID . EQUALS LBRACKET RBRACKET
+    (14) hash_vacio -> ID . EQUALS LCURLYBRACKET RCURLYBRACKET
+    (15) hash_elementos -> ID . EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET
+
+    EQUALS          shift and go to state 18
+    PLUS            reduce using rule 23 (expression -> ID .)
+    MINUS           reduce using rule 23 (expression -> ID .)
+    MULTIPLY        reduce using rule 23 (expression -> ID .)
+    DIVIDE          reduce using rule 23 (expression -> ID .)
+    $end            reduce using rule 23 (expression -> ID .)
+
+
+state 11
 
     (3) expression -> expression PLUS . expression
     (2) expression -> . ID EQUALS expression
@@ -328,19 +362,19 @@ state 9
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (15) expression -> . INT
-    (16) expression -> . FLOAT
-    (17) expression -> . STR
-    (18) expression -> . ID
+    (20) expression -> . INT
+    (21) expression -> . FLOAT
+    (22) expression -> . STR
+    (23) expression -> . ID
 
-    ID              shift and go to state 15
-    INT             shift and go to state 6
-    FLOAT           shift and go to state 7
-    STR             shift and go to state 8
+    ID              shift and go to state 20
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    STR             shift and go to state 7
 
-    expression                     shift and go to state 14
+    expression                     shift and go to state 19
 
-state 10
+state 12
 
     (4) expression -> expression MINUS . expression
     (2) expression -> . ID EQUALS expression
@@ -348,19 +382,19 @@ state 10
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (15) expression -> . INT
-    (16) expression -> . FLOAT
-    (17) expression -> . STR
-    (18) expression -> . ID
+    (20) expression -> . INT
+    (21) expression -> . FLOAT
+    (22) expression -> . STR
+    (23) expression -> . ID
 
-    ID              shift and go to state 15
-    INT             shift and go to state 6
-    FLOAT           shift and go to state 7
-    STR             shift and go to state 8
+    ID              shift and go to state 20
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    STR             shift and go to state 7
 
-    expression                     shift and go to state 16
+    expression                     shift and go to state 21
 
-state 11
+state 13
 
     (5) expression -> expression MULTIPLY . expression
     (2) expression -> . ID EQUALS expression
@@ -368,19 +402,19 @@ state 11
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (15) expression -> . INT
-    (16) expression -> . FLOAT
-    (17) expression -> . STR
-    (18) expression -> . ID
+    (20) expression -> . INT
+    (21) expression -> . FLOAT
+    (22) expression -> . STR
+    (23) expression -> . ID
 
-    ID              shift and go to state 15
-    INT             shift and go to state 6
-    FLOAT           shift and go to state 7
-    STR             shift and go to state 8
+    ID              shift and go to state 20
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    STR             shift and go to state 7
 
-    expression                     shift and go to state 17
+    expression                     shift and go to state 22
 
-state 12
+state 14
 
     (6) expression -> expression DIVIDE . expression
     (2) expression -> . ID EQUALS expression
@@ -388,42 +422,65 @@ state 12
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (15) expression -> . INT
-    (16) expression -> . FLOAT
-    (17) expression -> . STR
-    (18) expression -> . ID
+    (20) expression -> . INT
+    (21) expression -> . FLOAT
+    (22) expression -> . STR
+    (23) expression -> . ID
 
-    ID              shift and go to state 15
-    INT             shift and go to state 6
-    FLOAT           shift and go to state 7
-    STR             shift and go to state 8
+    ID              shift and go to state 20
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    STR             shift and go to state 7
 
-    expression                     shift and go to state 18
+    expression                     shift and go to state 23
 
-state 13
+state 15
+
+    (24) statement -> PUTS STR .
+
+    $end            reduce using rule 24 (statement -> PUTS STR .)
+
+
+state 16
+
+    (25) statement -> PUTS INT .
+
+    $end            reduce using rule 25 (statement -> PUTS INT .)
+
+
+state 17
+
+    (26) statement -> PUTS FLOAT .
+
+    $end            reduce using rule 26 (statement -> PUTS FLOAT .)
+
+
+state 18
 
     (2) expression -> ID EQUALS . expression
-    (9) hash_vacio -> ID EQUALS . LCURLYBRACKET RCURLYBRACKET
-    (10) hash_elementos -> ID EQUALS . LCURLYBRACKET varios_pares_hash RCURLYBRACKET
+    (8) array_vacio -> ID EQUALS . LBRACKET RBRACKET
+    (14) hash_vacio -> ID EQUALS . LCURLYBRACKET RCURLYBRACKET
+    (15) hash_elementos -> ID EQUALS . LCURLYBRACKET varios_pares_hash RCURLYBRACKET
     (2) expression -> . ID EQUALS expression
     (3) expression -> . expression PLUS expression
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (15) expression -> . INT
-    (16) expression -> . FLOAT
-    (17) expression -> . STR
-    (18) expression -> . ID
+    (20) expression -> . INT
+    (21) expression -> . FLOAT
+    (22) expression -> . STR
+    (23) expression -> . ID
 
-    LCURLYBRACKET   shift and go to state 20
-    ID              shift and go to state 15
-    INT             shift and go to state 6
-    FLOAT           shift and go to state 7
-    STR             shift and go to state 8
+    LBRACKET        shift and go to state 25
+    LCURLYBRACKET   shift and go to state 26
+    ID              shift and go to state 20
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    STR             shift and go to state 7
 
-    expression                     shift and go to state 19
+    expression                     shift and go to state 24
 
-state 14
+state 19
 
     (3) expression -> expression PLUS expression .
     (3) expression -> expression . PLUS expression
@@ -438,10 +495,10 @@ state 14
     $end            reduce using rule 3 (expression -> expression PLUS expression .)
     COMMA           reduce using rule 3 (expression -> expression PLUS expression .)
     RCURLYBRACKET   reduce using rule 3 (expression -> expression PLUS expression .)
-    PLUS            shift and go to state 9
-    MINUS           shift and go to state 10
-    MULTIPLY        shift and go to state 11
-    DIVIDE          shift and go to state 12
+    PLUS            shift and go to state 11
+    MINUS           shift and go to state 12
+    MULTIPLY        shift and go to state 13
+    DIVIDE          shift and go to state 14
 
   ! PLUS            [ reduce using rule 3 (expression -> expression PLUS expression .) ]
   ! MINUS           [ reduce using rule 3 (expression -> expression PLUS expression .) ]
@@ -449,22 +506,22 @@ state 14
   ! DIVIDE          [ reduce using rule 3 (expression -> expression PLUS expression .) ]
 
 
-state 15
+state 20
 
     (2) expression -> ID . EQUALS expression
-    (18) expression -> ID .
+    (23) expression -> ID .
 
-    EQUALS          shift and go to state 21
-    PLUS            reduce using rule 18 (expression -> ID .)
-    MINUS           reduce using rule 18 (expression -> ID .)
-    MULTIPLY        reduce using rule 18 (expression -> ID .)
-    DIVIDE          reduce using rule 18 (expression -> ID .)
-    $end            reduce using rule 18 (expression -> ID .)
-    COMMA           reduce using rule 18 (expression -> ID .)
-    RCURLYBRACKET   reduce using rule 18 (expression -> ID .)
+    EQUALS          shift and go to state 27
+    PLUS            reduce using rule 23 (expression -> ID .)
+    MINUS           reduce using rule 23 (expression -> ID .)
+    MULTIPLY        reduce using rule 23 (expression -> ID .)
+    DIVIDE          reduce using rule 23 (expression -> ID .)
+    $end            reduce using rule 23 (expression -> ID .)
+    COMMA           reduce using rule 23 (expression -> ID .)
+    RCURLYBRACKET   reduce using rule 23 (expression -> ID .)
 
 
-state 16
+state 21
 
     (4) expression -> expression MINUS expression .
     (3) expression -> expression . PLUS expression
@@ -479,10 +536,10 @@ state 16
     $end            reduce using rule 4 (expression -> expression MINUS expression .)
     COMMA           reduce using rule 4 (expression -> expression MINUS expression .)
     RCURLYBRACKET   reduce using rule 4 (expression -> expression MINUS expression .)
-    PLUS            shift and go to state 9
-    MINUS           shift and go to state 10
-    MULTIPLY        shift and go to state 11
-    DIVIDE          shift and go to state 12
+    PLUS            shift and go to state 11
+    MINUS           shift and go to state 12
+    MULTIPLY        shift and go to state 13
+    DIVIDE          shift and go to state 14
 
   ! PLUS            [ reduce using rule 4 (expression -> expression MINUS expression .) ]
   ! MINUS           [ reduce using rule 4 (expression -> expression MINUS expression .) ]
@@ -490,7 +547,7 @@ state 16
   ! DIVIDE          [ reduce using rule 4 (expression -> expression MINUS expression .) ]
 
 
-state 17
+state 22
 
     (5) expression -> expression MULTIPLY expression .
     (3) expression -> expression . PLUS expression
@@ -505,10 +562,10 @@ state 17
     $end            reduce using rule 5 (expression -> expression MULTIPLY expression .)
     COMMA           reduce using rule 5 (expression -> expression MULTIPLY expression .)
     RCURLYBRACKET   reduce using rule 5 (expression -> expression MULTIPLY expression .)
-    PLUS            shift and go to state 9
-    MINUS           shift and go to state 10
-    MULTIPLY        shift and go to state 11
-    DIVIDE          shift and go to state 12
+    PLUS            shift and go to state 11
+    MINUS           shift and go to state 12
+    MULTIPLY        shift and go to state 13
+    DIVIDE          shift and go to state 14
 
   ! PLUS            [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
   ! MINUS           [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
@@ -516,7 +573,7 @@ state 17
   ! DIVIDE          [ reduce using rule 5 (expression -> expression MULTIPLY expression .) ]
 
 
-state 18
+state 23
 
     (6) expression -> expression DIVIDE expression .
     (3) expression -> expression . PLUS expression
@@ -531,10 +588,10 @@ state 18
     $end            reduce using rule 6 (expression -> expression DIVIDE expression .)
     COMMA           reduce using rule 6 (expression -> expression DIVIDE expression .)
     RCURLYBRACKET   reduce using rule 6 (expression -> expression DIVIDE expression .)
-    PLUS            shift and go to state 9
-    MINUS           shift and go to state 10
-    MULTIPLY        shift and go to state 11
-    DIVIDE          shift and go to state 12
+    PLUS            shift and go to state 11
+    MINUS           shift and go to state 12
+    MULTIPLY        shift and go to state 13
+    DIVIDE          shift and go to state 14
 
   ! PLUS            [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
   ! MINUS           [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
@@ -542,7 +599,7 @@ state 18
   ! DIVIDE          [ reduce using rule 6 (expression -> expression DIVIDE expression .) ]
 
 
-state 19
+state 24
 
     (2) expression -> ID EQUALS expression .
     (3) expression -> expression . PLUS expression
@@ -557,10 +614,10 @@ state 19
     $end            reduce using rule 2 (expression -> ID EQUALS expression .)
     COMMA           reduce using rule 2 (expression -> ID EQUALS expression .)
     RCURLYBRACKET   reduce using rule 2 (expression -> ID EQUALS expression .)
-    PLUS            shift and go to state 9
-    MINUS           shift and go to state 10
-    MULTIPLY        shift and go to state 11
-    DIVIDE          shift and go to state 12
+    PLUS            shift and go to state 11
+    MINUS           shift and go to state 12
+    MULTIPLY        shift and go to state 13
+    DIVIDE          shift and go to state 14
 
   ! PLUS            [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
   ! MINUS           [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
@@ -568,22 +625,29 @@ state 19
   ! DIVIDE          [ reduce using rule 2 (expression -> ID EQUALS expression .) ]
 
 
-state 20
+state 25
 
-    (9) hash_vacio -> ID EQUALS LCURLYBRACKET . RCURLYBRACKET
-    (10) hash_elementos -> ID EQUALS LCURLYBRACKET . varios_pares_hash RCURLYBRACKET
-    (11) varios_pares_hash -> . ID COLON expression
-    (12) varios_pares_hash -> . STR HASHAS expression
-    (13) varios_pares_hash -> . ID COLON expression COMMA varios_pares_hash
-    (14) varios_pares_hash -> . STR HASHAS expression COMMA varios_pares_hash
+    (8) array_vacio -> ID EQUALS LBRACKET . RBRACKET
 
-    RCURLYBRACKET   shift and go to state 23
-    ID              shift and go to state 22
-    STR             shift and go to state 25
+    RBRACKET        shift and go to state 28
 
-    varios_pares_hash              shift and go to state 24
 
-state 21
+state 26
+
+    (14) hash_vacio -> ID EQUALS LCURLYBRACKET . RCURLYBRACKET
+    (15) hash_elementos -> ID EQUALS LCURLYBRACKET . varios_pares_hash RCURLYBRACKET
+    (16) varios_pares_hash -> . ID COLON expression
+    (17) varios_pares_hash -> . STR HASHAS expression
+    (18) varios_pares_hash -> . ID COLON expression COMMA varios_pares_hash
+    (19) varios_pares_hash -> . STR HASHAS expression COMMA varios_pares_hash
+
+    RCURLYBRACKET   shift and go to state 30
+    ID              shift and go to state 29
+    STR             shift and go to state 32
+
+    varios_pares_hash              shift and go to state 31
+
+state 27
 
     (2) expression -> ID EQUALS . expression
     (2) expression -> . ID EQUALS expression
@@ -591,190 +655,197 @@ state 21
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression MULTIPLY expression
     (6) expression -> . expression DIVIDE expression
-    (15) expression -> . INT
-    (16) expression -> . FLOAT
-    (17) expression -> . STR
-    (18) expression -> . ID
+    (20) expression -> . INT
+    (21) expression -> . FLOAT
+    (22) expression -> . STR
+    (23) expression -> . ID
 
-    ID              shift and go to state 15
-    INT             shift and go to state 6
-    FLOAT           shift and go to state 7
-    STR             shift and go to state 8
+    ID              shift and go to state 20
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    STR             shift and go to state 7
 
-    expression                     shift and go to state 19
-
-state 22
-
-    (11) varios_pares_hash -> ID . COLON expression
-    (13) varios_pares_hash -> ID . COLON expression COMMA varios_pares_hash
-
-    COLON           shift and go to state 26
-
-
-state 23
-
-    (9) hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .
-
-    $end            reduce using rule 9 (hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .)
-
-
-state 24
-
-    (10) hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash . RCURLYBRACKET
-
-    RCURLYBRACKET   shift and go to state 27
-
-
-state 25
-
-    (12) varios_pares_hash -> STR . HASHAS expression
-    (14) varios_pares_hash -> STR . HASHAS expression COMMA varios_pares_hash
-
-    HASHAS          shift and go to state 28
-
-
-state 26
-
-    (11) varios_pares_hash -> ID COLON . expression
-    (13) varios_pares_hash -> ID COLON . expression COMMA varios_pares_hash
-    (2) expression -> . ID EQUALS expression
-    (3) expression -> . expression PLUS expression
-    (4) expression -> . expression MINUS expression
-    (5) expression -> . expression MULTIPLY expression
-    (6) expression -> . expression DIVIDE expression
-    (15) expression -> . INT
-    (16) expression -> . FLOAT
-    (17) expression -> . STR
-    (18) expression -> . ID
-
-    ID              shift and go to state 15
-    INT             shift and go to state 6
-    FLOAT           shift and go to state 7
-    STR             shift and go to state 8
-
-    expression                     shift and go to state 29
-
-state 27
-
-    (10) hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET .
-
-    $end            reduce using rule 10 (hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET .)
-
+    expression                     shift and go to state 24
 
 state 28
 
-    (12) varios_pares_hash -> STR HASHAS . expression
-    (14) varios_pares_hash -> STR HASHAS . expression COMMA varios_pares_hash
-    (2) expression -> . ID EQUALS expression
-    (3) expression -> . expression PLUS expression
-    (4) expression -> . expression MINUS expression
-    (5) expression -> . expression MULTIPLY expression
-    (6) expression -> . expression DIVIDE expression
-    (15) expression -> . INT
-    (16) expression -> . FLOAT
-    (17) expression -> . STR
-    (18) expression -> . ID
+    (8) array_vacio -> ID EQUALS LBRACKET RBRACKET .
 
-    ID              shift and go to state 15
-    INT             shift and go to state 6
-    FLOAT           shift and go to state 7
-    STR             shift and go to state 8
+    $end            reduce using rule 8 (array_vacio -> ID EQUALS LBRACKET RBRACKET .)
 
-    expression                     shift and go to state 30
 
 state 29
 
-    (11) varios_pares_hash -> ID COLON expression .
-    (13) varios_pares_hash -> ID COLON expression . COMMA varios_pares_hash
-    (3) expression -> expression . PLUS expression
-    (4) expression -> expression . MINUS expression
-    (5) expression -> expression . MULTIPLY expression
-    (6) expression -> expression . DIVIDE expression
+    (16) varios_pares_hash -> ID . COLON expression
+    (18) varios_pares_hash -> ID . COLON expression COMMA varios_pares_hash
 
-    RCURLYBRACKET   reduce using rule 11 (varios_pares_hash -> ID COLON expression .)
-    COMMA           shift and go to state 31
-    PLUS            shift and go to state 9
-    MINUS           shift and go to state 10
-    MULTIPLY        shift and go to state 11
-    DIVIDE          shift and go to state 12
+    COLON           shift and go to state 33
 
 
 state 30
 
-    (12) varios_pares_hash -> STR HASHAS expression .
-    (14) varios_pares_hash -> STR HASHAS expression . COMMA varios_pares_hash
+    (14) hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .
+
+    $end            reduce using rule 14 (hash_vacio -> ID EQUALS LCURLYBRACKET RCURLYBRACKET .)
+
+
+state 31
+
+    (15) hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash . RCURLYBRACKET
+
+    RCURLYBRACKET   shift and go to state 34
+
+
+state 32
+
+    (17) varios_pares_hash -> STR . HASHAS expression
+    (19) varios_pares_hash -> STR . HASHAS expression COMMA varios_pares_hash
+
+    HASHAS          shift and go to state 35
+
+
+state 33
+
+    (16) varios_pares_hash -> ID COLON . expression
+    (18) varios_pares_hash -> ID COLON . expression COMMA varios_pares_hash
+    (2) expression -> . ID EQUALS expression
+    (3) expression -> . expression PLUS expression
+    (4) expression -> . expression MINUS expression
+    (5) expression -> . expression MULTIPLY expression
+    (6) expression -> . expression DIVIDE expression
+    (20) expression -> . INT
+    (21) expression -> . FLOAT
+    (22) expression -> . STR
+    (23) expression -> . ID
+
+    ID              shift and go to state 20
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    STR             shift and go to state 7
+
+    expression                     shift and go to state 36
+
+state 34
+
+    (15) hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET .
+
+    $end            reduce using rule 15 (hash_elementos -> ID EQUALS LCURLYBRACKET varios_pares_hash RCURLYBRACKET .)
+
+
+state 35
+
+    (17) varios_pares_hash -> STR HASHAS . expression
+    (19) varios_pares_hash -> STR HASHAS . expression COMMA varios_pares_hash
+    (2) expression -> . ID EQUALS expression
+    (3) expression -> . expression PLUS expression
+    (4) expression -> . expression MINUS expression
+    (5) expression -> . expression MULTIPLY expression
+    (6) expression -> . expression DIVIDE expression
+    (20) expression -> . INT
+    (21) expression -> . FLOAT
+    (22) expression -> . STR
+    (23) expression -> . ID
+
+    ID              shift and go to state 20
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    STR             shift and go to state 7
+
+    expression                     shift and go to state 37
+
+state 36
+
+    (16) varios_pares_hash -> ID COLON expression .
+    (18) varios_pares_hash -> ID COLON expression . COMMA varios_pares_hash
     (3) expression -> expression . PLUS expression
     (4) expression -> expression . MINUS expression
     (5) expression -> expression . MULTIPLY expression
     (6) expression -> expression . DIVIDE expression
 
-    RCURLYBRACKET   reduce using rule 12 (varios_pares_hash -> STR HASHAS expression .)
-    COMMA           shift and go to state 32
-    PLUS            shift and go to state 9
-    MINUS           shift and go to state 10
-    MULTIPLY        shift and go to state 11
-    DIVIDE          shift and go to state 12
+    RCURLYBRACKET   reduce using rule 16 (varios_pares_hash -> ID COLON expression .)
+    COMMA           shift and go to state 38
+    PLUS            shift and go to state 11
+    MINUS           shift and go to state 12
+    MULTIPLY        shift and go to state 13
+    DIVIDE          shift and go to state 14
 
 
-state 31
+state 37
 
-    (13) varios_pares_hash -> ID COLON expression COMMA . varios_pares_hash
-    (11) varios_pares_hash -> . ID COLON expression
-    (12) varios_pares_hash -> . STR HASHAS expression
-    (13) varios_pares_hash -> . ID COLON expression COMMA varios_pares_hash
-    (14) varios_pares_hash -> . STR HASHAS expression COMMA varios_pares_hash
+    (17) varios_pares_hash -> STR HASHAS expression .
+    (19) varios_pares_hash -> STR HASHAS expression . COMMA varios_pares_hash
+    (3) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
 
-    ID              shift and go to state 22
-    STR             shift and go to state 25
-
-    varios_pares_hash              shift and go to state 33
-
-state 32
-
-    (14) varios_pares_hash -> STR HASHAS expression COMMA . varios_pares_hash
-    (11) varios_pares_hash -> . ID COLON expression
-    (12) varios_pares_hash -> . STR HASHAS expression
-    (13) varios_pares_hash -> . ID COLON expression COMMA varios_pares_hash
-    (14) varios_pares_hash -> . STR HASHAS expression COMMA varios_pares_hash
-
-    ID              shift and go to state 22
-    STR             shift and go to state 25
-
-    varios_pares_hash              shift and go to state 34
-
-state 33
-
-    (13) varios_pares_hash -> ID COLON expression COMMA varios_pares_hash .
-
-    RCURLYBRACKET   reduce using rule 13 (varios_pares_hash -> ID COLON expression COMMA varios_pares_hash .)
+    RCURLYBRACKET   reduce using rule 17 (varios_pares_hash -> STR HASHAS expression .)
+    COMMA           shift and go to state 39
+    PLUS            shift and go to state 11
+    MINUS           shift and go to state 12
+    MULTIPLY        shift and go to state 13
+    DIVIDE          shift and go to state 14
 
 
-state 34
+state 38
 
-    (14) varios_pares_hash -> STR HASHAS expression COMMA varios_pares_hash .
+    (18) varios_pares_hash -> ID COLON expression COMMA . varios_pares_hash
+    (16) varios_pares_hash -> . ID COLON expression
+    (17) varios_pares_hash -> . STR HASHAS expression
+    (18) varios_pares_hash -> . ID COLON expression COMMA varios_pares_hash
+    (19) varios_pares_hash -> . STR HASHAS expression COMMA varios_pares_hash
 
-    RCURLYBRACKET   reduce using rule 14 (varios_pares_hash -> STR HASHAS expression COMMA varios_pares_hash .)
+    ID              shift and go to state 29
+    STR             shift and go to state 32
+
+    varios_pares_hash              shift and go to state 40
+
+state 39
+
+    (19) varios_pares_hash -> STR HASHAS expression COMMA . varios_pares_hash
+    (16) varios_pares_hash -> . ID COLON expression
+    (17) varios_pares_hash -> . STR HASHAS expression
+    (18) varios_pares_hash -> . ID COLON expression COMMA varios_pares_hash
+    (19) varios_pares_hash -> . STR HASHAS expression COMMA varios_pares_hash
+
+    ID              shift and go to state 29
+    STR             shift and go to state 32
+
+    varios_pares_hash              shift and go to state 41
+
+state 40
+
+    (18) varios_pares_hash -> ID COLON expression COMMA varios_pares_hash .
+
+    RCURLYBRACKET   reduce using rule 18 (varios_pares_hash -> ID COLON expression COMMA varios_pares_hash .)
+
+
+state 41
+
+    (19) varios_pares_hash -> STR HASHAS expression COMMA varios_pares_hash .
+
+    RCURLYBRACKET   reduce using rule 19 (varios_pares_hash -> STR HASHAS expression COMMA varios_pares_hash .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for PLUS in state 14 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 14 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 14 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 14 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 16 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 16 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 16 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 16 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 17 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 17 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 17 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 17 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 18 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 18 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 18 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 18 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 19 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 19 resolved as shift
 WARNING: shift/reduce conflict for MULTIPLY in state 19 resolved as shift
 WARNING: shift/reduce conflict for DIVIDE in state 19 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 21 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 21 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLY in state 21 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 21 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 22 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 22 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLY in state 22 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 22 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 23 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 23 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLY in state 23 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 23 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 24 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 24 resolved as shift
+WARNING: shift/reduce conflict for MULTIPLY in state 24 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 24 resolved as shift
