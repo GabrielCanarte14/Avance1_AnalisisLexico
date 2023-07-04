@@ -213,6 +213,8 @@ def p_print(p):
     '''
     statement : PUTS valor
     '''
+    impresion = p[2]
+    print({impresion})
 
 
 #Gabriel Cañarte
@@ -238,6 +240,7 @@ def p_valor(p):
     valor : numero
     | STR
     | ID
+    | boolean
     '''
 
 
