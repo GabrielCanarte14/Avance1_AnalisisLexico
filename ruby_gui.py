@@ -1,11 +1,16 @@
 import tkinter as tk
-from analizer_ruby import analyze_code, symbol_table, hashes_table, update_errors, errors_list
+from analizer_ruby import analyze_code, symbol_table, hashes_table, update_errors, errors_list, arrays_table,sets_table,function_table
 from main import lexer
 
 # Crear la ventana principal de la aplicación
 window = tk.Tk()
 window.title("Analizador de Ruby")
-window.geometry("850x650")
+window.geometry("1100x700")
+
+# Configurar el layout en forma de grid
+window.grid_columnconfigure(0, weight=1)
+window.grid_columnconfigure(1, weight=1)
+window.grid_columnconfigure(2, weight=1)
 
 # Función para analizar el código Ruby ingresado por el usuario
 def analyze_code_gui():
@@ -26,6 +31,9 @@ def analyze_code_gui():
 def update_tables():
     symbol_table_text.delete("1.0", tk.END)
     hashes_table_text.delete("1.0", tk.END)
+    array_table_text.delete("1.0", tk.END)
+    set_table_text.delete("1.0", tk.END)
+    function_table_text.delete("1.0", tk.END)
 
     symbol_table_text.insert(tk.END, "Tabla de Símbolos:\n")
     for key, value in symbol_table.items():
@@ -34,6 +42,18 @@ def update_tables():
     hashes_table_text.insert(tk.END, "Tabla de Hashes:\n")
     for key, value in hashes_table.items():
         hashes_table_text.insert(tk.END, f"{key}: {value}\n")
+
+    array_table_text.insert(tk.END, "Tabla de Arrays:\n")
+    for key, value in arrays_table.items():
+        array_table_text.insert(tk.END, f"{key}: {value}\n")
+
+    set_table_text.insert(tk.END, "Tabla de Sets:\n")
+    for key, value in sets_table.items():
+        set_table_text.insert(tk.END, f"{key}: {value}\n")
+
+    function_table_text.insert(tk.END, "Tabla de Funciones:\n")
+    for key, value in function_table.items():
+        function_table_text.insert(tk.END, f"{key}: {value}\n")
 
 def show_errors():
     errors_text.delete("1.0", tk.END)
@@ -47,48 +67,74 @@ def clear_data():
     hashes_table.clear()
     symbol_table_text.delete("1.0", tk.END)
     hashes_table_text.delete("1.0", tk.END)
+    array_table_text.delete("1.0", tk.END)
+    set_table_text.delete("1.0", tk.END)
+    function_table_text.delete("1.0", tk.END)
     errors_text.delete("1.0", tk.END)
     errors_list.clear()
 
+column1_frame = tk.Frame(window)
+column1_frame.pack(side="left", fill="y",padx=10)
+
 # Etiqueta y campo de texto para ingresar el código Ruby
-code_label = tk.Label(window, text="Código Ruby:")
-code_label.grid(row=0, column=0)
+code_label = tk.Label(column1_frame, text="Código Ruby:")
+code_label.pack()
 
-code_entry = tk.Text(window, height=10, width=50)
-code_entry.grid(row=1, column=0)
-
-# Etiqueta para mostrar "Tokens"
-tokens_label = tk.Label(window, text="Tokens")
-tokens_label.grid(row=0, column=1, pady=10)
-
-# Cuadro de texto para mostrar los tokens
-token_output = tk.Text(window, height=37, width=50)
-token_output.grid(row=1, column=1, padx=10, rowspan=6)  # Cambiado el rowspan a 6 para ocupar más filas
+code_entry = tk.Text(column1_frame, height=25, width=50)
+code_entry.pack()
 
 # Botón para analizar el código Ruby
-analyze_button = tk.Button(window, text="Analizar", command=analyze_code_gui)
-analyze_button.grid(row=2, column=0)
+analyze_button = tk.Button(column1_frame, text="Analizar", command=analyze_code_gui)
+analyze_button.pack()
+
+# Cuadro de texto para mostrar los errores
+errors_text = tk.Text(column1_frame, height=13, width=50)
+errors_text.pack()
+
+# Botón para borrar todos los datos
+clear_button = tk.Button(column1_frame, text="Borrar Datos", command=clear_data)
+clear_button.pack()
+
+
+# Marco para la segunda columna
+column2_frame = tk.Frame(window)
+column2_frame.pack(side="left", fill="y", padx=10)
+
+# Etiqueta para mostrar "Tokens"
+tokens_label = tk.Label(column2_frame, text="Tokens")
+tokens_label.pack()
+
+# Cuadro de texto para mostrar los tokens
+token_output = tk.Text(column2_frame, height=40, width=30)
+token_output.pack()
+
+# Marco para la tercera columna
+column3_frame = tk.Frame(window)
+column3_frame.pack(side="left", fill="y" , padx=10)
 
 # Cuadro de texto para mostrar la tabla de símbolos
-symbol_table_text = tk.Text(window, height=7, width=50)
-symbol_table_text.grid(row=3, column=0)
+symbol_table_text = tk.Text(column3_frame, height=8, width=50)
+symbol_table_text.pack()
 symbol_table_text.insert(tk.END, "Tabla de Símbolos:\n")
 
 # Cuadro de texto para mostrar la tabla de hashes
-hashes_table_text = tk.Text(window, height=7, width=50)
-hashes_table_text.grid(row=4, column=0)
+hashes_table_text = tk.Text(column3_frame, height=8, width=50)
+hashes_table_text.pack()
 hashes_table_text.insert(tk.END, "Tabla de Hashes:\n")
 
-# Cuadro de texto para mostrar los errores
-errors_text = tk.Text(window, height=10, width=50)
-errors_text.grid(row=5, column=0)
+# Cuadros de texto adicionales
+array_table_text = tk.Text(column3_frame, height=8, width=50)
+array_table_text.pack()
+array_table_text.insert(tk.END, "Tabla de Arrays:\n")
 
-# Botón para borrar todos los datos
-clear_button = tk.Button(window, text="Borrar Datos", command=clear_data)
-clear_button.grid(row=6, column=0)
+set_table_text = tk.Text(column3_frame, height=8, width=50)
+set_table_text.insert(tk.END, "Tabla de Sets:\n")
+set_table_text.pack()
 
-# Configurar la altura de la fila del cuadro de texto de tokens
-window.grid_rowconfigure(1, weight=1)
+function_table_text = tk.Text(column3_frame, height=8, width=50)
+function_table_text.pack()
+function_table_text.insert(tk.END, "Tabla de Funciones:\n")
+
 
 # Actualizar las tablas al iniciar la aplicación
 update_tables()
