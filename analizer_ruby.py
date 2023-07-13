@@ -340,6 +340,9 @@ def p_print_id(p):
     if name in symbol_table:
         value = symbol_table[name]
         print(value)
+    elif name in function_table:
+        value = function_table[name][-1]
+        print(value)
     else:
         print(f"Error semántico: Variable '{name}' no definida")
         error_message =f"Error semántico: Variable '{name}' no definida \n"
