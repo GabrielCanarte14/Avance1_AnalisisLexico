@@ -315,6 +315,36 @@ def p_print_id(p):
         update_errors(error_message)
 
 
+def p_function_declaration(p):
+    'statement : DEF ID LPARENTHESIS parameters RPARENTHESIS LCURLYBRACKET statements RCURLYBRACKET'
+    function_name = p[2]
+    parameters = p[4]
+    statements = p[7]
+
+    if function_name in function_table:
+        print(f"Error: La función {function_name} ya está definida")
+    else:
+        function_table[function_name] = (parameters, statements)
+
+def p_parameters(p):
+    '''parameters : ID
+                  | parameters COMMA ID'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[1].append(p[3])
+        p[0] = p[1]
+
+def p_statements(p):
+    '''statements : statement
+                  | statements COMMA statement'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[1].append(p[3])
+        p[0] = p[1]
+
+
 def p_error(p):
     if p:
         error_message = f"Error de sintaxis en token: {p.type}\n"
@@ -339,6 +369,7 @@ def analyze_code(code):
         print(hashes_table)
         print(sets_table)
         print(arrays_table)
+        print(function_table)
         if result is not None:
             print(result)
 

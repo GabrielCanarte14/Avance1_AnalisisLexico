@@ -101,7 +101,8 @@ tokens = (
         'SHIFT_LEFT',
         'SHIFT_RIGHT',
         'INDENT',
-        'DEDENT'
+        'DEDENT',
+        'NEWLINE',
          ) + tuple(reserved.values())
 
 # Exp Regulares para tokens de símbolos
@@ -157,7 +158,7 @@ t_HASHTAG = r'\#'
 
 
 # Para contabilizar nro de líneas
-def t_newline(t):
+def t_NEWLINE(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
