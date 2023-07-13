@@ -5,6 +5,7 @@ import ply.lex as lex
 # Diccionario de palabras reservadas
 reserved = {'alias': 'ALIAS',
             'set' : 'SET',
+            'rational' : 'Rational',
             'puts':'PUTS',
             'and': 'AND',
             'begin': 'BEGIN',
@@ -65,6 +66,7 @@ tokens = (
         #  Caracteres Especiales
         'AT',
         'COMMA',
+        'HASHTAG',
         'LBRACKET',
         'RBRACKET',
         'LPARENTHESIS',
@@ -102,7 +104,7 @@ tokens = (
 
 # Exp Regulares para tokens de símbolos
 t_EQUALS = r'='
-t_STR = r'"[^"]*"'
+t_STR = r'("[^"]*")|(\'[^"]*\')'
 t_INT = r'-?\d+'
 t_FLOAT = r'-?\d*\.\d+([eE]-?\d)?'
 t_SYMBOL = r'=:'
@@ -146,7 +148,7 @@ t_BITWISE_XOR = r'\^'
 t_BITWISE_NOT = r'~'
 t_SHIFT_LEFT = r'<<'
 t_SHIFT_RIGHT = r'>>'
-
+t_HASHTAG = r'\#'
 
 
 
