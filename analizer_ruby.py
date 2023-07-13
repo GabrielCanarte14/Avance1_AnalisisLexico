@@ -428,6 +428,71 @@ def p_case_when(p):
     else:
         p[0] = (p[2], p[4])
 
+def p_statement_if_else(p):
+    '''
+    statement : IF condition THEN statement ELSE statement
+              | IF condition THEN statement elsif_statements ELSE statement
+              | IF condition THEN statement elsif_statements END_LOWER
+              | IF condition THEN statement END_LOWER
+    '''
+    if p[2]:
+        p[0] = p[3]  # Ejecutar el bloque del if
+    elif len(p) == 10:
+        p[0] = p[7]  # Ejecutar el bloque del elsif correspondiente
+    elif len(p) == 6:
+        p[0] = p[5]  # Ejecutar el bloque del else
+    else:
+        p[0] = None  # No hay un bloque else
+
+
+def p_elsif_statements(p):
+    '''
+    elsif_statements : ELSEIF condition THEN statement elsif_statements
+                     | ELSEIF condition THEN statement
+    '''
+    p[0] = None
+
+
+def p_condition(p):
+    '''
+    condition : expression
+              | comparison
+              | condition AND condition
+              | condition OR condition
+              | NOT condition
+    '''
+    if len(p) == 2:
+        p[0] = p[1]
+    elif p[1] == 'not':
+        p[0] = not p[2]
+    elif p[2] == 'and':
+        p[0] = p[1] and p[3]
+    elif p[2] == 'or':
+        p[0] = p[1] or p[3]
+
+def p_comparison(p):
+    '''
+    comparison : expression EQUAL expression
+               | expression NOT_EQUAL expression
+               | expression LESS_THAN expression
+               | expression LESS_THAN_EQUAL expression
+               | expression GREATER_THAN expression
+               | expression GREATER_THAN_EQUAL expression
+    '''
+    if p[2] == '==':
+        p[0] = p[1] == p[3]
+    elif p[2] == '!=':
+        p[0] = p[1] != p[3]
+    elif p[2] == '<':
+        p[0] = p[1] < p[3]
+    elif p[2] == '<=':
+        p[0] = p[1] <= p[3]
+    elif p[2] == '>':
+        p[0] = p[1] > p[3]
+    elif p[2] == '>=':
+        p[0] = p[1] >= p[3]
+
+
 def p_statement_list(p):
     '''
     statement_list : statement
