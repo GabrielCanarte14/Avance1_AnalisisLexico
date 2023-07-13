@@ -260,6 +260,13 @@ def p_expression_boolean(p):
 
     p[0] = boolean_value
 
+def p_expression_symbol(p):
+    'expression : COLON ID'
+    symbol_name = p[2]
+
+    p[0] = ':' + symbol_name
+
+
 def p_expression_id(p):
     'expression : ID'
     variable_name = p[1]

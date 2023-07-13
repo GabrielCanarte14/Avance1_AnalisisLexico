@@ -65,6 +65,7 @@ tokens = (
         'HASH',
         #  Caracteres Especiales
         'AT',
+        'DOUBLYAT',
         'COMMA',
         'HASHTAG',
         'LBRACKET',
@@ -116,6 +117,7 @@ t_ARRAY = r'\w+\s?=\s?\[("[^"]*",)*("[^"]*")+\]'
 t_HASH = r'\w+\s?=\s?{(\s?:\w+\s?=>\s?"[^"]*",)*(\s?:\w+\s?=>\s?"[^"]*")+}'
 
 t_AT = r'@'
+t_DOUBLYAT = r'@@'
 t_GLOBAL = r'\$'
 t_RBRACKET = r'\]'
 t_LBRACKET = r'\['
