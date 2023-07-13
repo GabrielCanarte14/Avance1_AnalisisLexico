@@ -14,6 +14,37 @@ def p_statement_expression(p):
 
 #Definiciones de variables
 
+def p_statement_multiple_assignment(p):
+    'expression : variable_list EQUALS expression_list'
+    variable_names = p[1]
+    expression_values = p[3]
+
+    if len(variable_names) != len(expression_values):
+        error_message = f"Error: La cantidad de variables y expresiones no coincide \n"
+        update_errors(error_message)
+    else:
+        for i in range(len(variable_names)):
+            symbol_table[variable_names[i]] = expression_values[i]
+
+def p_variable_list(p):
+    '''variable_list : ID
+                     | variable_list COMMA ID'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[1].append(p[3])
+        p[0] = p[1]
+
+def p_expression_list(p):
+    '''expression_list : expression
+                       | expression_list COMMA expression'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[1].append(p[3])
+        p[0] = p[1]
+
+
 #variable y constante local
 def p_expression_assignment(p):
     'expression : ID EQUALS expression'
@@ -315,7 +346,17 @@ def p_print_id(p):
         update_errors(error_message)
 
 
-def p_function_declaration(p):
+def p_function_basic(p):
+    'statement : DEF ID LPARENTHESIS RPARENTHESIS LCURLYBRACKET statements RCURLYBRACKET'
+    function_name = p[2]
+    statements = p[6]
+
+    if function_name in function_table:
+        print(f"Error: La función {function_name} ya está definida")
+    else:
+        function_table[function_name] = (statements)
+
+def p_function_statements(p):
     'statement : DEF ID LPARENTHESIS parameters RPARENTHESIS LCURLYBRACKET statements RCURLYBRACKET'
     function_name = p[2]
     parameters = p[4]
