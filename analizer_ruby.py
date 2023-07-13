@@ -280,6 +280,7 @@ def p_expression_id(p):
 def p_print_str(p):
     '''
     statement : PUTS STR
+    | PRINT STR
     '''
     valor = p[2]
     valor = valor.strip('"')
@@ -288,14 +289,30 @@ def p_print_str(p):
 def p_print_int(p):
     '''
     statement : PUTS INT
+    | PRINT INT
     '''
     print(p[2])
 
 def p_print_float(p):
     '''
     statement : PUTS FLOAT
+    | PRINT FLOAT
     '''
     print(p[2])
+
+def p_print_id(p):
+    '''
+    statement : PUTS ID
+    | PRINT ID
+    '''
+    name = p[2]
+    if name in symbol_table:
+        value = symbol_table[name]
+        print(value)
+    else:
+        print(f"Error semántico: Variable '{name}' no definida")
+        error_message =f"Error semántico: Variable '{name}' no definida \n"
+        update_errors(error_message)
 
 
 def p_error(p):
