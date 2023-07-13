@@ -344,6 +344,59 @@ def p_statements(p):
         p[1].append(p[3])
         p[0] = p[1]
 
+def p_statement_case(p):
+    'statement : CASE expression case_when_list ELSE statement_list END_LOWER'
+    case_expression = p[2]
+    case_when_list = p[3]
+    case_result = None
+
+    for case_when in case_when_list:
+        when_value, when_statements = case_when
+        if case_expression == when_value:
+            case_result = when_statements
+            break
+        elif when_value == 'else':
+            case_result = when_statements
+
+    if case_result is not None:
+        for statement in case_result:
+            result = analizador.parse(statement)
+            if result is not None:
+                print(result)
+    else:
+        print("No matching when clause found for case expression")
+
+def p_case_when_list(p):
+    '''
+    case_when_list : case_when
+                   | case_when_list case_when
+    '''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[1].append(p[2])
+        p[0] = p[1]
+
+def p_case_when(p):
+    '''
+    case_when : WHEN expression THEN statement_list
+              | ELSE THEN statement_list
+    '''
+    if p[1] == 'else':
+        p[0] = ('else', p[3])
+    else:
+        p[0] = (p[2], p[4])
+
+def p_statement_list(p):
+    '''
+    statement_list : statement
+                   | statement_list statement
+    '''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[1].append(p[2])
+        p[0] = p[1]
 
 def p_error(p):
     if p:

@@ -8,6 +8,7 @@ window.geometry("420x800")
 
 # Función para analizar el código Ruby ingresado por el usuario
 def analyze_code_gui():
+    clear_data()
     code = code_entry.get("1.0", tk.END).strip()
     analyze_code(code)
     update_tables()
